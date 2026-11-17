@@ -9,12 +9,12 @@ role: "Direção de arte"
 credits: []
 order: 4
 logo: "/logos/espn.svg"
-cover: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/970432174971935.64d5248067bc2.jpg"
+cover: "/uploads/projetos/leve-a-espn-com-voce/970432174971935.64d5248067bc2.webp"
 images:
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/970432174971935.64d5248067bc2.jpg"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/99edd5174971935.64ac06592bc26.jpg"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/e24e90174971935.64e2c9b2b41fd.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/895971174971935.64e2da0e1cc3f.png"
+  - "/uploads/projetos/leve-a-espn-com-voce/970432174971935.64d5248067bc2.webp"
+  - "/uploads/projetos/leve-a-espn-com-voce/99edd5174971935.64ac06592bc26.webp"
+  - "/uploads/projetos/leve-a-espn-com-voce/e24e90174971935.64e2c9b2b41fd.webp"
+  - "/uploads/projetos/leve-a-espn-com-voce/895971174971935.64e2da0e1cc3f.webp"
 video: ""
 behance: "https://www.behance.net/gallery/174971935/Leve-a-ESPN-com-voce"
 draft: false

@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import perfil from '../data/perfil.json';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { imageSize } from 'image-size';
 import { ui, rota, textoPerfil, type Lang } from '../i18n';
 import { publicados, dadosEn } from '../projetos';
@@ -13,8 +13,12 @@ const { lang } = Astro.props;
 const t = ui[lang];
 const tp = textoPerfil(lang);
 
-// prévia pequena: versão de 632px no Behance; imagens locais ficam como estão
-const capa = (src: string) => src.replace(/(behance\.net\/project_modules\/)[^/]+\//, '$1max_632/');
+// prévia pequena: miniatura .min.webp (scripts/otimizar-imagens.mjs) ou a versão de 632px do Behance
+const capa = (src: string) => {
+  const mini = src.replace(/\.webp$/, '.min.webp');
+  if (mini !== src && existsSync(`public${decodeURI(mini)}`)) return mini;
+  return src.replace(/(behance\.net\/project_modules\/)[^/]+\//, '$1max_632/');
+};
 
 // logos com o mesmo peso: área constante, então logo largo fica baixo e logo alto fica estreito
 const AREA = 4.1; // altura em rem de um logo quadrado

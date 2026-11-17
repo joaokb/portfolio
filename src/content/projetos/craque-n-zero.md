@@ -9,15 +9,15 @@ role: "Direção de arte"
 credits: []
 order: 2
 logo: "/logos/budweiser.svg"
-cover: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/9e4c50199794697.6828babdd6114.png"
+cover: "/uploads/projetos/craque-n-zero/9e4c50199794697.6828babdd6114.webp"
 images:
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/9e4c50199794697.6828babdd6114.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/bb0862199794697.665773abcdc1b.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/ec0207199794697.6828b0d071a10.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/9d3bdc199794697.6828babdd5c79.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/8abb81199794697.6828babdd65ab.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/06b73b199794697.6828b0d072126.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/e0180c199794697.6828babdd6e6f.png"
+  - "/uploads/projetos/craque-n-zero/9e4c50199794697.6828babdd6114.webp"
+  - "/uploads/projetos/craque-n-zero/bb0862199794697.665773abcdc1b.webp"
+  - "/uploads/projetos/craque-n-zero/ec0207199794697.6828b0d071a10.webp"
+  - "/uploads/projetos/craque-n-zero/9d3bdc199794697.6828babdd5c79.webp"
+  - "/uploads/projetos/craque-n-zero/8abb81199794697.6828babdd65ab.webp"
+  - "/uploads/projetos/craque-n-zero/06b73b199794697.6828b0d072126.webp"
+  - "/uploads/projetos/craque-n-zero/e0180c199794697.6828babdd6e6f.webp"
 video: "https://player.vimeo.com/video/1098796605"
 behance: "https://www.behance.net/gallery/199794697/Craque-N-10-ZER00"
 draft: false

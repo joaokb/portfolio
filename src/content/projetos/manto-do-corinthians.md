@@ -9,14 +9,14 @@ role: "Design"
 credits: []
 order: 9
 logo: "/logos/corinthians.png"
-cover: "https://mir-s3-cdn-cf.behance.net/project_modules/2800/667088149062683.62e16ee712d47.png"
+cover: "/uploads/projetos/manto-do-corinthians/667088149062683.62e16ee712d47.webp"
 images:
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/2800/667088149062683.62e16ee712d47.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/2800/d20f0e149062683.62e16ee7124dc.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/02887a149062683.62e20c5142af8.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/disp/6b718f149062683.62e20c5142358.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/disp/42dc43149062683.62e20f3108908.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/disp/c91baf149062683.62e20f3108f4e.png"
+  - "/uploads/projetos/manto-do-corinthians/667088149062683.62e16ee712d47.webp"
+  - "/uploads/projetos/manto-do-corinthians/d20f0e149062683.62e16ee7124dc.webp"
+  - "/uploads/projetos/manto-do-corinthians/02887a149062683.62e20c5142af8.webp"
+  - "/uploads/projetos/manto-do-corinthians/6b718f149062683.62e20c5142358.webp"
+  - "/uploads/projetos/manto-do-corinthians/42dc43149062683.62e20f3108908.webp"
+  - "/uploads/projetos/manto-do-corinthians/c91baf149062683.62e20f3108f4e.webp"
 video: ""
 behance: "https://www.behance.net/gallery/149062683/MantoDoCorinthians"
 draft: false

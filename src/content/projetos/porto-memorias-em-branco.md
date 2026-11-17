@@ -11,14 +11,14 @@ credits:
     name: "Gabriela Ferreira Larentis"
 order: 5
 logo: "/logos/porto.svg"
-cover: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/63b009174482079.64a36c2f36b5f.png"
+cover: "/uploads/projetos/porto-memorias-em-branco/63b009174482079.64a36c2f36b5f.webp"
 images:
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/63b009174482079.64a36c2f36b5f.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/cb6f70174482079.64a36d98a08b0.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/c1b525174482079.64df0260696d0.jpg"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/c96793174482079.64df0260689b4.jpg"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/fd17b5174482079.64df073c2428c.png"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/d83e2e174482079.64df073c2335a.png"
+  - "/uploads/projetos/porto-memorias-em-branco/63b009174482079.64a36c2f36b5f.webp"
+  - "/uploads/projetos/porto-memorias-em-branco/cb6f70174482079.64a36d98a08b0.webp"
+  - "/uploads/projetos/porto-memorias-em-branco/c1b525174482079.64df0260696d0.webp"
+  - "/uploads/projetos/porto-memorias-em-branco/c96793174482079.64df0260689b4.webp"
+  - "/uploads/projetos/porto-memorias-em-branco/fd17b5174482079.64df073c2428c.webp"
+  - "/uploads/projetos/porto-memorias-em-branco/d83e2e174482079.64df073c2335a.webp"
 video: ""
 behance: "https://www.behance.net/gallery/174482079/Porto-Seguros-Memorias-em-Branco"
 draft: false

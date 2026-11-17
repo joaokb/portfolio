@@ -9,11 +9,11 @@ role: "Direção de arte"
 credits: []
 order: 3
 logo: "/logos/burger-king.svg"
-cover: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/4d7760168676849.643f1cee4a2cc.jpg"
+cover: "/uploads/projetos/burger-king-the-artificial-upgrade/4d7760168676849.643f1cee4a2cc.webp"
 images:
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/4d7760168676849.643f1cee4a2cc.jpg"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/854ade168676849.643f243172609.jpg"
-  - "https://mir-s3-cdn-cf.behance.net/project_modules/1400/7dbee8168676849.64572ed8acb5b.jpg"
+  - "/uploads/projetos/burger-king-the-artificial-upgrade/4d7760168676849.643f1cee4a2cc.webp"
+  - "/uploads/projetos/burger-king-the-artificial-upgrade/854ade168676849.643f243172609.webp"
+  - "/uploads/projetos/burger-king-the-artificial-upgrade/7dbee8168676849.64572ed8acb5b.webp"
 video: "https://player.vimeo.com/video/818826122"
 embed: '<iframe frameborder="0" class="juxtapose" width="1920" height="1080" src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=5f13bb30-f661-11ed-b5bd-6595d9b17862" sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>'
 behance: "https://www.behance.net/gallery/168676849/Burger-King-The-Artificial-Upgrade"
