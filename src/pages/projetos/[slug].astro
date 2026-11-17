@@ -1,0 +1,9 @@
+---
+import Caso from '../../components/Caso.astro';
+import { caminhos } from '../../projetos';
+
+export const getStaticPaths = caminhos;
+const { projeto, proximo } = Astro.props;
+---
+
+<Caso projeto={projeto} proximo={proximo} lang="pt" />

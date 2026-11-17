@@ -1,0 +1,572 @@
+---
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { readFileSync, existsSync } from 'node:fs';
+import { imageSize } from 'image-size';
+import { ui, rota, type Lang } from '../i18n';
+import { dadosEn } from '../projetos';
+import medidas from '../data/medidas.json';
+
+// Dimensões: locais são lidas no build; externas (Behance) vêm de scripts/medir-imagens.mjs.
+function medir(src: string) {
+  const externa = (medidas as Record<string, number[]>)[src];
+  if (externa) return { src, w: externa[0], h: externa[1] };
+  const caminho = `public${decodeURI(src)}`;
+  if (!src.startsWith('/') || !existsSync(caminho)) return { src };
+  try {
+    const { width, height } = imageSize(readFileSync(caminho));
+    return { src, w: width, h: height };
+  } catch {
+    return { src };
+  }
+}
+
+interface Props {
+  projeto: CollectionEntry<'projetos'>;
+  proximo: CollectionEntry<'projetos'>;
+  lang: Lang;
+}
+const { projeto, proximo, lang } = Astro.props;
+const t = ui[lang];
+const { Content } = await render(projeto);
+const d = lang === 'en' ? dadosEn(projeto.data) : projeto.data;
+// em inglês o texto vem do frontmatter (en.body); sem tradução, mostra o português
+const paragrafosEn = lang === 'en' && projeto.data.en?.body ? projeto.data.en.body.trim().split(/\n\s*\n/) : null;
+const imagens = (d.images.length ? d.images : [d.cover]).map((i) => (typeof i === 'string' ? medir(i) : i));
+// Galeria modular: as imagens viram linhas de mesma altura que fecham exatamente na largura.
+// Uma linha fecha quando a altura dela cabe no alvo; sobra alta no fim junta na linha anterior.
+type Img = { src: string; w?: number; h?: number };
+const ar = (i: Img) => (i.w && i.h ? i.w / i.h : 1.5);
+function linhas(imgs: Img[], largura: number, alvo: number, gap: number) {
+  const altura = (r: Img[]) => (largura - gap * (r.length - 1)) / r.reduce((s, i) => s + ar(i), 0);
+  const rows: Img[][] = [];
+  let row: Img[] = [];
+  for (const img of imgs) {
+    row.push(img);
+    if (altura(row) <= alvo) {
+      rows.push(row);
+      row = [];
+    }
+  }
+  if (row.length) {
+    if (rows.length && altura(row) > alvo * 1.35) rows[rows.length - 1].push(...row);
+    else rows.push(row);
+  }
+  return rows;
+}
+// 16:9 sozinha a 1400px tem 787px de altura: fica inteira; verticais se juntam
+const grades = [
+  { classe: 'bento-desk', rows: linhas(imagens as Img[], 1400, 820, 12) },
+  { classe: 'bento-mob', rows: linhas(imagens as Img[], 360, 560, 8) },
+];
+const embed = d.embed;
+const tituloQuebravel = d.title.replace(/([a-zà-ÿ])([A-Z])/g, '$1­$2');
+const resumo = (paragrafosEn?.[0] ?? (projeto.body ?? '').trim().split(/\n\n/)[0])?.slice(0, 155);
+
+const creditoEn: Record<string, string> = { Coautoria: 'Co-author', Orientação: 'Advisor', Redação: 'Copywriting' };
+const ficha = [
+  [t.marca, d.client],
+  [t.ano, String(d.year)],
+  [t.disciplina, d.discipline],
+  [t.papel, d.role],
+  [t.contexto, d.context],
+  [t.premio, d.award],
+  ...d.credits.map((c) => [lang === 'en' ? (creditoEn[c.role] ?? c.role) : c.role, c.name]),
+].filter(([, v]) => v);
+
+const video = d.video
+  ? d.video.replace(/^(?:https?:)?\/\/(?:www\.)?vimeo\.com\/(\d+).*/, 'https://player.vimeo.com/video/$1')
+      .replace(/^(?:https?:)?\/\/(?:www\.)?youtu(?:\.be\/|be\.com\/watch\?v=)([\w-]+).*/, 'https://www.youtube-nocookie.com/embed/$1')
+      .replace(/^player\./, 'https://player.')
+  : '';
+---
+
+<Base title={`${d.title}, ${d.client}`} description={resumo || `${d.discipline}, ${d.client}, ${d.year}${d.context ? `. ${d.context}` : ''}.`} image={d.cover}>
+  <article class="caso">
+    <header class="cabeca">
+      <a class="voltar" href={rota(lang, '/#trabalhos')}>{t.todos}</a>
+      <h1 class="titulo" transition:name={`titulo-${projeto.id}`}>
+        <span class="titulo-txt">{tituloQuebravel}</span>
+        <span class="titulo-fantasma" aria-hidden="true">{tituloQuebravel}</span>
+      </h1>
+    </header>
+
+    <div class="corpo">
+      <dl class="ficha">
+        {
+          ficha.map(([k, v]) => (
+            <div class:list={{ destaque: k === t.premio }}>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <div class="texto">
+        {paragrafosEn ? paragrafosEn.map((p) => <p>{p}</p>) : <Content />}
+        {d.behance && (
+          <p class="fonte">
+            <a href={d.behance} target="_blank" rel="noopener">{t.behance}</a>
+          </p>
+        )}
+        {d.pdf && (
+          <p class="fonte">
+            <a href={d.pdf} target="_blank" rel="noopener">{t.pdf}</a>
+          </p>
+        )}
+      </div>
+    </div>
+
+    <div class="imagens">
+      {
+        grades.map((g) => (
+          <div class:list={['bento', g.classe]}>
+            {g.rows.map((row) => (
+              <div class="linha">
+                {row.map((img) => {
+                  const i = (imagens as Img[]).indexOf(img);
+                  return (
+                    <img
+                      src={img.src}
+                      width={img.w}
+                      height={img.h}
+                      style={`--ar:${ar(img).toFixed(4)}`}
+                      alt={`${d.title}, ${t.imagem} ${i + 1} ${t.de} ${imagens.length}`}
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                      fetchpriority={i === 0 ? 'high' : 'auto'}
+                      decoding="async"
+                    />
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        ))
+      }
+      {
+        video && (
+          <div class="video">
+            <iframe src={video} title={`${t.video} ${d.title}`} loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen />
+          </div>
+        )
+      }
+      {embed && <div class="video embed" set:html={embed} />}
+    </div>
+
+    <dialog class="lightbox" data-lightbox aria-label={lang === 'en' ? 'Image viewer' : 'Visualizador de imagens'}>
+      <img alt="" draggable="false" />
+      <div class="lb-barra">
+        <span data-contador></span>
+        <button type="button" data-acao="menos" aria-label={lang === 'en' ? 'Zoom out' : 'Diminuir zoom'}>−</button>
+        <button type="button" data-acao="mais" aria-label={lang === 'en' ? 'Zoom in' : 'Aumentar zoom'}>+</button>
+        <button type="button" data-acao="fechar">{lang === 'en' ? 'Close' : 'Fechar'}</button>
+      </div>
+      <button type="button" class="lb-seta lb-ant" data-acao="ant" aria-label={lang === 'en' ? 'Previous image' : 'Imagem anterior'}>‹</button>
+      <button type="button" class="lb-seta lb-prox" data-acao="prox" aria-label={lang === 'en' ? 'Next image' : 'Próxima imagem'}>›</button>
+    </dialog>
+
+    <a class="proximo" href={rota(lang, `/projetos/${proximo.id}/`)}>
+      <span class="secundario">{t.proximo}</span>
+      <span class="titulo-proximo">{proximo.data.title}</span>
+    </a>
+  </article>
+</Base>
+
+
+<style>
+  .cabeca {
+    padding: clamp(2rem, 7vh, 4.5rem) var(--margem) 0;
+  }
+  .voltar {
+    font-size: var(--t-sm);
+  }
+  .titulo {
+    margin-top: 1.25rem;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(3.4rem, 11vw, 13rem);
+    line-height: 0.86;
+    hyphens: manual;
+    overflow-wrap: break-word;
+    text-transform: uppercase;
+    text-wrap: balance;
+    display: grid;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .titulo-txt,
+  .titulo-fantasma {
+    grid-area: 1 / 1;
+  }
+  /* cópia invisível no peso final reserva o espaço: a animação não empurra a página */
+  .titulo-fantasma {
+    visibility: hidden;
+    user-select: none;
+  }
+  .titulo-txt {
+    animation: assentar 900ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  :global(:root[data-chegada='vt']) .titulo-txt {
+    animation: none;
+  }
+  @keyframes assentar {
+    from {
+      font-weight: 100;
+    }
+  }
+
+  .corpo {
+    display: grid;
+    grid-template-columns: minmax(12rem, 18rem) minmax(0, var(--coluna));
+    gap: clamp(2rem, 6vw, 6rem);
+    padding: clamp(2.5rem, 7vh, 4.5rem) var(--margem);
+  }
+  .ficha {
+    display: grid;
+    gap: 0.8rem;
+    align-content: start;
+    font-size: var(--t-sm);
+  }
+  .ficha dt {
+    color: var(--grafite);
+  }
+  .destaque dd {
+    color: var(--caneta);
+    font-weight: 600;
+  }
+  .texto {
+    font-size: var(--t-md);
+    line-height: 1.45;
+    text-wrap: pretty;
+  }
+  .texto :global(p + p) {
+    margin-top: 1em;
+  }
+  .fonte {
+    margin-top: 1.5rem;
+    font-size: var(--t-sm);
+  }
+
+  .imagens {
+    display: grid;
+    gap: clamp(0.5rem, 1vw, 1rem);
+    padding: 0 var(--margem);
+    justify-items: center;
+  }
+  /* Galeria modular: largura de cada imagem proporcional à proporção dela, então a linha toda tem uma altura só */
+  .bento {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+    max-width: 1400px;
+  }
+  .linha {
+    display: flex;
+    gap: 12px;
+  }
+  .linha img {
+    flex: var(--ar) 1 0;
+    min-width: 0;
+    width: 0;
+    height: auto;
+    aspect-ratio: var(--ar);
+    object-fit: cover;
+    background: var(--papel-fundo);
+  }
+  .linha img {
+    cursor: zoom-in;
+  }
+
+  /* Galeria expandida */
+  .lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(0 0 0 / 0.94);
+    color: var(--papel);
+    overflow: hidden;
+    touch-action: none;
+  }
+  .lightbox::backdrop {
+    background: transparent;
+  }
+  .lightbox[open] {
+    display: grid;
+    place-items: center;
+  }
+  .lightbox > img {
+    max-width: 92vw;
+    max-height: 84dvh;
+    width: auto;
+    height: auto;
+    cursor: zoom-in;
+    user-select: none;
+    transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .lightbox.ampliado > img {
+    cursor: grab;
+  }
+  .lightbox.arrastando > img {
+    transition: none;
+    cursor: grabbing;
+  }
+  .lb-barra {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem var(--margem);
+    font-size: var(--t-sm);
+  }
+  .lb-barra [data-contador] {
+    margin-right: auto;
+    font-variant-numeric: tabular-nums;
+  }
+  .lightbox button {
+    font: inherit;
+    color: var(--papel);
+    background: rgb(255 255 255 / 0.08);
+    border: 0;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0 0.9rem;
+  }
+  .lightbox button:hover {
+    background: var(--caneta);
+  }
+  .lb-seta {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    font-size: 2rem !important;
+    line-height: 1;
+  }
+  .lb-ant {
+    left: var(--margem);
+  }
+  .lb-prox {
+    right: var(--margem);
+  }
+  @media (max-width: 760px) {
+    .lb-seta {
+      top: auto;
+      bottom: 1rem;
+      translate: none;
+    }
+  }
+
+  .bento-mob {
+    display: none;
+    gap: 8px;
+  }
+  .bento-mob .linha {
+    gap: 8px;
+  }
+  @media (max-width: 760px) {
+    .bento-desk {
+      display: none;
+    }
+    .bento-mob {
+      display: grid;
+    }
+  }
+  .video {
+    width: 100%;
+    max-width: 1400px;
+    aspect-ratio: 16 / 9;
+  }
+  .video iframe,
+  .embed :global(iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .proximo {
+    display: block;
+    margin-top: clamp(4rem, 12vh, 8rem);
+    padding: clamp(2rem, 6vh, 4rem) var(--margem) clamp(3rem, 10vh, 6rem);
+    border-top: 1px solid var(--linha);
+    text-decoration: none;
+  }
+  .titulo-proximo {
+    display: block;
+    margin-top: 0.75rem;
+    font-family: var(--display);
+    font-weight: 250;
+    font-size: clamp(3rem, 10vw, 11rem);
+    line-height: 0.84;
+    text-transform: uppercase;
+    transition: color 200ms ease;
+  }
+  .proximo:focus-visible .titulo-proximo {
+    font-weight: 900;
+    color: var(--caneta);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .titulo-proximo {
+      transition:
+        font-weight 300ms cubic-bezier(0.23, 1, 0.32, 1),
+        color 200ms ease;
+    }
+    .proximo:hover .titulo-proximo {
+      font-weight: 900;
+      color: var(--caneta);
+    }
+  }
+
+  @media (min-width: 761px) {
+    .ficha {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 1.25rem;
+    }
+    .corpo {
+      padding-block: clamp(2rem, 5vh, 3.5rem);
+    }
+  }
+  @media (max-width: 760px) {
+    .corpo {
+      grid-template-columns: 1fr;
+    }
+    .ficha {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
+
+<script>
+  // Galeria expandida: clique numa imagem do case abre em tela cheia.
+  // Zoom por botões, roda do mouse, duplo clique ou pinça; arrasta quando ampliada; setas, teclado ou deslize passam.
+  function iniciarGaleria() {
+    const dlg = document.querySelector<HTMLDialogElement>('[data-lightbox]');
+    const area = document.querySelector<HTMLElement>('.imagens');
+    if (!dlg || !area) return;
+    const foto = dlg.querySelector<HTMLImageElement>(':scope > img')!;
+    const contador = dlg.querySelector<HTMLElement>('[data-contador]')!;
+    let lista: HTMLImageElement[] = [];
+    let atual = 0;
+    let z = 1;
+    let x = 0;
+    let y = 0;
+
+    const aplicar = () => {
+      // a imagem ampliada só anda até a borda dela encostar na borda da tela
+      const limX = Math.max(0, (foto.offsetWidth * z - innerWidth) / 2);
+      const limY = Math.max(0, (foto.offsetHeight * z - innerHeight) / 2);
+      x = Math.min(limX, Math.max(-limX, x));
+      y = Math.min(limY, Math.max(-limY, y));
+      foto.style.transform = `translate(${x}px, ${y}px) scale(${z})`;
+      dlg.classList.toggle('ampliado', z > 1);
+    };
+    // amplia mantendo parado o ponto sob o cursor
+    const zoom = (novo: number, cx = innerWidth / 2, cy = innerHeight / 2) => {
+      novo = Math.min(5, Math.max(1, novo));
+      if (novo === 1) x = y = 0;
+      else {
+        const k = novo / z;
+        x = cx - innerWidth / 2 - (cx - innerWidth / 2 - x) * k;
+        y = cy - innerHeight / 2 - (cy - innerHeight / 2 - y) * k;
+      }
+      z = novo;
+      aplicar();
+    };
+    const mostrar = (n: number) => {
+      atual = (n + lista.length) % lista.length;
+      foto.src = lista[atual].currentSrc || lista[atual].src;
+      foto.alt = lista[atual].alt;
+      contador.textContent = `${atual + 1} / ${lista.length}`;
+      z = 1;
+      x = y = 0;
+      aplicar();
+    };
+
+    area.addEventListener('click', (e) => {
+      const alvo = (e.target as HTMLElement).closest<HTMLImageElement>('.bento img');
+      if (!alvo) return;
+      // só a grade visível (desktop ou celular)
+      lista = [...area.querySelectorAll<HTMLImageElement>('.bento img')].filter((i) => i.offsetParent);
+      mostrar(lista.indexOf(alvo));
+      dlg.showModal();
+    });
+
+    const acoes: Record<string, () => void> = {
+      fechar: () => dlg.close(),
+      ant: () => mostrar(atual - 1),
+      prox: () => mostrar(atual + 1),
+      mais: () => zoom(z * 1.5),
+      menos: () => zoom(z / 1.5),
+    };
+    dlg.addEventListener('click', (e) => {
+      const acao = (e.target as HTMLElement).closest<HTMLElement>('[data-acao]')?.dataset.acao;
+      if (acao) acoes[acao]();
+      else if (e.target === dlg && z === 1) dlg.close();
+    });
+    dlg.addEventListener('keydown', (e) => {
+      const tecla: Record<string, string> = { ArrowLeft: 'ant', ArrowRight: 'prox', '+': 'mais', '=': 'mais', '-': 'menos' };
+      if (tecla[e.key]) acoes[tecla[e.key]]();
+      else if (e.key === '0') zoom(1);
+    });
+    dlg.addEventListener(
+      'wheel',
+      (e) => {
+        e.preventDefault();
+        zoom(z * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+      },
+      { passive: false },
+    );
+    foto.addEventListener('dblclick', (e) => zoom(z > 1 ? 1 : 2.5, e.clientX, e.clientY));
+
+    // ponteiros: um dedo arrasta (ou desliza para passar), dois dedos fazem pinça
+    const toques = new Map<number, { x: number; y: number }>();
+    let inicio = { x: 0, y: 0 };
+    let distancia = 0;
+    foto.addEventListener('pointerdown', (e) => {
+      foto.setPointerCapture(e.pointerId);
+      toques.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      inicio = { x: e.clientX, y: e.clientY };
+      if (toques.size === 2) {
+        const [a, b] = [...toques.values()];
+        distancia = Math.hypot(a.x - b.x, a.y - b.y);
+      }
+      dlg.classList.add('arrastando');
+    });
+    foto.addEventListener('pointermove', (e) => {
+      const antes = toques.get(e.pointerId);
+      if (!antes) return;
+      toques.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (toques.size === 2) {
+        const [a, b] = [...toques.values()];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (distancia) zoom(z * (d / distancia), (a.x + b.x) / 2, (a.y + b.y) / 2);
+        distancia = d;
+      } else if (z > 1) {
+        x += e.clientX - antes.x;
+        y += e.clientY - antes.y;
+        aplicar();
+      }
+    });
+    const soltar = (e: PointerEvent) => {
+      if (!toques.delete(e.pointerId)) return;
+      if (toques.size < 2) distancia = 0;
+      if (toques.size === 0) {
+        dlg.classList.remove('arrastando');
+        const dx = e.clientX - inicio.x;
+        if (z === 1 && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(e.clientY - inicio.y)) mostrar(atual + (dx < 0 ? 1 : -1));
+      }
+    };
+    foto.addEventListener('pointerup', soltar);
+    foto.addEventListener('pointercancel', soltar);
+    dlg.addEventListener('close', () => foto.removeAttribute('src'));
+  }
+
+  document.addEventListener('astro:page-load', iniciarGaleria);
+</script>

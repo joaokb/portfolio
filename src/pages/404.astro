@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import { ui } from '../i18n';
+// Cloudflare Pages serve este 404.html para qualquer endereço inexistente, nas duas línguas
+const pt = ui.pt;
+const en = ui.en;
+---
+
+<Base title={`${pt.erroTitulo}, João Kavalchuk`}>
+  <section class="erro">
+    <p class="codigo" aria-hidden="true">404</p>
+    <h1>{pt.erroTitulo}</h1>
+    <p>{pt.erroTexto}</p>
+    <p class="secundario" lang="en">{en.erroTitulo}. {en.erroTexto}</p>
+    <p class="acoes">
+      <a href="/">{pt.voltar}</a>
+      <a href="/en/" lang="en">{en.voltar}</a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  .erro {
+    padding: clamp(2rem, 8vh, 5rem) var(--margem) clamp(4rem, 12vh, 8rem);
+    max-width: calc(var(--coluna) + 2 * var(--margem));
+  }
+  .codigo {
+    font-family: var(--display);
+    font-size: clamp(9rem, 38vw, 30rem);
+    line-height: 0.8;
+    font-weight: 900;
+    color: var(--caneta);
+    animation: pesar 1.2s cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  @keyframes pesar {
+    from {
+      font-weight: 100;
+    }
+  }
+  h1 {
+    margin-top: 1.5rem;
+    font-size: var(--t-lg);
+    font-weight: 600;
+  }
+  p {
+    margin-top: 0.75rem;
+  }
+  .acoes {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    font-weight: 600;
+  }
+</style>

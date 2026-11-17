@@ -1,0 +1,216 @@
+{
+  "nome": "João Kavalchuk",
+  "cargo": "Diretor de arte",
+  "cidade": "Presidente Prudente, SP",
+  "bio": "Diretor de arte com passagem por agências como GMais AG, Iberika e Audi Comunicação e pelo marketing da Unimed Presidente Prudente. Crio campanhas, key visuals e identidades visuais do conceito à peça final, com motion e edição de vídeo quando o projeto pede.",
+  "foto": "/uploads/joao-kavalchuk.jpg",
+  "sobre": "",
+  "disponibilidade": "vaga",
+  "destaque": "caneta",
+  "email": "joaokavalchuk@hotmail.com",
+  "links": [
+    {
+      "nome": "Behance",
+      "url": "https://www.behance.net/joaokavalchuk"
+    },
+    {
+      "nome": "LinkedIn",
+      "url": "https://www.linkedin.com/in/joaokavalchuk/"
+    },
+    {
+      "nome": "Currículo",
+      "url": "https://www.trampos.co/jkavalchuk"
+    }
+  ],
+  "premios": [
+    {
+      "ano": 2026,
+      "nivel": "Shortlist",
+      "festival": "Ongraf",
+      "projeto": "Circuito Verde Unimed Prudente",
+      "slug": ""
+    },
+    {
+      "ano": 2025,
+      "nivel": "Ouro",
+      "festival": "FestVideo APCM Ribeirão",
+      "projeto": "The Artificial Upgrade, Burger King",
+      "slug": "burger-king-the-artificial-upgrade"
+    },
+    {
+      "ano": 2025,
+      "nivel": "Bronze",
+      "festival": "Cria de Leão",
+      "projeto": "Trashimpíadas, Nike",
+      "slug": ""
+    },
+    {
+      "ano": 2024,
+      "nivel": "Ouro",
+      "festival": "Cria de Leão",
+      "projeto": "Craque N° Zer00, Budweiser Zero",
+      "slug": "craque-n-zero"
+    },
+    {
+      "ano": 2024,
+      "nivel": "Bronze",
+      "festival": "Cria de Leão",
+      "projeto": "Marco Zero dos Grandes Momentos, Budweiser Zero",
+      "slug": ""
+    },
+    {
+      "ano": 2024,
+      "nivel": "Shortlist",
+      "festival": "Cria de Leão",
+      "projeto": "The Best Choice, Budweiser Zero",
+      "slug": ""
+    },
+    {
+      "ano": 2024,
+      "nivel": "Shortlist",
+      "festival": "Festival do Minuto",
+      "projeto": "Ansiedade Substantivo Feminino",
+      "slug": ""
+    },
+    {
+      "ano": 2023,
+      "nivel": "Ouro",
+      "festival": "Buu! Awards",
+      "projeto": "Leve a ESPN com você",
+      "slug": "leve-a-espn-com-voce"
+    },
+    {
+      "ano": 2023,
+      "nivel": "Shortlist",
+      "festival": "Cria de Leão",
+      "projeto": "Burger King Brasil",
+      "slug": ""
+    }
+  ],
+  "experiencia": [
+    {
+      "periodo": "2026",
+      "empresa": "Unimed Presidente Prudente",
+      "funcao": "Assistente de marketing pleno"
+    },
+    {
+      "periodo": "2025",
+      "empresa": "GMais AG",
+      "funcao": "Diretor de arte pleno"
+    },
+    {
+      "periodo": "2024",
+      "empresa": "Feel Alive Co.",
+      "funcao": "Diretor de arte"
+    },
+    {
+      "periodo": "2023–24",
+      "empresa": "Duo Studio Interativo",
+      "funcao": "Diretor de arte freelancer"
+    },
+    {
+      "periodo": "2023",
+      "empresa": "Agência Iberika",
+      "funcao": "Diretor de arte"
+    },
+    {
+      "periodo": "2022–23",
+      "empresa": "Audi Comunicação",
+      "funcao": "Diretor de arte"
+    },
+    {
+      "periodo": "2021–22",
+      "empresa": "Caiado Pneus",
+      "funcao": "Designer gráfico"
+    }
+  ],
+  "formacao": [
+    {
+      "periodo": "2022–25",
+      "curso": "Publicidade e Propaganda",
+      "instituicao": "Unoeste"
+    },
+    {
+      "periodo": "2019–21",
+      "curso": "Design Gráfico",
+      "instituicao": "Unoeste"
+    }
+  ],
+  "ferramentas": "Photoshop, Illustrator, InDesign, After Effects, Premiere, Figma",
+  "cv": "",
+  "cursos": [
+    {
+      "ano": 2023,
+      "curso": "Formação em Design Gráfico 2.0",
+      "instituicao": "Faculdade do Design Gráfico"
+    },
+    {
+      "ano": 2023,
+      "curso": "Formação em Liderança",
+      "instituicao": "Conquer Business School"
+    },
+    {
+      "ano": 2021,
+      "curso": "Design de Logotipos",
+      "instituicao": "Prof. Caio Vinicius"
+    },
+    {
+      "ano": 2019,
+      "curso": "Design para Social Media",
+      "instituicao": "Prof. Caio Vinicius"
+    }
+  ],
+  "habilidades": [
+    {
+      "nome": "Direção de arte",
+      "nivel": 95
+    },
+    {
+      "nome": "Identidade visual",
+      "nivel": 90
+    },
+    {
+      "nome": "Criação de layouts",
+      "nivel": 90
+    },
+    {
+      "nome": "Branding",
+      "nivel": 85
+    },
+    {
+      "nome": "Tratamento de imagens",
+      "nivel": 80
+    }
+  ],
+  "en": {
+    "cargo": "Art director",
+    "bio": "Art director with experience at agencies such as GMais AG, Iberika and Audi Comunicação, and in-house at Unimed Presidente Prudente. I create campaigns, key visuals and visual identities from concept to final piece, with motion and video editing when the project calls for it.",
+    "sobre": "",
+    "termos": {
+      "Diretor de arte": "Art director",
+      "Diretor de arte pleno": "Mid-level art director",
+      "Diretor de arte freelancer": "Freelance art director",
+      "Assistente de marketing pleno": "Marketing assistant",
+      "Designer gráfico": "Graphic designer",
+      "Publicidade e Propaganda": "Advertising",
+      "Design Gráfico": "Graphic Design",
+      "Formação em Design Gráfico 2.0": "Graphic Design Program 2.0",
+      "Formação em Liderança": "Leadership Program",
+      "Design de Logotipos": "Logo Design",
+      "Design para Social Media": "Design for Social Media",
+      "Direção de arte": "Art direction",
+      "Identidade visual": "Visual identity",
+      "Criação de layouts": "Layout design",
+      "Branding": "Branding",
+      "Tratamento de imagens": "Image retouching",
+      "Ouro": "Gold",
+      "Prata": "Silver",
+      "Bronze": "Bronze",
+      "Shortlist": "Shortlist",
+      "Finalista": "Finalist",
+      "Currículo": "Résumé",
+      "Presidente Prudente, SP": "Presidente Prudente, Brazil",
+      "Photoshop, Illustrator, InDesign, After Effects, Premiere, Figma": "Photoshop, Illustrator, InDesign, After Effects, Premiere, Figma"
+    }
+  }
+}

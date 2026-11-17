@@ -1,0 +1,238 @@
+---
+import Base from '../layouts/Base.astro';
+import perfil from '../data/perfil.json';
+import { ui, rota, textoPerfil, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+const tp = textoPerfil(lang);
+
+// texto longo do "Sobre"; enquanto não for escrito, usa a bio da home
+const paragrafos = tp.sobre.split(/\n\s*\n/).filter(Boolean);
+---
+
+<Base title={`${t.sobreDe} ${perfil.nome}`} description={tp.bio}>
+  <section class="sobre" aria-labelledby="titulo-sobre">
+    <h1 id="titulo-sobre" class="rotulo">{t.sobre}</h1>
+    <div class:list={['apresenta', { 'com-foto': perfil.foto }]}>
+      {perfil.foto && <img class="foto" src={perfil.foto} alt={`${t.fotoDe} ${perfil.nome}`} />}
+      <div class="texto">
+        {paragrafos.map((p) => <p>{p}</p>)}
+        <p class="status secundario">{tp.status}</p>
+      </div>
+    </div>
+
+    <div class="colunas">
+      <div>
+        <h2 class="subrotulo">{t.habilidades}</h2>
+        <ul class="barras">
+          {
+            perfil.habilidades.map((h) => (
+              <li>
+                <span class="barra-nome">{tp.tr(h.nome)}</span>
+                <span class="barra-valor">{h.nivel}%</span>
+                <span class="barra" role="meter" aria-valuenow={h.nivel} aria-valuemin="0" aria-valuemax="100" aria-label={tp.tr(h.nome)}>
+                  <span style={`--v:${h.nivel / 100}`} />
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <h2 class="subrotulo">{t.premios}</h2>
+        <ul class="tabela premios">
+          {
+            perfil.premios.map((p) => (
+              <li>
+                <span class="ano">{p.ano}</span>
+                <span class:list={{ ouro: p.nivel === 'Ouro' }}>
+                  {tp.tr(p.nivel)}, {p.festival}
+                </span>
+                <span class="secundario">{p.slug ? <a href={rota(lang, `/projetos/${p.slug}/`)}>{p.projeto}</a> : p.projeto}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="subrotulo">{t.experiencia}</h2>
+        <ul class="tabela">
+          {
+            perfil.experiencia.map((e) => (
+              <li>
+                <span class="ano">{e.periodo}</span>
+                <span>{e.empresa}</span>
+                <span class="secundario">{tp.tr(e.funcao)}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <h2 class="subrotulo">{t.formacao}</h2>
+        <ul class="tabela">
+          {
+            perfil.formacao.map((f) => (
+              <li>
+                <span class="ano">{f.periodo}</span>
+                <span>{tp.tr(f.curso)}</span>
+                <span class="secundario">{f.instituicao}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <h2 class="subrotulo">{t.cursos}</h2>
+        <ul class="tabela">
+          {
+            perfil.cursos.map((c) => (
+              <li>
+                <span class="ano">{c.ano}</span>
+                <span>{tp.tr(c.curso)}</span>
+                <span class="secundario">{c.instituicao}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <h2 class="subrotulo">{t.ferramentas}</h2>
+        <p>{perfil.ferramentas}</p>
+        {perfil.cv && (
+          <p class="cv">
+            <a href={perfil.cv} download>{t.cv}</a>
+          </p>
+        )}
+      </div>
+    </div>
+
+    <p class="contato">
+      <a href={`mailto:${perfil.email}`}>{perfil.email}</a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  .sobre {
+    padding: clamp(2.5rem, 8vh, 5rem) var(--margem) clamp(4rem, 12vh, 8rem);
+  }
+  .rotulo {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(3.4rem, 11vw, 13rem);
+    line-height: 0.86;
+    text-transform: uppercase;
+    margin-bottom: clamp(2rem, 5vh, 3.5rem);
+  }
+  .apresenta {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    max-width: var(--coluna);
+    margin-bottom: clamp(3rem, 10vh, 6rem);
+  }
+  .apresenta.com-foto {
+    grid-template-columns: minmax(0, 26rem) minmax(0, var(--coluna));
+    max-width: none;
+    align-items: start;
+  }
+  .foto {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    filter: grayscale(1);
+    background: var(--papel-fundo);
+  }
+  .texto {
+    font-size: var(--t-md);
+    line-height: 1.45;
+    text-wrap: pretty;
+  }
+  .texto p + p {
+    margin-top: 1em;
+  }
+  .status {
+    font-size: var(--t-base);
+  }
+  .subrotulo {
+    font-size: var(--t-base);
+    font-weight: 600;
+    margin: 0 0 0.6rem;
+  }
+  .subrotulo:not(:first-child) {
+    margin-top: 2.5rem;
+  }
+  .colunas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+  .tabela li {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--linha);
+  }
+  .ouro {
+    color: var(--caneta);
+    font-weight: 600;
+  }
+  .ano {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* Habilidades: barra fina de caneta sobre a linha */
+  .barras {
+    display: grid;
+    gap: 1rem;
+  }
+  .barras li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.35rem 1rem;
+  }
+  .barra-valor {
+    font-variant-numeric: tabular-nums;
+    color: var(--grafite);
+  }
+  .barra {
+    grid-column: 1 / -1;
+    height: 3px;
+    background: var(--linha);
+  }
+  .barra span {
+    display: block;
+    height: 100%;
+    background: var(--caneta);
+    transform-origin: left;
+    transform: scaleX(var(--v));
+  }
+
+  .cv {
+    margin-top: 2rem;
+  }
+  .contato {
+    margin-top: clamp(3rem, 10vh, 6rem);
+    font-size: var(--t-md);
+  }
+  @media (max-width: 760px) {
+    .apresenta.com-foto,
+    .colunas {
+      grid-template-columns: 1fr;
+    }
+    .foto {
+      max-width: 22rem;
+    }
+    .tabela li {
+      grid-template-columns: 4.75rem minmax(0, 1fr);
+      row-gap: 0.15rem;
+    }
+    .tabela li > :last-child {
+      grid-column: 2;
+    }
+  }
+</style>

@@ -1,0 +1,128 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '@fontsource-variable/big-shoulders-display';
+import '@fontsource-variable/schibsted-grotesk';
+import '../styles/global.css';
+import perfil from '../data/perfil.json';
+import { ui, rota, langDe, outraRota, textoPerfil } from '../i18n';
+import fonteDisplay from '@fontsource-variable/big-shoulders-display/files/big-shoulders-display-latin-wght-normal.woff2?url';
+import fonteTexto from '@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+// cor de destaque escolhida em perfil.json; todas passam de 4.5:1 de contraste sobre o papel
+const destaques: Record<string, string> = {
+  caneta: '#1f2bd1', // azul de esferográfica
+  revisao: '#c4161c', // vermelho de caneta de revisão
+  marcador: '#b23800', // laranja queimado de marcador
+  prova: '#086b3c', // verde de prova de cor
+  magenta: '#b0127a', // magenta de CMYK
+};
+const destaque = destaques[perfil.destaque] ?? destaques.caneta;
+const lang = langDe(Astro.url);
+const t = ui[lang];
+const tp = textoPerfil(lang);
+const {
+  title = `${perfil.nome}, ${tp.cargo.toLowerCase()}`,
+  description = tp.bio,
+  image,
+} = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site);
+const imagemOg = image ?? new URL('/og.png', Astro.site).href;
+const pessoa = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: perfil.nome,
+  jobTitle: tp.cargo,
+  email: `mailto:${perfil.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Presidente Prudente', addressRegion: 'SP', addressCountry: 'BR' },
+  sameAs: perfil.links.map((l) => l.url),
+};
+---
+
+<!doctype html>
+<html lang={lang === 'en' ? 'en' : 'pt-BR'} style={`--caneta:${destaque}`}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+    <link rel="preload" href={fonteDisplay} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fonteTexto} as="font" type="font/woff2" crossorigin />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:type" content={image ? 'article' : 'profile'} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'pt_BR'} />
+    <link rel="alternate" hreflang={lang === 'en' ? 'pt-BR' : 'en'} href={new URL(outraRota(Astro.url), Astro.site)} />
+    <meta property="og:image" content={imagemOg} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(pessoa)} />
+    <meta name="theme-color" content="#e4e5e0" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <ClientRouter fallback="swap" />
+  </head>
+  <body>
+    <a class="pular" href="#conteudo">{t.pular}</a>
+    <header class="topo">
+      <a class="assinatura" href={rota(lang, '/')}>{perfil.nome}</a>
+      <nav aria-label={lang === 'en' ? 'Main' : 'Principal'}>
+        <a href={rota(lang, '/#trabalhos')}>{t.trabalhos}</a>
+        <a href={rota(lang, '/sobre/')}>{t.sobre}</a>
+        <a href={rota(lang, '/#contato')}>{t.contato}</a>
+        <a class="idioma" href={outraRota(Astro.url)} hreflang={lang === 'en' ? 'pt-BR' : 'en'} aria-label={t.trocarRotulo}>{t.trocar}</a>
+      </nav>
+    </header>
+    <main id="conteudo">
+      <slot />
+    </main>
+    <script>
+      // ao chegar por transição, o título já vem em peso final (sem reanimar)
+      document.addEventListener('astro:after-swap', () => {
+        document.documentElement.dataset.chegada = 'vt';
+      });
+
+      // Sem menu do botão direito (exceto em campos de formulário, para colar).
+      // shortcut: só dificulta salvar imagens; quem quiser ainda baixa pelo navegador
+      document.addEventListener('contextmenu', (e) => {
+        if (!(e.target as Element).closest?.('input, textarea')) e.preventDefault();
+      });
+
+      // Seleção de texto como marca-texto: um retângulo por linha, varrendo da esquerda
+      document.documentElement.classList.add('js-marca');
+      const marca = document.createElement('div');
+      marca.className = 'marca-texto';
+      let ultima = '';
+      const limpar = () => {
+        marca.replaceChildren();
+        ultima = '';
+      };
+      document.addEventListener('selectionchange', () => {
+        const sel = getSelection();
+        if (!marca.isConnected) document.body.append(marca);
+        if (!sel || sel.isCollapsed || !sel.rangeCount || document.activeElement?.matches('input, textarea')) return limpar();
+        const rects = [...sel.getRangeAt(0).getClientRects()].filter((r) => r.width > 1 && r.height > 1);
+        const chave = rects.map((r) => `${r.left | 0},${r.top | 0},${r.width | 0}`).join(';');
+        if (chave === ultima) return;
+        // anima só quando a seleção nasce (duplo clique, teclado); arrastando, acompanha o cursor sem reiniciar
+        const nova = !ultima;
+        ultima = chave;
+        marca.replaceChildren(
+          ...rects.map((r, i) => {
+            const s = document.createElement('span');
+            s.style.cssText = `left:${r.left + scrollX}px;top:${r.top + scrollY}px;width:${r.width}px;height:${r.height}px`;
+            s.style.animation = nova ? '' : 'none';
+            s.style.animationDelay = `${i * 50}ms`;
+            return s;
+          }),
+        );
+      });
+      addEventListener('resize', limpar);
+      document.addEventListener('astro:after-swap', limpar);
+    </script>
+  </body>
+</html>

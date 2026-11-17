@@ -1,0 +1,229 @@
+
+/*
+  Papel cinza frio, tinta preta e azul de caneta esferográfica:
+  a cor do rafe de layout, onde toda campanha começa.
+*/
+@property --peso {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 300;
+}
+
+:root {
+  --papel: #e4e5e0;
+  --papel-fundo: #d9dad4;
+  --tinta: #000;
+  --grafite: #5b5d57;
+  --linha: #bfc1ba;
+  --caneta: #1f2bd1;
+
+  --display: 'Big Shoulders Display Variable', 'Display Fallback', sans-serif;
+  --texto: 'Schibsted Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+
+  /* escala 1.25 sobre 17px */
+  --t-sm: 0.875rem;
+  --t-base: 1.0625rem;
+  --t-md: 1.33rem;
+  --t-lg: 1.66rem;
+
+  --margem: clamp(1rem, 3vw, 2.5rem);
+  --coluna: 38rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Display Fallback';
+  src: local('Arial Narrow'), local('Arial');
+  size-adjust: 78%;
+  ascent-override: 100%;
+}
+
+html {
+  scroll-padding-top: 4rem;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--texto);
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+/* Cursor Future Cursor (yeyushengfan258), 32px; o segundo valor é o fallback do sistema */
+html {
+  cursor: url('/cursor/seta.png') 6 4, auto;
+}
+a,
+button,
+summary,
+label,
+select {
+  cursor: url('/cursor/link.png') 12 5, pointer;
+}
+input,
+textarea {
+  cursor: url('/cursor/texto.png') 15 14, text;
+}
+
+body {
+  margin: 0;
+  font-size: var(--t-base);
+  line-height: 1.5;
+  font-weight: 420;
+}
+
+img,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+/* imagem não sai arrastada para a área de trabalho */
+img {
+  -webkit-user-drag: none;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--caneta);
+}
+
+::selection {
+  background: var(--caneta);
+  color: var(--papel);
+}
+/* Com JS, a seleção vira marca-texto que varre da esquerda (::selection não aceita animação).
+   Campos de formulário mantêm a seleção nativa. */
+html.js-marca ::selection {
+  background: transparent;
+  color: inherit;
+}
+html.js-marca input::selection,
+html.js-marca textarea::selection {
+  background: var(--caneta);
+  color: var(--papel);
+}
+.marca-texto {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 30;
+}
+.marca-texto span {
+  position: absolute;
+  background: var(--caneta);
+  opacity: 0.3;
+  mix-blend-mode: multiply;
+  transform-origin: left center;
+  animation: marcar 0.4s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+@keyframes marcar {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--caneta);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+.pular {
+  position: absolute;
+  left: var(--margem);
+  top: -4rem;
+  background: var(--tinta);
+  color: var(--papel);
+  padding: 0.5rem 0.75rem;
+  z-index: 50;
+}
+.pular:focus {
+  top: 0.75rem;
+}
+
+.visualmente-oculto {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Cabeçalho fixo e mínimo */
+.topo {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.35rem var(--margem);
+  background: var(--papel);
+  font-size: var(--t-sm);
+}
+.topo a {
+  text-decoration: none;
+  padding-block: 0.6rem;
+}
+.topo .assinatura {
+  font-weight: 600;
+}
+.topo nav {
+  display: flex;
+  gap: 1.25rem;
+}
+.topo .idioma {
+  font-weight: 600;
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--linha);
+}
+@media (max-width: 420px) {
+  .topo nav {
+    gap: 0.9rem;
+  }
+  .topo .idioma {
+    padding-left: 0.9rem;
+  }
+}
+
+.secundario {
+  color: var(--grafite);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
