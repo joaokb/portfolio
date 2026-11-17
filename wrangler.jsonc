@@ -1,0 +1,11 @@
+// Publicação na Cloudflare (Workers com arquivos estáticos).
+// A Cloudflare roda `npm run build` e depois `npx wrangler deploy`, que envia a pasta dist.
+{
+  "name": "joaokavalchuk",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    // endereço inexistente mostra a página 404.html do site
+    "not_found_handling": "404-page"
+  }
+}
