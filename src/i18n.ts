@@ -105,8 +105,11 @@ export const rota = (lang: Lang, path: string) => (lang === 'en' ? `/en${path}` 
 export const langDe = (url: URL): Lang => (/^\/en(\/|$)/.test(url.pathname) ? 'en' : 'pt');
 
 /** Mesma página na outra língua. */
-export const outraRota = (url: URL) =>
-  langDe(url) === 'en' ? url.pathname.replace(/^\/en/, '') || '/' : `/en${url.pathname}`;
+export const outraRota = (url: URL) => {
+  // a 404 é uma página só, servida para qualquer endereço: o botão leva à home da outra língua
+  if (/\/404(\.html|\/)?$/.test(url.pathname)) return langDe(url) === 'en' ? '/' : '/en/';
+  return langDe(url) === 'en' ? url.pathname.replace(/^\/en/, '') || '/' : `/en${url.pathname}`;
+};
 
 /** Textos do perfil: bio, status etc. vêm de perfil.en; termos soltos (funções, cursos) do dicionário. */
 export function textoPerfil(lang: Lang) {
