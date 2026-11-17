@@ -162,11 +162,11 @@
   "habilidades": [
     {
       "nome": "Direção de arte",
-      "nivel": 95
+      "nivel": 90
     },
     {
       "nome": "Identidade visual",
-      "nivel": 90
+      "nivel": 95
     },
     {
       "nome": "Criação de layouts",
@@ -178,7 +178,7 @@
     },
     {
       "nome": "Tratamento de imagens",
-      "nivel": 80
+      "nivel": 100
     }
   ],
   "en": {
