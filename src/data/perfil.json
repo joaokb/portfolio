@@ -5,8 +5,8 @@
   "bio": "Diretor de arte com passagem por agências como GMais AG, Iberika e Audi Comunicação e pelo marketing da Unimed Presidente Prudente. Crio campanhas, key visuals e identidades visuais do conceito à peça final, com motion e edição de vídeo quando o projeto pede.",
   "foto": "/uploads/joao-kavalchuk.jpg",
   "sobre": "",
-  "disponibilidade": "vaga",
-  "destaque": "caneta",
+  "disponibilidade": "ambos",
+  "destaque": "revisao",
   "email": "joaokavalchuk@hotmail.com",
   "links": [
     {
@@ -137,7 +137,6 @@
     }
   ],
   "ferramentas": "Photoshop, Illustrator, InDesign, After Effects, Premiere, Figma",
-  "cv": "",
   "cursos": [
     {
       "ano": 2023,
@@ -212,5 +211,6 @@
       "Presidente Prudente, SP": "Presidente Prudente, Brazil",
       "Photoshop, Illustrator, InDesign, After Effects, Premiere, Figma": "Photoshop, Illustrator, InDesign, After Effects, Premiere, Figma"
     }
-  }
+  },
+  "cv": ""
 }
