@@ -399,13 +399,18 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
     text-decoration: none;
     color: var(--tinta);
   }
-  /* título + pasta: o tamanho fica aqui para a pasta crescer junto (ela é medida em em).
-     Uma linha só, escala pelo comprimento para caber mesmo no peso máximo; os 1.5 caracteres a mais são a pasta. */
+  /* título + pasta. A pasta mora numa coluna de largura fixa (--slot), centralizada nela, e o vão até o título
+     é o mesmo em todas as linhas: os títulos começam todos no mesmo x. A altura acompanha o título (em), com teto.
+     Uma linha só, escala pelo comprimento para caber mesmo no peso máximo, descontando coluna e vão. */
+  .lista {
+    --slot: clamp(1.9rem, 3.4vw, 3.4rem);
+    --vao: clamp(0.6rem, 1.2vw, 1.1rem);
+  }
   .cabeca {
     display: flex;
-    align-items: baseline;
-    gap: 0.14em;
-    font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc((100cqi - 30rem) * 2 / (var(--len) + 1.5)));
+    align-items: center;
+    gap: var(--vao);
+    font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc((100cqi - 30rem - var(--slot) - var(--vao)) * 2 / var(--len)));
     min-width: 0;
   }
   .item {
@@ -414,8 +419,11 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
   }
   .pasta {
     flex: none;
-    width: 0.8em;
-    height: 0.66em;
+    /* o viewBox centraliza o desenho na coluna; a altura cresce com o título até caber na coluna */
+    width: var(--slot);
+    height: min(0.42em, var(--slot) * 0.83);
+    /* centro das maiúsculas fica um pouco abaixo do centro da caixa da linha */
+    translate: 0 0.04em;
     overflow: visible;
     stroke: color-mix(in srgb, var(--caneta) calc(var(--abre) * 100%), var(--grafite));
     stroke-width: calc(1 + var(--abre) * 1.6);
@@ -518,7 +526,7 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
     .cabeca {
       grid-column: 1;
       grid-row: 1;
-      font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc((100cqi - 11rem) * 2 / (var(--len) + 1.5)));
+      font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc((100cqi - 11rem - var(--slot) - var(--vao)) * 2 / var(--len)));
     }
     .ficha {
       grid-column: 1;
@@ -555,7 +563,7 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
       display: none;
     }
     .cabeca {
-      font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc(100cqi * 2 / (var(--len) + 1.5)));
+      font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc((100cqi - var(--slot) - var(--vao)) * 2 / var(--len)));
     }
     .ficha {
       grid-auto-flow: row;
