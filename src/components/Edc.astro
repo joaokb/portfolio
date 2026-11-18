@@ -6,6 +6,7 @@ import perfil from '../data/perfil.json';
 import edc from '../data/edc.json';
 import { rota, type Lang } from '../i18n';
 import { srcset } from '../imagens';
+import Sticker from './Sticker.astro';
 
 interface Props {
   lang: Lang;
@@ -16,12 +17,15 @@ const en = lang === 'en';
 
 <Base title={`Everyday carry, ${perfil.nome}`} description={en ? 'What I carry every day.' : 'O que eu carrego todo dia.'}>
   <section class="edc">
+    <Sticker nome="checklist" style="top: var(--topo-checklist, clamp(1.5rem, 6vh, 4rem)); left: 5%; --giro: -8deg; --largura: clamp(5rem, 10vw, 9rem)" />
+    <Sticker nome="caneta" style="top: var(--topo-caneta, clamp(2rem, 7vh, 4.5rem)); right: 5%; --giro: 7deg; --largura: clamp(7rem, 14vw, 12rem)" />
     <h1>Everyday carry</h1>
     <p class="intro">{en ? 'What I carry every day.' : 'O que eu carrego todo dia.'}</p>
     <ul class="grade">
       {
         edc.itens.map((i, n) => (
           <li class="item">
+            {/fone/i.test(i.tipo) && <Sticker nome="bateria" style="top: -0.9rem; right: -0.7rem; --giro: 9deg; --largura: 7.5rem" />}
             <img
               src={i.imagem.replace(/\.webp$/, '.min.webp')}
               srcset={srcset(i.imagem)}
@@ -46,6 +50,7 @@ const en = lang === 'en';
 <style>
   /* página centrada, itens em caixas no estilo de vitrine de produto (pedido do João) */
   .edc {
+    position: relative;
     padding: clamp(2.5rem, 8vh, 5rem) var(--margem) clamp(4rem, 12vh, 8rem);
     text-align: center;
   }
@@ -71,6 +76,7 @@ const en = lang === 'en';
     margin: clamp(2.5rem, 6vh, 4rem) auto 0;
   }
   .item {
+    position: relative;
     flex: 0 1 calc((100% - 3 * 1.25rem) / 4);
     display: flex;
     flex-direction: column;
@@ -160,6 +166,14 @@ const en = lang === 'en';
     }
     .item img {
       width: 62%;
+    }
+  }
+  /* no celular os dois stickers ganham uma faixa própria acima do título, sem cobrir o texto */
+  @media (max-width: 760px) {
+    .edc {
+      padding-top: 8.5rem;
+      --topo-checklist: 0.8rem;
+      --topo-caneta: 2.2rem;
     }
   }
 </style>

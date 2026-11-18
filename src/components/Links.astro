@@ -6,6 +6,7 @@ import { existsSync } from 'node:fs';
 import { rota, textoPerfil, type Lang } from '../i18n';
 import { publicados, dadosEn } from '../projetos';
 import { srcset } from '../imagens';
+import Sticker from './Sticker.astro';
 
 interface Props {
   lang: Lang;
@@ -28,6 +29,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
 <Base title={`${perfil.nome}, links`} description={tp.bio}>
   <section class="links">
     <header class="perfil">
+      <Sticker nome="selo" style="top: -0.9rem; left: -1.1rem; --giro: -12deg; --largura: 4.2rem" />
       {perfil.foto && <img class="foto" src={capa(perfil.foto)} srcset={srcset(perfil.foto)} sizes="96px" alt="" width="96" height="96" fetchpriority="high" />}
       <div>
         <h1 class="nome">{perfil.nome}</h1>
@@ -37,6 +39,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
     <p class="status"><span class="ponto" aria-hidden="true"></span>{tp.status}</p>
 
     <ul class="botoes">
+      <Sticker nome="linkbio" style="top: -1rem; right: 0.6rem; --giro: 8deg; --largura: 6.5rem" />
       {
         ativos.map((l) => (
           <li>
@@ -46,7 +49,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
       }
     </ul>
 
-    <h2 class="rotulo">{en ? 'Selected work' : 'Trabalhos'}</h2>
+    <h2 class="rotulo">{en ? 'Selected work' : 'Trabalhos'}<Sticker nome="remoto" style="top: -1.6rem; right: 0; --giro: 5deg; --largura: clamp(9rem, 40vw, 11rem)" /></h2>
     <ul class="grade">
       {
         trabalhos.map((p, i) => (
@@ -70,7 +73,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
       }
     </ul>
 
-    <h2 class="rotulo">{en ? 'About' : 'Sobre'}</h2>
+    <h2 class="rotulo">{en ? 'About' : 'Sobre'}<Sticker nome="freela" style="top: -2rem; right: 0; --giro: -5deg; --largura: clamp(8rem, 36vw, 10rem)" /></h2>
     <p class="bio">{tp.bio}</p>
     <p class="mais"><a href={rota(lang, '/sobre/')}>{en ? 'More about me' : 'Mais sobre mim'}</a></p>
   </section>
@@ -83,6 +86,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
     padding: clamp(1.5rem, 5vh, 3rem) var(--margem) clamp(3rem, 10vh, 5rem);
   }
   .perfil {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -122,6 +126,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
   }
 
   .botoes {
+    position: relative;
     display: grid;
     gap: 0.6rem;
     margin-top: 1.75rem;
@@ -148,6 +153,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
   }
 
   .rotulo {
+    position: relative;
     margin: 2.5rem 0 0.9rem;
     font-family: var(--display);
     font-weight: 800;
