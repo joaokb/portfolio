@@ -1,0 +1,123 @@
+---
+// Everyday carry: o que João carrega todo dia. Itens em src/data/edc.json (editável no /admin).
+// Fotos sem fundo (scripts/recortar-fundo.mjs), em preto e branco que ganham cor no hover, como os logos.
+import Base from '../layouts/Base.astro';
+import perfil from '../data/perfil.json';
+import edc from '../data/edc.json';
+import { rota, type Lang } from '../i18n';
+import { srcset } from '../imagens';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const en = lang === 'en';
+---
+
+<Base title={`Everyday carry, ${perfil.nome}`} description={en ? 'What I carry every day.' : 'O que eu carrego todo dia.'}>
+  <section class="edc">
+    <h1>Everyday carry</h1>
+    <p class="intro">{en ? 'What I carry every day.' : 'O que eu carrego todo dia.'}</p>
+    <ul class="grade">
+      {
+        edc.itens.map((i, n) => (
+          <li class="item">
+            <img
+              src={i.imagem.replace(/\.webp$/, '.min.webp')}
+              srcset={srcset(i.imagem)}
+              sizes="(max-width: 560px) 92vw, (max-width: 1100px) 46vw, 30vw"
+              width="1200"
+              height="1200"
+              alt={i.nome}
+              loading={n < 3 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+            <p class="tipo">{en ? i.tipo_en || i.tipo : i.tipo}</p>
+            <h2>{i.nome}</h2>
+            <p class="texto">{en ? i.texto_en || i.texto : i.texto}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="voltar"><a href={rota(lang, '/sobre/')}>{en ? 'More about me' : 'Mais sobre mim'}</a></p>
+  </section>
+</Base>
+
+<style>
+  .edc {
+    padding: clamp(2.5rem, 8vh, 5rem) var(--margem) clamp(4rem, 12vh, 8rem);
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(3.4rem, 11vw, 11rem);
+    line-height: 0.86;
+    text-transform: uppercase;
+  }
+  .intro {
+    margin-top: 1rem;
+    font-size: var(--t-md);
+  }
+  .grade {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.5rem);
+    margin-top: clamp(2.5rem, 6vh, 4rem);
+  }
+  .item img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: contain;
+    filter: grayscale(1);
+    transition: filter 0.3s;
+  }
+  .item:hover img {
+    filter: none;
+  }
+  /* no toque não há hover: a cor fica */
+  @media (hover: none) {
+    .item img {
+      filter: none;
+    }
+  }
+  .tipo {
+    margin-top: 1rem;
+    font-size: var(--t-sm);
+    color: var(--grafite);
+  }
+  h2 {
+    margin-top: 0.2rem;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+  .item:hover h2 {
+    color: var(--caneta);
+  }
+  .texto {
+    margin-top: 0.5rem;
+    line-height: 1.45;
+    max-width: 30rem;
+  }
+  .voltar {
+    margin-top: clamp(3rem, 8vh, 5rem);
+    font-weight: 600;
+  }
+  @media (max-width: 1100px) {
+    .grade {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 560px) {
+    .grade {
+      grid-template-columns: 1fr;
+    }
+    /* no celular a foto não precisa ocupar a tela toda */
+    .item img {
+      width: 72%;
+    }
+  }
+</style>

@@ -27,6 +27,13 @@
       "titulo_en": "WhatsApp",
       "url": "https://wa.me/5518991467500?text=Oi%2C%20Jo%C3%A3o!%20Vim%20pelo%20seu%20Instagram.",
       "ativo": true
+    },
+    {
+      "id": "edc",
+      "titulo": "Everyday carry",
+      "titulo_en": "Everyday carry",
+      "url": "/edc/",
+      "ativo": true
     }
   ]
 }

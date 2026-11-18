@@ -1,0 +1,44 @@
+{
+  "itens": [
+    {
+      "nome": "Onix Térmic 870ml",
+      "tipo": "Copo térmico",
+      "tipo_en": "Tumbler",
+      "texto": "Grande, barato e eficiente. A tampa deixa tomar de gole ou usar canudo.",
+      "texto_en": "Big, cheap and efficient. The lid lets you sip or use a straw.",
+      "imagem": "/uploads/edc/copo-onix-termic.webp"
+    },
+    {
+      "nome": "Pagani Design Giancarlo Blue",
+      "tipo": "Relógio",
+      "tipo_en": "Watch",
+      "texto": "Design em homenagem ao Patek Philippe Nautilus, com boa construção e preço honesto.",
+      "texto_en": "A design tribute to the Patek Philippe Nautilus, well built and fairly priced.",
+      "imagem": "/uploads/edc/pagani-design-giancarlo.webp"
+    },
+    {
+      "nome": "QCY T13 ANC",
+      "tipo": "Fone de ouvido",
+      "tipo_en": "Earbuds",
+      "texto": "Ótima qualidade e isolamento acústico com o cancelamento de ruído ativo, modo transparência e ótima duração de bateria. Preço honestíssimo.",
+      "texto_en": "Great sound and isolation with active noise cancelling, transparency mode and great battery life. Very fairly priced.",
+      "imagem": "/uploads/edc/qcy-t13-anc.webp"
+    },
+    {
+      "nome": "Pica Fumo Corneta",
+      "tipo": "Canivete",
+      "tipo_en": "Pocket knife",
+      "texto": "Design sem pontas perfurantes, resistente, leve e prático.",
+      "texto_en": "No sharp tip, sturdy, light and practical.",
+      "imagem": "/uploads/edc/canivete-corneta.webp"
+    },
+    {
+      "nome": "Polo Green",
+      "tipo": "Perfume",
+      "tipo_en": "Fragrance",
+      "texto": "Clássico, estiloso e casual.",
+      "texto_en": "Classic, stylish and casual.",
+      "imagem": "/uploads/edc/polo-green.webp"
+    }
+  ]
+}

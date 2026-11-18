@@ -88,6 +88,26 @@ collections:
               - { name: url, label: Endereço, widget: string }
               - { name: ativo, label: Ativo, widget: boolean, default: true }
 
+  - name: edc
+    label: Everyday carry
+    files:
+      - name: itens
+        label: Página /edc
+        file: src/data/edc.json
+        fields:
+          - name: itens
+            label: Itens
+            widget: list
+            summary: '{{tipo}}: {{nome}}'
+            hint: 'Foto de preferência sem fundo ou em fundo branco liso (PNG). A ordem aqui é a ordem na página.'
+            fields:
+              - { name: nome, label: Nome, widget: string }
+              - { name: tipo, label: 'Tipo (ex.: Relógio)', widget: string }
+              - { name: tipo_en, label: Tipo em inglês, widget: string, required: false }
+              - { name: texto, label: Por que está comigo, widget: text }
+              - { name: texto_en, label: Texto em inglês, widget: text, required: false }
+              - { name: imagem, label: Foto, widget: image }
+
   - name: site
     label: Sobre e contato
     files:
