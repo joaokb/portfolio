@@ -1,0 +1,373 @@
+---
+// Currículo em uma página, montado do perfil.json (o mesmo que o /admin edita).
+// Na tela: página do site com botões de baixar PDF e copiar link. Na impressão: A4 limpo, sem menu nem botões.
+import Base from '../layouts/Base.astro';
+import perfil from '../data/perfil.json';
+import { textoPerfil, type Lang } from '../i18n';
+import { medidas, srcset } from '../imagens';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const tp = textoPerfil(lang);
+const en = lang === 'en';
+const t = en
+  ? { titulo: 'Résumé', resumo: 'Profile', exp: 'Experience', form: 'Education', cursos: 'Courses', premios: 'Awards and shortlists', comp: 'Skills', ferr: 'Tools', idiomas: 'Languages', links: 'Links', pdf: 'Download PDF', copiar: 'Copy link', copiado: 'Link copied', site: 'Portfolio' }
+  : { titulo: 'Currículo', resumo: 'Perfil', exp: 'Experiência', form: 'Formação', cursos: 'Cursos', premios: 'Prêmios e shortlists', comp: 'Competências', ferr: 'Ferramentas', idiomas: 'Idiomas', links: 'Links', pdf: 'Baixar PDF', copiar: 'Copiar link', copiado: 'Link copiado', site: 'Portfólio' };
+const resumo = tp.sobre.split(/\n\s*\n/).filter(Boolean);
+const site = new URL('/', Astro.site).href.replace(/\/$/, '');
+const foto = perfil.foto ? medidas(perfil.foto) : {};
+---
+
+<Base title={`${t.titulo}, ${perfil.nome}`} description={tp.bio}>
+  <article class="cv">
+    <div class="acoes" data-acoes>
+      <button type="button" class="primario" data-pdf>{t.pdf}</button>
+      <button type="button" data-copiar data-copiado={t.copiado}>{t.copiar}</button>
+    </div>
+
+    <header class="cabeca">
+      {
+        perfil.foto && (
+          <img class="foto" src={perfil.foto} srcset={srcset(perfil.foto)} sizes="140px" width={foto.w} height={foto.h} alt={perfil.nome} />
+        )
+      }
+      <div>
+        <h1>{perfil.nome}</h1>
+        <p class="cargo">{tp.cargo}</p>
+        <p class="status"><span class="ponto" aria-hidden="true"></span>{tp.status}</p>
+      </div>
+      <ul class="contatos">
+        <li>{tp.tr(perfil.cidade)}</li>
+        <li><a href={`mailto:${perfil.email}`}>{perfil.email}</a></li>
+        <li><a href={site}>{site.replace(/^https?:\/\//, '')}</a></li>
+        {perfil.links.filter((l) => l.nome !== 'Currículo').map((l) => <li><a href={l.url}>{l.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a></li>)}
+      </ul>
+    </header>
+
+    <section>
+      <h2>{t.resumo}</h2>
+      <div class="resumo">{resumo.map((p) => <p>{p}</p>)}</div>
+    </section>
+
+    <section>
+      <h2>{t.exp}</h2>
+      <ol class="lista">
+        {
+          perfil.experiencia.map((e: any) => (
+            <li>
+              <span class="quando">{(en ? e.meses_en : e.meses) || e.periodo}</span>
+              <div>
+                <p class="onde"><b>{tp.tr(e.funcao)}</b>, {e.empresa}</p>
+                {(en ? e.descricao_en : e.descricao) && <p class="desc">{en ? e.descricao_en : e.descricao}</p>}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section>
+      <h2>{t.premios}</h2>
+      <ol class="lista">
+        {
+          perfil.premios.map((p) => (
+            <li>
+              <span class="quando">{p.ano}</span>
+              <p class="onde">
+                <b class:list={{ ouro: p.nivel === 'Ouro' }}>{tp.tr(p.nivel)}, {p.festival}</b>
+                {p.projeto && <span class="secundario">. {p.projeto}</span>}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <div class="duas">
+      <section>
+        <h2>{t.form}</h2>
+        <ol class="lista">
+          {perfil.formacao.map((f) => (
+            <li>
+              <span class="quando">{f.periodo}</span>
+              <p class="onde"><b>{tp.tr(f.curso)}</b>, {f.instituicao}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section>
+        <h2>{t.cursos}</h2>
+        <ol class="lista">
+          {perfil.cursos.map((c) => (
+            <li>
+              <span class="quando">{c.ano}</span>
+              <p class="onde"><b>{tp.tr(c.curso)}</b>, {c.instituicao}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </div>
+
+    <div class="duas">
+      <section>
+        <h2>{t.comp}</h2>
+        <ul class="tags">{(perfil.competencias ?? []).map((c: string) => <li>{tp.tr(c)}</li>)}</ul>
+        <h2 class="sub">{t.ferr}</h2>
+        <p>{perfil.ferramentas}</p>
+      </section>
+      <section>
+        <h2>{t.idiomas}</h2>
+        <ul class="idiomas">
+          {(perfil.idiomas ?? []).map((i: { idioma: string; nivel: string }) => (
+            <li><b>{tp.tr(i.idioma)}</b> <span class="secundario">{tp.tr(i.nivel)}</span></li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .cv {
+    max-width: 54rem;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 5vh, 3rem) var(--margem) clamp(3rem, 10vh, 6rem);
+  }
+  .acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+  }
+  .acoes button {
+    font: inherit;
+    font-weight: 600;
+    padding: 0.65rem 1.1rem;
+    border: 1px solid var(--tinta);
+    background: transparent;
+    color: var(--tinta);
+  }
+  .acoes .primario,
+  .acoes button:hover {
+    background: var(--caneta);
+    border-color: var(--caneta);
+    color: var(--papel);
+  }
+
+  .cabeca {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1rem 1.5rem;
+    align-items: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 3px solid var(--caneta);
+  }
+  .foto {
+    width: 8.5rem;
+    height: 8.5rem;
+    object-fit: cover;
+    object-position: 50% 30%;
+    filter: grayscale(1);
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(3rem, 9vw, 5.2rem);
+    line-height: 0.86;
+    text-transform: uppercase;
+  }
+  .cargo {
+    margin-top: 0.4rem;
+    font-size: var(--t-md);
+    font-weight: 600;
+  }
+  .status {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    margin-top: 0.4rem;
+    color: var(--grafite);
+    font-size: var(--t-sm);
+  }
+  .ponto {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--caneta);
+    flex: none;
+  }
+  .contatos {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.4rem;
+    font-size: var(--t-sm);
+  }
+
+  section {
+    margin-top: 2rem;
+  }
+  h2 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.9rem;
+    line-height: 1;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    break-after: avoid;
+  }
+  h2.sub {
+    margin-top: 1.4rem;
+    font-size: 1.4rem;
+  }
+  .resumo p + p {
+    margin-top: 0.7em;
+  }
+  .resumo {
+    font-size: var(--t-md);
+    line-height: 1.45;
+    max-width: 44rem;
+  }
+  .lista li {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 0.2rem 1.2rem;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--linha);
+    break-inside: avoid;
+  }
+  .quando {
+    color: var(--grafite);
+  }
+  .onde b {
+    font-weight: 600;
+  }
+  .ouro {
+    color: var(--caneta);
+  }
+  .desc {
+    margin-top: 0.25rem;
+    color: var(--grafite);
+    line-height: 1.45;
+  }
+  .duas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 2.5rem;
+  }
+  .duas .lista li {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .tags li {
+    padding: 0.25rem 0.65rem;
+    border: 1px solid var(--tinta);
+    font-size: var(--t-sm);
+  }
+  .idiomas li {
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--linha);
+  }
+
+  /* só na tela: no PDF a largura do A4 é estreita, mas o layout deve continuar o de duas colunas */
+  @media screen and (max-width: 760px) {
+    .cabeca {
+      grid-template-columns: 1fr;
+    }
+    .foto {
+      width: 7rem;
+      height: 7rem;
+    }
+    .lista li,
+    .duas .lista li {
+      grid-template-columns: 1fr;
+    }
+    .duas {
+      grid-template-columns: 1fr;
+    }
+    .acoes {
+      justify-content: flex-start;
+    }
+  }
+
+  /* PDF: A4, sem menu, botões, cursor nem marca-texto; texto menor para caber em poucas páginas */
+  @media print {
+    @page {
+      size: A4;
+      margin: 13mm 15mm;
+    }
+    :global(.topo),
+    :global(.pular),
+    :global(.marca-texto),
+    .acoes {
+      display: none !important;
+    }
+    :global(html),
+    :global(body) {
+      background: #fff !important;
+      font-size: 9.5pt;
+    }
+    .cv {
+      max-width: none;
+      padding: 0;
+    }
+    .foto {
+      width: 28mm;
+      height: 28mm;
+    }
+    h1 {
+      font-size: 34pt;
+    }
+    h2 {
+      font-size: 15pt;
+      margin-bottom: 2mm;
+    }
+    section {
+      margin-top: 6mm;
+      break-inside: auto;
+    }
+    .resumo {
+      font-size: 10.5pt;
+    }
+    .lista li {
+      grid-template-columns: 34mm minmax(0, 1fr);
+      padding: 1.6mm 0;
+    }
+    .duas .lista li {
+      grid-template-columns: 16mm minmax(0, 1fr);
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelector('[data-pdf]')?.addEventListener('click', () => print());
+    const copiar = document.querySelector<HTMLButtonElement>('[data-copiar]');
+    copiar?.addEventListener('click', async () => {
+      const texto = copiar.textContent;
+      try {
+        await navigator.clipboard.writeText(location.href.split('#')[0]);
+        copiar.textContent = copiar.dataset.copiado ?? texto;
+      } catch {
+        // sem permissão de área de transferência: seleciona a URL no prompt do navegador
+        window.prompt('', location.href);
+      }
+      setTimeout(() => (copiar.textContent = texto), 2000);
+    });
+  });
+</script>

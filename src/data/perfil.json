@@ -91,37 +91,65 @@
     {
       "periodo": "2026",
       "empresa": "Unimed Presidente Prudente",
-      "funcao": "Assistente de marketing pleno"
+      "funcao": "Assistente de marketing pleno",
+      "meses": "jun. a nov. 2026",
+      "meses_en": "Jun to Nov 2026",
+      "descricao": "Criação de materiais gráficos e peças de comunicação visual, captação e edição de vídeos, fotografia de eventos e ações institucionais, apoio no planejamento e na execução de eventos e suporte a outros setores.",
+      "descricao_en": "Graphic materials and visual communication pieces, video shooting and editing, photography of institutional events, support in planning and running events and help to other departments."
     },
     {
       "periodo": "2025",
       "empresa": "GMais AG",
-      "funcao": "Diretor de arte pleno"
+      "funcao": "Diretor de arte pleno",
+      "meses": "fev. a nov. 2025",
+      "meses_en": "Feb to Nov 2025",
+      "descricao": "Criação de campanhas, KVs, identidade visual, materiais impressos, edição de vídeos e materiais para redes sociais.",
+      "descricao_en": "Campaigns, key visuals, visual identity, print, video editing and social media materials."
     },
     {
       "periodo": "2024",
       "empresa": "Feel Alive Co.",
-      "funcao": "Diretor de arte"
+      "funcao": "Diretor de arte",
+      "meses": "mar. a nov. 2024",
+      "meses_en": "Mar to Nov 2024",
+      "descricao": "",
+      "descricao_en": ""
     },
     {
       "periodo": "2023–24",
       "empresa": "Duo Studio Interativo",
-      "funcao": "Diretor de arte freelancer"
+      "funcao": "Diretor de arte freelancer",
+      "meses": "out. 2023 a fev. 2024",
+      "meses_en": "Oct 2023 to Feb 2024",
+      "descricao": "KVs, vídeos, campanhas, materiais impressos, peças on e off-line, posts para redes sociais, papelaria e endomarketing para grandes marcas nacionais e internacionais.",
+      "descricao_en": "Key visuals, videos, campaigns, print, online and offline pieces, social posts, stationery and internal marketing for large national and international brands."
     },
     {
       "periodo": "2023",
       "empresa": "Agência Iberika",
-      "funcao": "Diretor de arte"
+      "funcao": "Diretor de arte",
+      "meses": "mar. a out. 2023",
+      "meses_en": "Mar to Oct 2023",
+      "descricao": "KVs, vídeos, campanhas, materiais impressos, peças on e off-line, posts para redes sociais, papelaria e endomarketing.",
+      "descricao_en": "Key visuals, videos, campaigns, print, online and offline pieces, social posts, stationery and internal marketing."
     },
     {
       "periodo": "2022–23",
       "empresa": "Audi Comunicação",
-      "funcao": "Diretor de arte"
+      "funcao": "Diretor de arte",
+      "meses": "abr. 2022 a fev. 2023",
+      "meses_en": "Apr 2022 to Feb 2023",
+      "descricao": "Materiais impressos, peças on e off-line, posts para redes sociais, papelaria e endomarketing.",
+      "descricao_en": "Print, online and offline pieces, social posts, stationery and internal marketing."
     },
     {
       "periodo": "2021–22",
       "empresa": "Caiado Pneus",
-      "funcao": "Designer gráfico"
+      "funcao": "Designer gráfico",
+      "meses": "fev. 2021 a mar. 2022",
+      "meses_en": "Feb 2021 to Mar 2022",
+      "descricao": "Materiais impressos, peças on e off-line, posts para redes sociais, papelaria e endomarketing.",
+      "descricao_en": "Print, online and offline pieces, social posts, stationery and internal marketing."
     }
   ],
   "formacao": [
@@ -209,8 +237,39 @@
       "Finalista": "Finalist",
       "Currículo": "Résumé",
       "Presidente Prudente, SP": "Presidente Prudente, Brazil",
-      "Photoshop, Illustrator, InDesign, After Effects, Premiere, Figma": "Photoshop, Illustrator, InDesign, After Effects, Premiere, Figma"
+      "Photoshop, Illustrator, InDesign, After Effects, Premiere, Figma": "Photoshop, Illustrator, InDesign, After Effects, Premiere, Figma",
+      "Português": "Portuguese",
+      "Inglês": "English",
+      "Nativo": "Native",
+      "Intermediário": "Intermediate",
+      "Criação": "Creative",
+      "Diagramação": "Editorial layout",
+      "Arte-finalização": "Artwork and prepress",
+      "UI": "UI",
+      "Brainstorm": "Brainstorming"
     }
   },
-  "cv": ""
+  "cv": "",
+  "idiomas": [
+    {
+      "idioma": "Português",
+      "nivel": "Nativo"
+    },
+    {
+      "idioma": "Inglês",
+      "nivel": "Intermediário"
+    }
+  ],
+  "competencias": [
+    "Direção de arte",
+    "Identidade visual",
+    "Branding",
+    "Criação",
+    "Criação de layouts",
+    "Diagramação",
+    "Arte-finalização",
+    "Tratamento de imagens",
+    "UI",
+    "Brainstorm"
+  ]
 }

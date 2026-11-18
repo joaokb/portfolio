@@ -144,6 +144,10 @@ collections:
               - { name: periodo, label: Período, widget: string }
               - { name: empresa, label: Empresa, widget: string }
               - { name: funcao, label: Função, widget: string }
+              - { name: meses, label: 'Meses (currículo, ex.: fev. a nov. 2025)', widget: string, required: false }
+              - { name: meses_en, label: Meses em inglês, widget: string, required: false }
+              - { name: descricao, label: O que fazia (currículo), widget: text, required: false }
+              - { name: descricao_en, label: O que fazia em inglês, widget: text, required: false }
           - name: formacao
             label: Formação
             widget: list
@@ -160,6 +164,14 @@ collections:
               - { name: ano, label: Ano, widget: number, value_type: int }
               - { name: curso, label: Curso, widget: string }
               - { name: instituicao, label: Instituição, widget: string }
+          - name: idiomas
+            label: Idiomas (currículo)
+            widget: list
+            summary: '{{idioma}}: {{nivel}}'
+            fields:
+              - { name: idioma, label: Idioma, widget: string }
+              - { name: nivel, label: Nível, widget: string }
+          - { name: competencias, label: Competências (currículo), widget: list, required: false, hint: 'Uma por item. Aparecem como lista no currículo.' }
           - name: habilidades
             label: Habilidades principais (barras)
             widget: list

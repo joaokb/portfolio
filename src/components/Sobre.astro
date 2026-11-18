@@ -114,11 +114,10 @@ const paragrafos = tp.sobre.split(/\n\s*\n/).filter(Boolean);
 
         <h2 class="subrotulo">{t.ferramentas}</h2>
         <p>{perfil.ferramentas}</p>
-        {perfil.cv && (
-          <p class="cv">
-            <a href={perfil.cv} download>{t.cv}</a>
-          </p>
-        )}
+        {/* currículo completo, com botão de PDF (página /curriculo, montada destes mesmos dados) */}
+        <p class="cv">
+          <a href={rota(lang, '/curriculo/')}>{lang === 'en' ? 'Full résumé (PDF)' : 'Currículo completo (PDF)'}</a>
+        </p>
       </div>
     </div>
 
