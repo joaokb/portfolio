@@ -19,7 +19,7 @@
     },
     {
       "nome": "Currículo",
-      "url": "https://www.trampos.co/jkavalchuk"
+      "url": "https://joaokavalchuk.com/curriculo/"
     }
   ],
   "premios": [
@@ -187,6 +187,28 @@
       "instituicao": "Prof. Caio Vinicius"
     }
   ],
+  "idiomas": [
+    {
+      "idioma": "Português",
+      "nivel": "Nativo"
+    },
+    {
+      "idioma": "Inglês",
+      "nivel": "Intermediário"
+    }
+  ],
+  "competencias": [
+    "Direção de arte",
+    "Identidade visual",
+    "Branding",
+    "Criação",
+    "Criação de layouts",
+    "Diagramação",
+    "Arte-finalização",
+    "Tratamento de imagens",
+    "UI",
+    "Brainstorm"
+  ],
   "habilidades": [
     {
       "nome": "Direção de arte",
@@ -249,27 +271,5 @@
       "Brainstorm": "Brainstorming"
     }
   },
-  "cv": "",
-  "idiomas": [
-    {
-      "idioma": "Português",
-      "nivel": "Nativo"
-    },
-    {
-      "idioma": "Inglês",
-      "nivel": "Intermediário"
-    }
-  ],
-  "competencias": [
-    "Direção de arte",
-    "Identidade visual",
-    "Branding",
-    "Criação",
-    "Criação de layouts",
-    "Diagramação",
-    "Arte-finalização",
-    "Tratamento de imagens",
-    "UI",
-    "Brainstorm"
-  ]
+  "cv": ""
 }
