@@ -40,7 +40,7 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
 <Base>
   <section class="abertura">
     <h1 class="nome" aria-label={`${perfil.nome}, ${tp.cargo.toLowerCase()}`} data-nome style={`--len:${letras.length}`}>
-      {letras.map((l) => <span class="letra" aria-hidden="true">{l === ' ' ? ' ' : l}</span>)}
+      {letras.map((l, i) => <span class="letra" aria-hidden="true" style={`--i:${i}`}>{l === ' ' ? ' ' : l}</span>)}
     </h1>
 
     <div class="letreiro" aria-hidden="true">
@@ -194,9 +194,29 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
       font-weight 0.45s cubic-bezier(0.23, 1, 0.32, 1),
       color 0.45s cubic-bezier(0.23, 1, 0.32, 1);
   }
+  /* Toque (celular, tablet): sem cursor, uma onda de peso e cor passa pelo nome de tempos em tempos */
+  @media (hover: none), (pointer: coarse) {
+    .letra {
+      animation: onda 4.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+      animation-delay: calc(1.2s + var(--i) * 70ms);
+    }
+  }
+  @keyframes onda {
+    0%,
+    30%,
+    100% {
+      font-weight: 300;
+      color: var(--tinta);
+    }
+    15% {
+      font-weight: 900;
+      color: var(--caneta);
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .letra {
       transition: none;
+      animation: none;
     }
   }
 
@@ -410,6 +430,34 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
     }
     .ficha {
       padding-top: 0;
+    }
+  }
+  /* Tablet: a ficha desce para baixo do título e o título ganha a largura; o logo fica à direita, no centro da linha */
+  @media (min-width: 761px) and (max-width: 1100px) {
+    .link {
+      grid-template-columns: minmax(0, 1fr) 9rem;
+      column-gap: 1.5rem;
+    }
+    .titulo {
+      grid-column: 1;
+      grid-row: 1;
+      font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc((100cqi - 11rem) * 2 / var(--len)));
+    }
+    .ficha {
+      grid-column: 1;
+      grid-row: 2;
+      grid-template-columns: auto auto 1fr;
+      column-gap: 0.75rem;
+      align-items: baseline;
+      padding-top: 0.45rem;
+    }
+    .premio {
+      grid-column: 1 / -1;
+      margin-top: 0;
+    }
+    .miniatura {
+      grid-column: 2;
+      grid-row: 1 / span 2;
     }
   }
   .ano {

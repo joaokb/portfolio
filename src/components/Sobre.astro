@@ -215,6 +215,16 @@ const paragrafos = tp.sobre.split(/\n\s*\n/).filter(Boolean);
   .cv {
     margin-top: 2rem;
   }
+  /* Tablet: duas colunas de tabela de três campos não cabem; tudo vira uma coluna larga */
+  @media (max-width: 1100px) {
+    .colunas {
+      grid-template-columns: 1fr;
+      max-width: 48rem;
+    }
+    .barras {
+      max-width: 32rem;
+    }
+  }
   .contato {
     margin-top: clamp(3rem, 10vh, 6rem);
     font-size: var(--t-md);
