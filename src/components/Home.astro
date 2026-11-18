@@ -39,6 +39,9 @@ const letras = [...perfil.nome.toUpperCase()];
 const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).href;
 // medalha da Apple (public/emoji) para cada nível; shortlist e finalista ficam sem
 const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'bronze' }) as Record<string, string>)[nivel];
+// legenda da board que abre em tela cheia (prêmio sem página de projeto)
+const legendaBoard = (p: { projeto: string; nivel: string; festival: string; ano: number; dupla?: string }) =>
+  `${p.projeto}. ${tp.tr(p.nivel)} ${lang === 'en' ? 'at' : 'no'} ${p.festival} ${p.ano}${p.dupla ? (lang === 'en' ? `. Partner: ${p.dupla}` : `. Dupla: ${p.dupla}`) : ''}.`;
 ---
 
 <Base>
@@ -155,7 +158,7 @@ const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'br
             <span class="ano">{p.ano}</span>
             <span class:list={['nivel', { ouro: p.nivel === 'Ouro' }]}>{medalha(p.nivel) ? <img class="medalha" src={`/emoji/medalha-${medalha(p.nivel)}.webp`} alt="" width="64" height="64" loading="lazy" /> : <span class="medalha" aria-hidden="true" />}{tp.tr(p.nivel)}</span>
             <span>{p.festival}</span>
-            <span class="secundario">{p.slug ? <a href={rota(lang, `/projetos/${p.slug}/`)}>{p.projeto}</a> : p.projeto}</span>
+            <span class="secundario">{p.slug ? <a href={rota(lang, `/projetos/${p.slug}/`)}>{p.projeto}</a> : p.board ? <a href={p.board} data-board data-legenda={legendaBoard(p)}>{p.projeto}</a> : p.projeto}</span>
           </li>
         ))
       }

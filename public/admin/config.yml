@@ -156,6 +156,8 @@ collections:
               - { name: festival, label: Festival, widget: string }
               - { name: projeto, label: Projeto, widget: string, required: false }
               - { name: slug, label: Página do projeto, widget: relation, collection: projetos, value_field: '{{slug}}', search_fields: [title], display_fields: [title], required: false }
+              - { name: board, label: 'Board (sem página de projeto)', widget: image, required: false, hint: 'Abre em tela cheia ao clicar no nome do projeto na lista de prêmios' }
+              - { name: dupla, label: Dupla, widget: string, required: false }
           - name: experiencia
             label: Experiência
             widget: list
