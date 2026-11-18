@@ -95,7 +95,7 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
     </div>
 
     <div class="intro">
-      <Sticker nome="quatro" style="top: -6rem; right: 3%; --giro: 12deg; --largura: clamp(5.5rem, 9vw, 9rem)" />
+      <Sticker nome="quatro" style="top: var(--topo-04, -6rem); right: 3%; --giro: 12deg; --largura: clamp(5.5rem, 9vw, 9rem)" />
       <p class="cargo">
         {tp.cargo}
         <span class="status"><span class="ponto" aria-hidden="true"></span>{tp.status}</span>
@@ -664,6 +664,12 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
   @media (max-width: 760px) {
     .contato-grade {
       grid-template-columns: 1fr;
+    }
+  }
+  /* no celular o 04 só encosta de leve na base do carrossel */
+  @media (max-width: 760px) {
+    .intro {
+      --topo-04: -1rem;
     }
   }
 </style>
