@@ -52,6 +52,8 @@ const faq = {
   '@type': 'FAQPage',
   mainEntity: perguntas.map(({ p, r }) => ({ '@type': 'Question', name: p, acceptedAnswer: { '@type': 'Answer', text: r } })),
 };
+// medalha da Apple (public/emoji) para cada nível; shortlist e finalista ficam sem
+const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'bronze' }) as Record<string, string>)[nivel];
 ---
 
 <Base
@@ -113,8 +115,7 @@ const faq = {
               <li>
                 <span class="ano">{p.ano}</span>
                 <span class:list={{ ouro: p.nivel === 'Ouro' }}>
-                  {tp.tr(p.nivel)}, {p.festival}
-                  {/(Ouro|Prata|Bronze)/.test(p.nivel) && <img class="trofeu" src="/emoji/trofeu.webp" alt="" width="64" height="64" loading="lazy" />}
+                  {medalha(p.nivel) ? <img class="medalha" src={`/emoji/medalha-${medalha(p.nivel)}.webp`} alt="" width="64" height="64" loading="lazy" /> : <span class="medalha" aria-hidden="true" />}{tp.tr(p.nivel)}, {p.festival}
                 </span>
                 <span class="secundario">{p.slug ? <a href={rota(lang, `/projetos/${p.slug}/`)}>{p.projeto}</a> : p.projeto}</span>
               </li>
@@ -260,6 +261,11 @@ const faq = {
     gap: 1rem;
     padding: 0.55rem 0;
     border-bottom: 1px solid var(--linha);
+  }
+  /* recuo pendurado: quando o nível quebra linha, o texto continua alinhado depois da medalha (1.15em + 0.4em) */
+  .premios li > span:nth-child(2) {
+    padding-left: 1.55em;
+    text-indent: -1.55em;
   }
   .ouro {
     color: var(--caneta);

@@ -228,11 +228,11 @@ ol {
   }
 }
 
-/* troféu (emoji da Apple, public/emoji) ao lado de ouro, prata e bronze; shortlist fica sem */
-.trofeu {
+/* medalha da Apple (public/emoji) à esquerda do nível; na shortlist o espaço fica vazio e os textos alinham */
+.medalha {
   display: inline-block;
   width: 1.15em;
   height: 1.15em;
-  margin-left: 0.3em;
+  margin-right: 0.4em;
   vertical-align: -0.22em;
 }
