@@ -25,7 +25,7 @@ const en = lang === 'en';
             <img
               src={i.imagem.replace(/\.webp$/, '.min.webp')}
               srcset={srcset(i.imagem)}
-              sizes="(max-width: 560px) 92vw, (max-width: 1100px) 46vw, 30vw"
+              sizes="(max-width: 480px) 62vw, (max-width: 760px) 40vw, (max-width: 1100px) 26vw, 240px"
               width="1200"
               height="1200"
               alt={i.nome}
@@ -44,28 +44,55 @@ const en = lang === 'en';
 </Base>
 
 <style>
+  /* página centrada, itens em caixas no estilo de vitrine de produto (pedido do João) */
   .edc {
     padding: clamp(2.5rem, 8vh, 5rem) var(--margem) clamp(4rem, 12vh, 8rem);
+    text-align: center;
   }
   h1 {
     font-family: var(--display);
     font-weight: 800;
-    font-size: clamp(3.4rem, 11vw, 11rem);
+    font-size: clamp(3.4rem, 9vw, 8rem);
     line-height: 0.86;
     text-transform: uppercase;
   }
   .intro {
-    margin-top: 1rem;
+    margin-top: 0.9rem;
     font-size: var(--t-md);
+    color: var(--grafite);
   }
+  /* flex em vez de grid: a última linha incompleta fica centralizada */
   .grade {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.5rem);
-    margin-top: clamp(2.5rem, 6vh, 4rem);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+    max-width: 78rem;
+    margin: clamp(2.5rem, 6vh, 4rem) auto 0;
+  }
+  .item {
+    flex: 0 1 calc((100% - 3 * 1.25rem) / 4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.6rem 1.4rem 1.8rem;
+    background: #f4f4f1;
+    border-radius: 28px;
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.04),
+      0 8px 24px rgb(0 0 0 / 0.06);
+    transition:
+      transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+      box-shadow 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .item:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 2px 4px rgb(0 0 0 / 0.05),
+      0 16px 40px rgb(0 0 0 / 0.1);
   }
   .item img {
-    width: 100%;
+    width: 78%;
     height: auto;
     aspect-ratio: 1;
     object-fit: contain;
@@ -82,7 +109,7 @@ const en = lang === 'en';
     }
   }
   .tipo {
-    margin-top: 1rem;
+    margin-top: 0.9rem;
     font-size: var(--t-sm);
     color: var(--grafite);
   }
@@ -90,7 +117,7 @@ const en = lang === 'en';
     margin-top: 0.2rem;
     font-family: var(--display);
     font-weight: 800;
-    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-size: 1.6rem;
     line-height: 0.95;
     text-transform: uppercase;
   }
@@ -98,26 +125,41 @@ const en = lang === 'en';
     color: var(--caneta);
   }
   .texto {
-    margin-top: 0.5rem;
+    margin-top: 0.55rem;
+    font-size: var(--t-sm);
     line-height: 1.45;
-    max-width: 30rem;
+    color: var(--grafite);
   }
   .voltar {
     margin-top: clamp(3rem, 8vh, 5rem);
     font-weight: 600;
   }
-  @media (max-width: 1100px) {
-    .grade {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+  @media (prefers-reduced-motion: reduce) {
+    .item,
+    .item:hover {
+      transform: none;
     }
   }
-  @media (max-width: 560px) {
-    .grade {
-      grid-template-columns: 1fr;
+  @media (max-width: 1100px) {
+    .item {
+      flex-basis: calc((100% - 2 * 1.25rem) / 3);
     }
-    /* no celular a foto não precisa ocupar a tela toda */
+  }
+  @media (max-width: 760px) {
+    .item {
+      flex-basis: calc((100% - 1.25rem) / 2);
+    }
+  }
+  @media (max-width: 480px) {
+    .grade {
+      gap: 1rem;
+    }
+    .item {
+      flex-basis: 100%;
+      max-width: 22rem;
+    }
     .item img {
-      width: 72%;
+      width: 62%;
     }
   }
 </style>
