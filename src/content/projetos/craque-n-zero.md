@@ -6,7 +6,9 @@ discipline: "Campanha"
 context: "Competição Cria de Leão 2024"
 award: "Ouro no Cria de Leão 2024"
 role: "Direção de arte"
-credits: []
+credits:
+  - role: "Coautoria"
+    name: "João Roberto Freitas"
 order: 2
 logo: "/logos/budweiser.svg"
 cover: "/uploads/projetos/craque-n-zero/9e4c50199794697.6828babdd6114.webp"

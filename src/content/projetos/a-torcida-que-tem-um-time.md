@@ -8,7 +8,7 @@ award: ""
 role: "Direção de arte"
 credits:
   - role: "Coautoria"
-    name: "João Roberto Costa Pierete de Freitas"
+    name: "João Roberto Freitas"
   - role: "Orientação"
     name: "Matheus Monteiro Lima"
   - role: "Orientação"

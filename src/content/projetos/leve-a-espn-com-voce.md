@@ -6,7 +6,9 @@ discipline: "Campanha"
 context: "Competição Buu! Awards 2023"
 award: "Ouro no Buu! Awards 2023"
 role: "Direção de arte"
-credits: []
+credits:
+  - role: "Coautoria"
+    name: "Vitor Hugo Pattaro"
 order: 4
 logo: "/logos/espn.svg"
 cover: "/uploads/projetos/leve-a-espn-com-voce/970432174971935.64d5248067bc2.webp"

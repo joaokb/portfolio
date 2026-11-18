@@ -29,6 +29,16 @@ draft: false
 en:
   discipline: "Event visual identity"
   role: "Art direction"
+  body: |
+    The Festa do Branco was the first party of the year for Atlética Unesp Presidente Prudente: a post-New Year's open cooler college party.
+
+    The identity uses the white in the name as its base and adds one blue, with a set of geometric modules (stars, sparkles and simple shapes) that combine into strips and grids, plus a condensed type for the name, the date and the line "A primeira do ano" (the first one of the year).
+
+    It covered the event key visual, social media and print. The party brought together more than two thousand people.
 ---
 
+A Festa do Branco abriu o ano da Atlética Unesp Presidente Prudente: um open cooler universitário pós-réveillon.
 
+A identidade usa o branco do nome como base e soma um único azul, com um conjunto de módulos geométricos (estrelas, brilhos e formas simples) que se combinam em faixas e grades, e uma tipografia condensada para o nome, a data e a chamada "A primeira do ano".
+
+O trabalho cobriu o KV do evento, as redes sociais e as peças impressas. A festa reuniu mais de duas mil pessoas.

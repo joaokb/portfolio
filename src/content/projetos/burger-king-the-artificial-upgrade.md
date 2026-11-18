@@ -6,7 +6,9 @@ discipline: "Campanha"
 context: "Competição Young Lions Brasil 2023"
 award: "Ouro no FestVideo APCM Ribeirão 2025"
 role: "Direção de arte"
-credits: []
+credits:
+  - role: "Coautoria"
+    name: "Lucas Corazza"
 order: 3
 logo: "/logos/burger-king.svg"
 cover: "/uploads/projetos/burger-king-the-artificial-upgrade/4d7760168676849.643f1cee4a2cc.webp"
