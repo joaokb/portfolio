@@ -6,7 +6,7 @@ import { imageSize } from 'image-size';
 import { ui, rota, textoPerfil, type Lang } from '../i18n';
 import { medidas, srcset } from '../imagens';
 import Sticker from './Sticker.astro';
-import { publicados, dadosEn } from '../projetos';
+import { noIndice, dadosEn } from '../projetos';
 
 interface Props {
   lang: Lang;
@@ -34,14 +34,11 @@ function tamanhoLogo(src: string) {
   }
 }
 
-const projetos = (await publicados()).map((p) => ({ id: p.id, data: lang === 'en' ? dadosEn(p.data) : p.data }));
+const projetos = (await noIndice()).map((p) => ({ id: p.id, data: lang === 'en' ? dadosEn(p.data) : p.data }));
 const letras = [...perfil.nome.toUpperCase()];
 const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).href;
 // medalha da Apple (public/emoji) para cada nível; shortlist e finalista ficam sem
 const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'bronze' }) as Record<string, string>)[nivel];
-// legenda da board que abre em tela cheia (prêmio sem página de projeto)
-const legendaBoard = (p: { projeto: string; nivel: string; festival: string; ano: number; dupla?: string }) =>
-  `${p.projeto}. ${tp.tr(p.nivel)} ${lang === 'en' ? 'at' : 'no'} ${p.festival} ${p.ano}${p.dupla ? (lang === 'en' ? `. Partner: ${p.dupla}` : `. Dupla: ${p.dupla}`) : ''}.`;
 ---
 
 <Base>
@@ -158,7 +155,7 @@ const legendaBoard = (p: { projeto: string; nivel: string; festival: string; ano
             <span class="ano">{p.ano}</span>
             <span class:list={['nivel', { ouro: p.nivel === 'Ouro' }]}>{medalha(p.nivel) ? <img class="medalha" src={`/emoji/medalha-${medalha(p.nivel)}.webp`} alt="" width="64" height="64" loading="lazy" /> : <span class="medalha" aria-hidden="true" />}{tp.tr(p.nivel)}</span>
             <span>{p.festival}</span>
-            <span class="secundario">{p.slug ? <a href={rota(lang, `/projetos/${p.slug}/`)}>{p.projeto}</a> : p.board ? <a href={p.board} data-board data-legenda={legendaBoard(p)}>{p.projeto}</a> : p.projeto}</span>
+            <span class="secundario">{p.slug ? <a href={rota(lang, `/projetos/${p.slug}/`)}>{p.projeto}</a> : p.projeto}</span>
           </li>
         ))
       }

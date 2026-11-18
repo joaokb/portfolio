@@ -32,6 +32,8 @@ const projetos = defineCollection({
     embed: z.string().nullish().transform((v) => v ?? ''),
     behance: z.string().nullish().transform((v) => v ?? ''),
     draft: z.boolean().default(false),
+    // false: o case tem página, mas não entra no índice da home nem na grade de Links (ex.: só linkado de um prêmio)
+    indice: z.boolean().default(true),
     // versão em inglês (/en/); campo vazio cai no português
     en: z
       .object({

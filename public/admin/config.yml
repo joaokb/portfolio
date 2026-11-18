@@ -54,6 +54,7 @@ collections:
       - { name: behance, label: Link do Behance, widget: string, required: false }
       - { name: pdf, label: PDF do projeto, widget: file, required: false }
       - { name: draft, label: Rascunho (esconder do site), widget: boolean, default: false, required: false }
+      - { name: indice, label: Aparece no índice, widget: boolean, default: true, required: false, hint: 'Desmarque para o case ter página mas só ser linkado de outro lugar (ex.: de um prêmio)' }
       - name: en
         label: Versão em inglês
         widget: object
@@ -156,8 +157,6 @@ collections:
               - { name: festival, label: Festival, widget: string }
               - { name: projeto, label: Projeto, widget: string, required: false }
               - { name: slug, label: Página do projeto, widget: relation, collection: projetos, value_field: '{{slug}}', search_fields: [title], display_fields: [title], required: false }
-              - { name: board, label: 'Board (sem página de projeto)', widget: image, required: false, hint: 'Abre em tela cheia ao clicar no nome do projeto na lista de prêmios' }
-              - { name: dupla, label: Dupla, widget: string, required: false }
           - name: experiencia
             label: Experiência
             widget: list

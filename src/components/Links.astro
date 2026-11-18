@@ -4,7 +4,7 @@ import perfil from '../data/perfil.json';
 import links from '../data/links.json';
 import { existsSync } from 'node:fs';
 import { rota, textoPerfil, type Lang } from '../i18n';
-import { publicados, dadosEn } from '../projetos';
+import { noIndice, dadosEn } from '../projetos';
 import { srcset } from '../imagens';
 import Sticker from './Sticker.astro';
 
@@ -21,7 +21,7 @@ const capa = (src: string) => {
   return mini !== src && existsSync(`public${decodeURI(mini)}`) ? mini : src;
 };
 const ativos = links.links.filter((l) => l.ativo && l.id && l.url);
-const trabalhos = (await publicados()).slice(0, 6).map((p) => ({ id: p.id, data: en ? dadosEn(p.data) : p.data }));
+const trabalhos = (await noIndice()).slice(0, 6).map((p) => ({ id: p.id, data: en ? dadosEn(p.data) : p.data }));
 // todo clique passa por /ir/<id>, que conta e redireciona (worker/index.js)
 const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
 ---

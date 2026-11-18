@@ -130,28 +130,6 @@ const dados = {
         document.documentElement.dataset.chegada = 'vt';
       });
 
-      // Board de prêmio sem página de projeto: abre por cima da página, com a legenda; clique ou Esc fecha.
-      // Sem JavaScript (ou com Ctrl/Cmd), o link abre a imagem direto.
-      document.addEventListener('click', (e) => {
-        const a = (e.target as Element).closest?.<HTMLAnchorElement>('a[data-board]');
-        if (!a || e.ctrlKey || e.metaKey || e.shiftKey) return;
-        e.preventDefault();
-        let dlg = document.querySelector<HTMLDialogElement>('dialog.board');
-        if (!dlg) {
-          dlg = document.createElement('dialog');
-          dlg.className = 'board';
-          dlg.innerHTML = '<img alt=""><p></p>';
-          dlg.addEventListener('click', () => dlg!.close());
-          document.body.append(dlg);
-        }
-        const legenda = a.dataset.legenda ?? '';
-        dlg.querySelector('img')!.src = a.href;
-        dlg.querySelector('img')!.alt = legenda;
-        dlg.querySelector('p')!.textContent = legenda;
-        dlg.showModal();
-        // fase de captura: roda antes do roteador de transições, que trataria o link como navegação
-      }, true);
-
       // Sem menu do botão direito (exceto em campos de formulário, para colar).
       // shortcut: só dificulta salvar imagens; quem quiser ainda baixa pelo navegador
       document.addEventListener('contextmenu', (e) => {
