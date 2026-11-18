@@ -329,9 +329,13 @@ const foto = perfil.foto ? medidas(perfil.foto) : {};
       font-size: 15pt;
       margin-bottom: 2mm;
     }
+    /* cada seção (e cada dupla de seções lado a lado) vai inteira para a página; só uma seção maior que a folha se divide */
+    section,
+    .duas {
+      break-inside: avoid;
+    }
     section {
       margin-top: 6mm;
-      break-inside: auto;
     }
     .resumo {
       font-size: 10.5pt;
