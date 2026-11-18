@@ -6,6 +6,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { imageSize } from 'image-size';
 import { ui, rota, type Lang } from '../i18n';
 import { dadosEn } from '../projetos';
+import { srcset } from '../imagens';
 import medidas from '../data/medidas.json';
 
 // Dimensões: locais são lidas no build; externas (Behance) vêm de scripts/medir-imagens.mjs.
@@ -126,9 +127,18 @@ const video = d.video
               <div class="linha">
                 {row.map((img) => {
                   const i = (imagens as Img[]).indexOf(img);
+                  // fração da largura que a imagem ocupa na linha; a grade escondida pede a menor versão
+                  const f = ar(img) / row.reduce((s, x) => s + ar(x), 0);
+                  const sizes =
+                    g.classe === 'bento-desk'
+                      ? `(max-width: 760px) 1px, (max-width: 1440px) ${Math.ceil(f * 100)}vw, ${Math.ceil(f * 1400)}px`
+                      : `(min-width: 761px) 1px, ${Math.ceil(f * 100)}vw`;
                   return (
                     <img
                       src={img.src}
+                      srcset={srcset(img.src)}
+                      sizes={sizes}
+                      data-full={img.src}
                       width={img.w}
                       height={img.h}
                       style={`--ar:${ar(img).toFixed(4)}`}
@@ -481,7 +491,8 @@ const video = d.video
     };
     const mostrar = (n: number) => {
       atual = (n + lista.length) % lista.length;
-      foto.src = lista[atual].currentSrc || lista[atual].src;
+      // na galeria vai sempre o original, não a versão menor escolhida para a grade
+      foto.src = lista[atual].dataset.full || lista[atual].currentSrc;
       foto.alt = lista[atual].alt;
       contador.textContent = `${atual + 1} / ${lista.length}`;
       z = 1;

@@ -5,6 +5,7 @@ import links from '../data/links.json';
 import { existsSync } from 'node:fs';
 import { rota, textoPerfil, type Lang } from '../i18n';
 import { publicados, dadosEn } from '../projetos';
+import { srcset } from '../imagens';
 
 interface Props {
   lang: Lang;
@@ -13,9 +14,9 @@ const { lang } = Astro.props;
 const tp = textoPerfil(lang);
 const en = lang === 'en';
 
-// mesma miniatura leve usada na home
+// mesma miniatura leve usada na home (vale para .webp e para a foto em .jpg)
 const capa = (src: string) => {
-  const mini = src.replace(/\.webp$/, '.min.webp');
+  const mini = src.replace(/\.(webp|jpe?g|png)$/i, '.min.webp');
   return mini !== src && existsSync(`public${decodeURI(mini)}`) ? mini : src;
 };
 const ativos = links.links.filter((l) => l.ativo && l.id && l.url);
@@ -27,7 +28,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
 <Base title={`${perfil.nome}, links`} description={tp.bio}>
   <section class="links">
     <header class="perfil">
-      {perfil.foto && <img class="foto" src={perfil.foto} alt="" width="96" height="96" />}
+      {perfil.foto && <img class="foto" src={capa(perfil.foto)} srcset={srcset(perfil.foto)} sizes="96px" alt="" width="96" height="96" fetchpriority="high" />}
       <div>
         <h1 class="nome">{perfil.nome}</h1>
         <p class="cargo">{tp.cargo}</p>
@@ -48,10 +49,20 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
     <h2 class="rotulo">{en ? 'Selected work' : 'Trabalhos'}</h2>
     <ul class="grade">
       {
-        trabalhos.map((p) => (
+        trabalhos.map((p, i) => (
           <li>
             <a href={ir(`${en ? 'en-' : ''}trabalho-${p.id}`)}>
-              <img src={capa(p.data.preview || p.data.cover)} alt="" loading="lazy" decoding="async" />
+              {/* a primeira linha da grade costuma aparecer na primeira tela: carrega logo */}
+              <img
+                src={capa(p.data.preview || p.data.cover)}
+                srcset={srcset(p.data.preview || p.data.cover)}
+                sizes="(max-width: 560px) 31vw, 180px"
+                width="180"
+                height="225"
+                alt=""
+                loading={i < 3 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
               <span>{p.data.title}</span>
             </a>
           </li>

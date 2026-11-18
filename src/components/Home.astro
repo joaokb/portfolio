@@ -4,6 +4,7 @@ import perfil from '../data/perfil.json';
 import { readFileSync, existsSync } from 'node:fs';
 import { imageSize } from 'image-size';
 import { ui, rota, textoPerfil, type Lang } from '../i18n';
+import { medidas, srcset } from '../imagens';
 import { publicados, dadosEn } from '../projetos';
 
 interface Props {
@@ -62,13 +63,29 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
       {
         [0, 1].map((copia) => (
           <ul class="faixa-trilho" aria-hidden={copia ? 'true' : undefined}>
-            {projetos.map((p) => (
+            {projetos.map((p, i) => {
+              const original = p.data.preview || p.data.cover;
+              const { w, h } = medidas(original);
+              const r = w && h ? w / h : 1.5;
+              return (
               <li>
                 <a href={rota(lang, `/projetos/${p.id}/`)} tabindex={copia ? -1 : undefined}>
-                  <img src={capa(p.data.preview || p.data.cover)} alt={copia ? '' : p.data.title} loading={copia ? 'lazy' : 'eager'} decoding="async" />
+                  {/* altura da faixa: 7.5rem no celular, até 13rem; a largura acompanha a proporção */}
+                  <img
+                    src={capa(original)}
+                    srcset={srcset(original)}
+                    sizes={`(max-width: 760px) ${Math.ceil(r * 120)}px, ${Math.ceil(r * 208)}px`}
+                    width={w}
+                    height={h}
+                    alt={copia ? '' : p.data.title}
+                    loading={!copia && i < 6 ? 'eager' : 'lazy'}
+                    fetchpriority={!copia && i === 0 ? 'high' : 'auto'}
+                    decoding="async"
+                  />
                 </a>
               </li>
-            ))}
+              );
+            })}
           </ul>
         ))
       }
@@ -184,6 +201,12 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
     line-height: 0.82;
     text-transform: uppercase;
     white-space: nowrap;
+    /* altura fixa e layout isolado: o peso das letras mudando (cursor, onda) não recalcula o resto da página */
+    height: 0.82em;
+    contain: layout style;
+  }
+  .nome.parado .letra {
+    animation-play-state: paused;
   }
   /* fino em repouso; o cursor engrossa as letras perto dele */
   .letra {
@@ -916,6 +939,13 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
         signal,
       });
       signal.addEventListener('abort', () => cancelAnimationFrame(rafNome));
+    }
+
+    // a onda do nome (telas de toque) só roda enquanto o nome está na tela
+    if (nome) {
+      const vistoNome = new IntersectionObserver(([e]) => nome.classList.toggle('parado', !e.isIntersecting));
+      vistoNome.observe(nome);
+      signal.addEventListener('abort', () => vistoNome.disconnect());
     }
 
     // volta do formulário (FormSubmit redireciona com ?enviado=1)

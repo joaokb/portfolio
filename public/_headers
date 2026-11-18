@@ -1,0 +1,16 @@
+# Cache no navegador (Cloudflare lê este arquivo junto com os estáticos).
+# Arquivos do build têm hash no nome: podem ficar guardados para sempre.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Imagens e fontes mudam raramente; uma semana, e depois o navegador confere em segundo plano.
+/uploads/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/logos/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/cursor/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/favicon.png
+  Cache-Control: public, max-age=604800
+/og.png
+  Cache-Control: public, max-age=86400

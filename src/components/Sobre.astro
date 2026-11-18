@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import perfil from '../data/perfil.json';
 import { ui, rota, textoPerfil, type Lang } from '../i18n';
+import { medidas, srcset } from '../imagens';
 
 interface Props {
   lang: Lang;
@@ -18,7 +19,20 @@ const paragrafos = tp.sobre.split(/\n\s*\n/).filter(Boolean);
   <section class="sobre" aria-labelledby="titulo-sobre">
     <h1 id="titulo-sobre" class="rotulo">{t.sobre}</h1>
     <div class:list={['apresenta', { 'com-foto': perfil.foto }]}>
-      {perfil.foto && <img class="foto" src={perfil.foto} alt={`${t.fotoDe} ${perfil.nome}`} />}
+      {
+        perfil.foto && (
+          <img
+            class="foto"
+            src={perfil.foto}
+            srcset={srcset(perfil.foto)}
+            sizes="(max-width: 760px) min(22rem, 92vw), 26rem"
+            width={medidas(perfil.foto).w}
+            height={medidas(perfil.foto).h}
+            alt={`${t.fotoDe} ${perfil.nome}`}
+            fetchpriority="high"
+          />
+        )
+      }
       <div class="texto">
         {paragrafos.map((p) => <p>{p}</p>)}
         <p class="status secundario">{tp.status}</p>
