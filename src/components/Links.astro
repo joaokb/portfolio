@@ -28,6 +28,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
 
 <Base title={`${perfil.nome}, links`} description={tp.bio}>
   <section class="links">
+    <Sticker nome="freela" class="st-freela" style="--giro: -4deg" />
     <header class="perfil">
       <Sticker nome="selo" style="top: -0.9rem; left: -1.1rem; --giro: -12deg; --largura: 4.2rem" />
       {perfil.foto && <img class="foto" src={capa(perfil.foto)} srcset={srcset(perfil.foto)} sizes="96px" alt="" width="96" height="96" fetchpriority="high" />}
@@ -39,7 +40,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
     <p class="status"><span class="ponto" aria-hidden="true"></span>{tp.status}</p>
 
     <ul class="botoes">
-      <Sticker nome="linkbio" style="top: -1rem; right: 0.6rem; --giro: 8deg; --largura: 6.5rem" />
+      <Sticker nome="linkbio" class="st-linkbio" style="--giro: 8deg" />
       {
         ativos.map((l) => (
           <li>
@@ -49,7 +50,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
       }
     </ul>
 
-    <h2 class="rotulo">{en ? 'Selected work' : 'Trabalhos'}<Sticker nome="remoto" style="top: -1.6rem; right: 0; --giro: 5deg; --largura: clamp(9rem, 40vw, 11rem)" /></h2>
+    <h2 class="rotulo">{en ? 'Selected work' : 'Trabalhos'}<Sticker nome="remoto" class="st-remoto" style="--giro: 5deg" /></h2>
     <ul class="grade">
       {
         trabalhos.map((p, i) => (
@@ -73,7 +74,7 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
       }
     </ul>
 
-    <h2 class="rotulo">{en ? 'About' : 'Sobre'}<Sticker nome="freela" style="top: -2rem; right: 0; --giro: -5deg; --largura: clamp(8rem, 36vw, 10rem)" /></h2>
+    <h2 class="rotulo">{en ? 'About' : 'Sobre'}</h2>
     <p class="bio">{tp.bio}</p>
     <p class="mais"><a href={rota(lang, '/sobre/')}>{en ? 'More about me' : 'Mais sobre mim'}</a></p>
   </section>
@@ -81,9 +82,39 @@ const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
 
 <style>
   .links {
+    position: relative;
     max-width: 34rem;
     margin: 0 auto;
-    padding: clamp(1.5rem, 5vh, 3rem) var(--margem) clamp(3rem, 10vh, 5rem);
+    /* em cima sobra uma faixa para o adesivo "Disponível para freela" */
+    padding: clamp(4.5rem, 10vh, 5.5rem) var(--margem) clamp(3rem, 10vh, 5rem);
+  }
+  /* adesivos: no computador, Link na bio e Remoto OK ficam fora da coluna, no espaço livre;
+     no celular só o selo, o Disponível e o Remoto OK (pequeno, ao lado do título) */
+  .links :global(.st-freela) {
+    top: 1.1rem;
+    right: var(--margem);
+    --largura: 9.5rem;
+  }
+  .botoes :global(.st-linkbio) {
+    top: -0.6rem;
+    right: -8.5rem;
+    --largura: 7.5rem;
+  }
+  .rotulo :global(.st-remoto) {
+    top: 2.6rem;
+    left: -13rem;
+    --largura: 11.5rem;
+  }
+  @media (max-width: 960px) {
+    .botoes :global(.st-linkbio) {
+      display: none;
+    }
+    .rotulo :global(.st-remoto) {
+      top: -0.7rem;
+      left: auto;
+      right: 0;
+      --largura: 8rem;
+    }
   }
   .perfil {
     position: relative;

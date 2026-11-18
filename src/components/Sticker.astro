@@ -149,8 +149,8 @@ const estrela = (r1: number, r2: number) =>
         <rect x="10" y="10" width="230" height="72" rx="36" fill={CANETA} />
         <circle cx="44" cy="46" r="11" fill={AMARELO} />
         <circle cx="44" cy="46" r="17" fill="none" stroke={AMARELO} stroke-width="2" opacity="0.5" />
-        <text x="72" y="52" textLength="146" lengthAdjust="spacingAndGlyphs" font-family={D} font-weight="800" font-size="34" fill={PAPEL}>DISPONÍVEL</text>
-        <text x="72" y="69" textLength="146" lengthAdjust="spacingAndGlyphs" font-family={T} font-weight="700" font-size="10" fill={PAPEL}>PARA FREELA</text>
+        <text x="72" y="54" font-family={D} font-weight="800" font-size="34" fill={PAPEL}>DISPONÍVEL</text>
+        <text x="73" y="70" font-family={T} font-weight="700" font-size="10" letter-spacing="1.6" fill={PAPEL}>PARA FREELA</text>
       </svg>
     )
   }
@@ -181,8 +181,9 @@ const estrela = (r1: number, r2: number) =>
         <circle cx="34" cy="59" r="7" fill="#fff" stroke="#000" stroke-width="2.5" />
         <rect x="54" y="20" width="204" height="24" fill={CANETA} />
         <text x="156" y="38" text-anchor="middle" font-family={T} font-weight="700" font-size="13" fill={PAPEL} letter-spacing="3">REMOTO OK</text>
-        <text x="58" y="66" textLength="196" lengthAdjust="spacingAndGlyphs" font-family={T} font-weight="600" font-size="12" fill="#5b5d57">PRESIDENTE PRUDENTE / SP</text>
-        <text x="58" y="98" textLength="196" lengthAdjust="spacingAndGlyphs" font-family={D} font-weight="800" font-size="32" fill="#000">→ QUALQUER LUGAR</text>
+        <text x="58" y="66" font-family={T} font-weight="600" font-size="11.5" fill="#5b5d57">PRESIDENTE PRUDENTE / SP</text>
+        <path d="M58 88 H80 M72 80 L80 88 L72 96" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+        <text x="88" y="98" font-family={D} font-weight="800" font-size="27" fill="#000">QUALQUER LUGAR</text>
       </svg>
     )
   }
