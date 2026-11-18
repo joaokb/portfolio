@@ -69,6 +69,25 @@ collections:
           - { name: body, label: Texto do case, widget: text, required: false, hint: 'Parágrafos separados por uma linha em branco' }
       - { name: body, label: Texto do case, widget: markdown, required: false, buttons: [bold, italic, link] }
 
+  - name: bio
+    label: Links da bio
+    files:
+      - name: links
+        label: Página /links (Instagram)
+        file: src/data/links.json
+        fields:
+          - name: links
+            label: Links
+            widget: list
+            summary: '{{titulo}} ({{url}})'
+            hint: 'A ordem aqui é a ordem na página. Desmarque "Ativo" para esconder sem apagar.'
+            fields:
+              - { name: id, label: 'Apelido (curto, sem espaço, ex.: behance)', widget: string, hint: 'Aparece no endereço /ir/apelido e na página de números. Não mude depois, senão a contagem recomeça.' }
+              - { name: titulo, label: Texto do botão, widget: string }
+              - { name: titulo_en, label: Texto do botão em inglês, widget: string, required: false }
+              - { name: url, label: Endereço, widget: string }
+              - { name: ativo, label: Ativo, widget: boolean, default: true }
+
   - name: site
     label: Sobre e contato
     files:

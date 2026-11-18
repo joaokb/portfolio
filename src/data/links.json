@@ -1,0 +1,32 @@
+{
+  "links": [
+    {
+      "id": "portfolio",
+      "titulo": "Portfólio",
+      "titulo_en": "Portfolio",
+      "url": "https://joaokavalchuk.com/",
+      "ativo": true
+    },
+    {
+      "id": "behance",
+      "titulo": "Behance",
+      "titulo_en": "Behance",
+      "url": "https://www.behance.net/joaokavalchuk",
+      "ativo": true
+    },
+    {
+      "id": "linkedin",
+      "titulo": "LinkedIn",
+      "titulo_en": "LinkedIn",
+      "url": "https://www.linkedin.com/in/joaokavalchuk/",
+      "ativo": true
+    },
+    {
+      "id": "whatsapp",
+      "titulo": "WhatsApp",
+      "titulo_en": "WhatsApp",
+      "url": "https://wa.me/5518991467500?text=Oi%2C%20Jo%C3%A3o!%20Vim%20pelo%20seu%20Instagram.",
+      "ativo": true
+    }
+  ]
+}

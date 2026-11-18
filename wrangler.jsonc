@@ -1,11 +1,18 @@
 // Publicação na Cloudflare (Workers com arquivos estáticos).
 // A Cloudflare roda `npm run build` e depois `npx wrangler deploy`, que envia a pasta dist.
+// O site é estático; o worker/index.js só atende /ir/* (conta cliques da página de links) e /numeros.
 {
   "name": "joaokavalchuk",
+  "main": "worker/index.js",
   "compatibility_date": "2026-11-01",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
     // endereço inexistente mostra a página 404.html do site
-    "not_found_handling": "404-page"
-  }
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/ir/*", "/numeros", "/numeros/*"]
+  },
+  // contagem de visitas e cliques da página /links, por mês
+  "kv_namespaces": [{ "binding": "CLIQUES", "id": "461d9491103e403d8fa20e939992be31" }]
+  // a senha de /numeros é o secret SENHA_NUMEROS (npx wrangler secret put SENHA_NUMEROS)
 }
