@@ -5,6 +5,7 @@ import '@fontsource-variable/schibsted-grotesk';
 import '../styles/global.css';
 import perfil from '../data/perfil.json';
 import destaques from '../data/destaques.json';
+import links from '../data/links.json';
 import { ui, rota, langDe, outraRota, textoPerfil } from '../i18n';
 import fonteDisplay from '@fontsource-variable/big-shoulders-display/files/big-shoulders-display-latin-wght-normal.woff2?url';
 import fonteTexto from '@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url';
@@ -13,6 +14,8 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  /** dados estruturados extras da página (CreativeWork do case, FAQPage do Sobre) */
+  schema?: Record<string, unknown>[];
 }
 // cor de destaque escolhida em perfil.json; todas passam de 4.5:1 de contraste sobre o papel
 // (lista em src/data/destaques.json, usada também por scripts/gerar-og.mjs)
@@ -20,22 +23,53 @@ const destaque = (destaques as Record<string, string>)[perfil.destaque] ?? desta
 const lang = langDe(Astro.url);
 const t = ui[lang];
 const tp = textoPerfil(lang);
+const en = lang === 'en';
+// título e descrição padrão (home) com cidade: é o que a busca local lê primeiro. Descrição até ~155 caracteres.
 const {
-  title = `${perfil.nome}, ${tp.cargo.toLowerCase()}`,
-  description = tp.bio,
+  title = en
+    ? `${perfil.nome}, art director in Presidente Prudente, Brazil`
+    : `${perfil.nome}, diretor de arte em ${perfil.cidade}`,
+  description = en
+    ? `${perfil.nome}, art director based in Presidente Prudente, Brazil. 7 years in advertising, with award-winning campaigns, key visuals and visual identities.`
+    : `${perfil.nome}, diretor de arte em ${perfil.cidade}. 7 anos em publicidade, com campanhas, key visuals e identidades visuais premiadas.`,
   image,
+  schema = [],
 } = Astro.props;
-const url = new URL(Astro.url.pathname, Astro.site);
+const site = Astro.site!;
+const url = new URL(Astro.url.pathname, site);
+// versões nas duas línguas, para o hreflang de cada página apontar para si mesma e para a outra
+const outra = new URL(outraRota(Astro.url), site);
+const urlPt = en ? outra : url;
+const urlEn = en ? url : outra;
 // ?v= muda quando a og.png é refeita (scripts/gerar-og.mjs), para WhatsApp e LinkedIn buscarem a nova
-const imagemOg = image ?? new URL('/og.png?v=2', Astro.site).href;
+const imagemOg = image ?? new URL('/og.png?v=2', site).href;
+const whatsapp = links.links.find((l) => l.id === 'whatsapp')?.url.match(/wa\.me\/(\d+)/)?.[1];
+const idPessoa = new URL('/#joao', site).href;
 const pessoa = {
-  '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': idPessoa,
   name: perfil.nome,
+  url: site.href,
+  image: new URL(perfil.foto, site).href,
   jobTitle: tp.cargo,
+  description: tp.bio,
   email: `mailto:${perfil.email}`,
+  ...(whatsapp && { telephone: `+${whatsapp}` }),
   address: { '@type': 'PostalAddress', addressLocality: 'Presidente Prudente', addressRegion: 'SP', addressCountry: 'BR' },
-  sameAs: perfil.links.map((l) => l.url),
+  homeLocation: { '@type': 'City', name: 'Presidente Prudente, SP' },
+  knowsAbout: perfil.competencias.map(tp.tr),
+  award: perfil.premios.map((p) => `${tp.tr(p.nivel)}, ${p.festival} ${p.ano} (${p.projeto})`),
+  alumniOf: [...new Set(perfil.formacao.map((f) => f.instituicao))].map((name) => ({ '@type': 'CollegeOrUniversity', name })),
+  // só perfis externos; o próprio site já é a url
+  sameAs: perfil.links.map((l) => l.url).filter((u) => !u.startsWith(site.origin)),
+};
+const dados = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    pessoa,
+    { '@type': 'WebSite', '@id': new URL('/#site', site).href, url: site.href, name: perfil.nome, inLanguage: ['pt-BR', 'en'], publisher: { '@id': idPessoa } },
+    ...schema,
+  ],
 };
 ---
 
@@ -54,7 +88,9 @@ const pessoa = {
     <meta property="og:url" content={url} />
     <meta property="og:type" content={image ? 'article' : 'profile'} />
     <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'pt_BR'} />
-    <link rel="alternate" hreflang={lang === 'en' ? 'pt-BR' : 'en'} href={new URL(outraRota(Astro.url), Astro.site)} />
+    <link rel="alternate" hreflang="pt-BR" href={urlPt} />
+    <link rel="alternate" hreflang="en" href={urlEn} />
+    <link rel="alternate" hreflang="x-default" href={urlPt} />
     <meta property="og:image" content={imagemOg} />
     {
       !image && (
@@ -66,7 +102,7 @@ const pessoa = {
       )
     }
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json" set:html={JSON.stringify(pessoa)} />
+    <script type="application/ld+json" set:html={JSON.stringify(dados)} />
     <meta name="theme-color" content="#e4e5e0" />
     <link rel="icon" href="/favicon.png" type="image/png" />
     <ClientRouter fallback="swap" />

@@ -20,7 +20,12 @@ const site = new URL('/', Astro.site).href.replace(/\/$/, '');
 const foto = perfil.foto ? medidas(perfil.foto) : {};
 ---
 
-<Base title={`${t.titulo}, ${perfil.nome}`} description={tp.bio}>
+<Base
+  title={`${t.titulo}, ${perfil.nome}`}
+  description={lang === 'en'
+    ? `Résumé of ${perfil.nome}, art director in Presidente Prudente, Brazil: experience, awards and education, with a PDF version.`
+    : `Currículo de ${perfil.nome}, diretor de arte em ${perfil.cidade}: experiência, prêmios e formação, com versão em PDF.`}
+>
   <article class="cv">
     <div class="acoes" data-acoes>
       <button type="button" class="primario" data-pdf>{t.pdf}</button>

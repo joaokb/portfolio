@@ -26,7 +26,12 @@ const trabalhos = (await publicados()).slice(0, 6).map((p) => ({ id: p.id, data:
 const ir = (id: string) => `/ir/${encodeURIComponent(id)}`;
 ---
 
-<Base title={`${perfil.nome}, links`} description={tp.bio}>
+<Base
+  title={`${perfil.nome}, links`}
+  description={en
+    ? `Links for ${perfil.nome}, art director in Presidente Prudente, Brazil: portfolio, Behance, LinkedIn and WhatsApp.`
+    : `Links de ${perfil.nome}, diretor de arte em ${perfil.cidade}: portfólio, Behance, LinkedIn e WhatsApp.`}
+>
   <section class="links">
     <Sticker nome="freela" class="st-freela" style="--giro: -4deg" />
     <header class="perfil">

@@ -65,6 +65,24 @@ const embed = d.embed;
 const tituloQuebravel = d.title.replace(/([a-zà-ÿ])([A-Z])/g, '$1­$2');
 const resumo = (paragrafosEn?.[0] ?? (projeto.body ?? '').trim().split(/\n\n/)[0])?.slice(0, 155);
 
+// título e alt dizem o que é o trabalho e de qual marca; sem "para", porque case de competição não teve a marca como cliente.
+// Quando projeto e marca têm o mesmo nome, não repete.
+const oQue = d.title === d.client ? `${d.title}, ${d.discipline.toLowerCase()}` : `${d.title}, ${d.discipline.toLowerCase()}, ${d.client}`;
+const tituloPagina = `${oQue} | João Kavalchuk`;
+const obra = {
+  '@type': 'CreativeWork',
+  name: d.title,
+  genre: d.discipline,
+  dateCreated: String(d.year),
+  inLanguage: lang === 'en' ? 'en' : 'pt-BR',
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  image: new URL(d.cover, Astro.site).href,
+  creator: { '@id': new URL('/#joao', Astro.site).href },
+  about: { '@type': 'Organization', name: d.client },
+  ...(d.award && { award: d.award }),
+  ...(d.context && { description: d.context }),
+};
+
 const creditoEn: Record<string, string> = { Coautoria: 'Co-author', Orientação: 'Advisor', Redação: 'Copywriting' };
 const ficha = [
   [t.marca, d.client],
@@ -83,7 +101,7 @@ const video = d.video
   : '';
 ---
 
-<Base title={`${d.title}, ${d.client}`} description={resumo || `${d.discipline}, ${d.client}, ${d.year}${d.context ? `. ${d.context}` : ''}.`} image={d.cover}>
+<Base title={tituloPagina} description={resumo || `${d.discipline}, ${d.client}, ${d.year}${d.context ? `. ${d.context}` : ''}.`} image={d.cover} schema={[obra]}>
   <article class="caso">
     <header class="cabeca">
       <a class="voltar" href={rota(lang, '/#trabalhos')}>{t.todos}</a>
@@ -142,7 +160,7 @@ const video = d.video
                       width={img.w}
                       height={img.h}
                       style={`--ar:${ar(img).toFixed(4)}`}
-                      alt={`${d.title}, ${t.imagem} ${i + 1} ${t.de} ${imagens.length}`}
+                      alt={`${oQue}, ${t.imagem} ${i + 1} ${t.de} ${imagens.length}`}
                       loading={i === 0 ? 'eager' : 'lazy'}
                       fetchpriority={i === 0 ? 'high' : 'auto'}
                       decoding="async"
