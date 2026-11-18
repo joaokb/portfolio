@@ -14,7 +14,7 @@ export const GET: APIRoute = async ({ site }) => {
       (d.award ? ` ${d.award}.` : ''),
   );
   const texto = [
-    `# ${perfil.nome}, ${perfil.cargo.toLowerCase()} em ${perfil.cidade}`,
+    `# ${perfil.nome}, ${perfil.cargo.toLowerCase()} e designer gráfico em ${perfil.cidade}`,
     '',
     `> ${perfil.bio}`,
     '',

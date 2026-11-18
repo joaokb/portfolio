@@ -26,12 +26,13 @@ const tp = textoPerfil(lang);
 const en = lang === 'en';
 // título e descrição padrão (home) com cidade: é o que a busca local lê primeiro. Descrição até ~155 caracteres.
 const {
+  // "designer" junto: é o termo mais buscado por quem contrata na região; diretor de arte vem na frente (é a vaga buscada)
   title = en
-    ? `${perfil.nome}, art director in Presidente Prudente, Brazil`
-    : `${perfil.nome}, diretor de arte em ${perfil.cidade}`,
+    ? `${perfil.nome}, art director and designer in Presidente Prudente, Brazil`
+    : `${perfil.nome}, diretor de arte e designer em ${perfil.cidade}`,
   description = en
-    ? `${perfil.nome}, art director based in Presidente Prudente, Brazil. 7 years in advertising, with award-winning campaigns, key visuals and visual identities.`
-    : `${perfil.nome}, diretor de arte em ${perfil.cidade}. 7 anos em publicidade, com campanhas, key visuals e identidades visuais premiadas.`,
+    ? `${perfil.nome}, art director and designer in Presidente Prudente, Brazil. 7 years in advertising: campaigns, visual identity and graphic design.`
+    : `${perfil.nome}, diretor de arte e designer em ${perfil.cidade}. 7 anos em publicidade, com campanhas, identidade visual e design gráfico.`,
   image,
   schema = [],
 } = Astro.props;
@@ -51,13 +52,13 @@ const pessoa = {
   name: perfil.nome,
   url: site.href,
   image: new URL(perfil.foto, site).href,
-  jobTitle: tp.cargo,
+  jobTitle: [tp.cargo, en ? 'Graphic designer' : 'Designer gráfico'],
   description: tp.bio,
   email: `mailto:${perfil.email}`,
   ...(whatsapp && { telephone: `+${whatsapp}` }),
   address: { '@type': 'PostalAddress', addressLocality: 'Presidente Prudente', addressRegion: 'SP', addressCountry: 'BR' },
   homeLocation: { '@type': 'City', name: 'Presidente Prudente, SP' },
-  knowsAbout: perfil.competencias.map(tp.tr),
+  knowsAbout: [en ? 'Graphic design' : 'Design gráfico', ...perfil.competencias.map(tp.tr)],
   award: perfil.premios.map((p) => `${tp.tr(p.nivel)}, ${p.festival} ${p.ano} (${p.projeto})`),
   alumniOf: [...new Set(perfil.formacao.map((f) => f.instituicao))].map((name) => ({ '@type': 'CollegeOrUniversity', name })),
   // só perfis externos; o próprio site já é a url

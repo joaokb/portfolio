@@ -36,7 +36,7 @@ const perguntas = [
   {
     p: en ? 'What kind of work does he do?' : 'Que tipo de trabalho ele faz?',
     // no meio da frase vai em minúscula, menos siglas como UI
-    r: `${lista(perfil.competencias.map(tp.tr).map((c, i) => (i && /^[A-ZÀ-Ý][a-zà-ÿ]/.test(c) ? c[0].toLowerCase() + c.slice(1) : c)))}.`,
+    r: `${lista([perfil.competencias[0], en ? 'Graphic design' : 'Design gráfico', ...perfil.competencias.slice(1)].map(tp.tr).map((c, i) => (i && /^[A-ZÀ-Ý][a-zà-ÿ]/.test(c) ? c[0].toLowerCase() + c.slice(1) : c)))}.`,
   },
   {
     p: en ? 'Where has he worked?' : 'Onde ele já trabalhou?',
@@ -66,8 +66,8 @@ const faq = {
 <Base
   title={en ? `About ${perfil.nome}, art director in Presidente Prudente, Brazil` : `Sobre ${perfil.nome}, diretor de arte em ${perfil.cidade}`}
   description={en
-    ? `${perfil.nome}, art director in Presidente Prudente, Brazil: experience, awards, education, tools and frequently asked questions.`
-    : `${perfil.nome}, diretor de arte em ${perfil.cidade}: experiência, prêmios, formação, ferramentas e perguntas frequentes.`}
+    ? `${perfil.nome}, art director and designer in Presidente Prudente, Brazil: experience, awards, education, tools and frequently asked questions.`
+    : `${perfil.nome}, diretor de arte e designer em ${perfil.cidade}: experiência, prêmios, formação, ferramentas e perguntas frequentes.`}
   schema={[faq]}
 >
   <section class="sobre" aria-labelledby="titulo-sobre">
