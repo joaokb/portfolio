@@ -1,54 +1,228 @@
 ---
 import Base from '../layouts/Base.astro';
-import { ui } from '../i18n';
-// Cloudflare Pages serve este 404.html para qualquer endereço inexistente, nas duas línguas
-const pt = ui.pt;
-const en = ui.en;
+// Cloudflare serve este 404.html para qualquer endereço inexistente, nas duas línguas.
+// Conceito: rafe de layout reprovado, riscado com a caneta de destaque e cheio de anotações de agência.
 ---
 
-<Base title={`${pt.erroTitulo}, João Kavalchuk`}>
+<Base title="Página não encontrada, João Kavalchuk">
   <section class="erro">
-    <p class="codigo" aria-hidden="true">404</p>
-    <h1>{pt.erroTitulo}</h1>
-    <p>{pt.erroTexto}</p>
-    <p class="secundario" lang="en">{en.erroTitulo}. {en.erroTexto}</p>
-    <p class="acoes">
-      <a href="/">{pt.voltar}</a>
-      <a href="/en/" lang="en">{en.voltar}</a>
-    </p>
+    <div class="rafe">
+      <button type="button" class="codigo" data-logo aria-label="404. Clique para aumentar o logo">
+        <span>404</span>
+        <svg class="risco" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
+          <path pathLength="1" d="M2 30 C 20 22, 40 26, 55 18 S 85 8, 98 12" />
+          <path pathLength="1" d="M4 12 C 25 18, 45 14, 60 24 S 88 32, 97 28" />
+        </svg>
+      </button>
+      <p class="nota nota-1" aria-hidden="true">reprovado pelo cliente</p>
+      <p class="nota nota-2" data-pedido aria-live="polite">aumenta o logo?</p>
+    </div>
+
+    <ul class="notas" aria-label="Anotações do rafe">
+      <li><span>prazo:</span> ontem</li>
+      <li><span>arquivo:</span> 404_v3_final_FINAL_agora-vai.psd</li>
+      <li><span>feedback:</span> “gostei, mas não é isso”</li>
+    </ul>
+
+    <h1>Esta página não passou na aprovação.</h1>
+    <p class="texto">O endereço que você procurou mudou ou nunca existiu. A boa notícia: o resto do site foi aprovado de primeira.</p>
+    <p class="texto secundario" lang="en">Page not found. This layout got rejected, but the rest of the site is live.</p>
+
+    <nav class="atalhos" aria-label="Atalhos">
+      <a href="/">Home</a>
+      <a href="/#trabalhos">Trabalhos</a>
+      <a href="/sobre/">Sobre</a>
+      <a href="/#contato">Contato</a>
+      <a href="/en/" lang="en">English</a>
+    </nav>
   </section>
 </Base>
 
 <style>
   .erro {
-    padding: clamp(2rem, 8vh, 5rem) var(--margem) clamp(4rem, 12vh, 8rem);
-    max-width: calc(var(--coluna) + 2 * var(--margem));
+    padding: clamp(1.5rem, 6vh, 4rem) var(--margem) clamp(4rem, 12vh, 8rem);
+    max-width: calc(46rem + 2 * var(--margem));
+    /* o 404 ampliado nunca cria rolagem lateral */
+    overflow-x: clip;
+  }
+  .rafe {
+    position: relative;
+    width: fit-content;
+    padding-right: clamp(0rem, 8vw, 8rem);
   }
   .codigo {
+    position: relative;
+    display: block;
+    font: inherit;
+    color: var(--tinta);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: zoom-in;
+  }
+  .codigo span {
+    display: block;
     font-family: var(--display);
-    font-size: clamp(9rem, 38vw, 30rem);
+    font-size: clamp(9rem, 36vw, 26rem);
     line-height: 0.8;
     font-weight: 900;
-    color: var(--caneta);
-    animation: pesar 1.2s cubic-bezier(0.23, 1, 0.32, 1) both;
+    transform-origin: left bottom;
+    transform: scale(var(--escala, 1));
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  @keyframes pesar {
-    from {
-      font-weight: 100;
+  /* risco de caneta desenhado por cima, como em prova reprovada */
+  .risco {
+    position: absolute;
+    inset: 8% -2% 8% -2%;
+    width: 104%;
+    height: 84%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .risco path {
+    fill: none;
+    stroke: var(--caneta);
+    stroke-width: 5;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    /* intervalo maior que o traço: antes de riscar não sobra a bolinha da ponta arredondada */
+    stroke-dasharray: 1 2;
+    stroke-dashoffset: 1.5;
+    animation: riscar 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  .risco path + path {
+    animation-delay: 0.45s;
+  }
+  @keyframes riscar {
+    to {
+      stroke-dashoffset: 0;
     }
   }
-  h1 {
-    margin-top: 1.5rem;
-    font-size: var(--t-lg);
+
+  /* anotações à mão, na caneta de destaque, levemente tortas */
+  .nota {
+    position: absolute;
+    color: var(--caneta);
     font-weight: 600;
+    font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+    white-space: nowrap;
+    opacity: 0;
+    animation: anotar 0.4s ease-out forwards;
   }
-  p {
-    margin-top: 0.75rem;
+  .nota-1 {
+    top: -0.4rem;
+    right: 0;
+    rotate: 6deg;
+    animation-delay: 1s;
   }
-  .acoes {
+  .nota-2 {
+    bottom: 0.2rem;
+    right: -0.5rem;
+    rotate: -4deg;
+    padding: 0.1rem 0.5rem;
+    border: 2px solid var(--caneta);
+    border-radius: 50%;
+    animation-delay: 1.3s;
+  }
+  @keyframes anotar {
+    from {
+      opacity: 0;
+      translate: 0 0.4rem;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  .notas {
     display: flex;
-    gap: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    margin-top: 1.75rem;
+    color: var(--caneta);
+    font-size: var(--t-sm);
+  }
+  .notas span {
+    color: var(--grafite);
+  }
+  h1 {
     margin-top: 2rem;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+  .texto {
+    margin-top: 0.9rem;
+    max-width: 36rem;
+    font-size: var(--t-md);
+    line-height: 1.4;
+  }
+  .texto.secundario {
+    font-size: var(--t-base);
+  }
+  .atalhos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 2rem;
+  }
+  .atalhos a {
+    padding: 0.7rem 1.1rem;
+    border: 1px solid var(--tinta);
     font-weight: 600;
+    text-decoration: none;
+  }
+  .atalhos a:first-child,
+  .atalhos a:hover,
+  .atalhos a:focus-visible {
+    background: var(--caneta);
+    border-color: var(--caneta);
+    color: var(--papel);
+  }
+
+  @media (max-width: 760px) {
+    .rafe {
+      padding-right: 0;
+    }
+    .nota-1 {
+      top: -1.6rem;
+    }
+    /* no celular a nota do logo cresce para a direita, a partir da margem, e nunca sai da tela */
+    .nota-2 {
+      right: auto;
+      left: 0;
+      bottom: -1.8rem;
+    }
+    .notas {
+      margin-top: 2.75rem;
+      flex-direction: column;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .risco path {
+      stroke-dashoffset: 0;
+    }
+    .nota {
+      opacity: 1;
+    }
   }
 </style>
+
+<script>
+  // Clique no 404: "aumenta o logo", como pede todo cliente. Depois de três vezes, volta ao tamanho original.
+  const pedidos = ['aumenta o logo?', 'mais um pouco', 'agora sim, só mais um pouco', 'tá grande demais, volta como era'];
+  document.addEventListener('astro:page-load', () => {
+    const botao = document.querySelector<HTMLElement>('[data-logo]');
+    const pedido = document.querySelector<HTMLElement>('[data-pedido]');
+    if (!botao || !pedido) return;
+    let vez = 0;
+    botao.addEventListener('click', () => {
+      vez = (vez + 1) % pedidos.length;
+      botao.style.setProperty('--escala', String(vez === 0 ? 1 : 1 + vez * 0.12));
+      pedido.textContent = pedidos[vez];
+    });
+  });
+</script>
