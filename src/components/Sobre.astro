@@ -26,35 +26,26 @@ const clientes = [
       .map((p) => p.data.client),
   ),
 ];
-const empresas = perfil.experiencia.map((e) => e.empresa);
 const lista = (itens: string[]) => (itens.length > 1 ? `${itens.slice(0, -1).join(', ')} ${en ? 'and' : 'e'} ${itens.at(-1)}` : itens[0] ?? '');
+const ouros = perfil.premios.filter((x) => x.nivel === 'Ouro').map((x) => `${tp.tr(x.nivel)} ${en ? 'at' : 'no'} ${x.festival} ${x.ano} (${x.projeto})`);
+// Três respostas-resumo, pensadas para busca e IA: o detalhe (experiência, prêmios, ferramentas) já está nas tabelas
+// acima, no JSON-LD do Person e no /llms.txt. Cada resposta se sustenta sozinha, com nome e cidade.
 const perguntas = [
   {
-    p: en ? `Where is ${perfil.nome} based?` : `Onde ${perfil.nome} atua?`,
-    r: en ? `In Presidente Prudente, Brazil. ${tp.status}` : `Em ${perfil.cidade}. ${tp.status}`,
-  },
-  {
-    p: en ? 'What kind of work does he do?' : 'Que tipo de trabalho ele faz?',
-    // no meio da frase vai em minúscula, menos siglas como UI
-    r: `${lista([perfil.competencias[0], en ? 'Graphic design' : 'Design gráfico', ...perfil.competencias.slice(1)].map(tp.tr).map((c, i) => (i && /^[A-ZÀ-Ý][a-zà-ÿ]/.test(c) ? c[0].toLowerCase() + c.slice(1) : c)))}.`,
-  },
-  {
-    p: en ? 'Where has he worked?' : 'Onde ele já trabalhou?',
+    p: en ? `Who is ${perfil.nome}?` : `Quem é ${perfil.nome}?`,
     r: en
-      ? `${lista(empresas)}. Clients in the portfolio include ${lista(clientes)}.`
-      : `${lista(empresas)}. Entre os clientes do portfólio estão ${lista(clientes)}.`,
+      ? `An art director and graphic designer based in Presidente Prudente, Brazil, with 7 years in advertising. He works on campaigns, key visuals, visual identity and graphic design, from concept to final piece.`
+      : `Diretor de arte e designer gráfico em ${perfil.cidade}, com 7 anos em publicidade. Trabalha com campanhas, key visuals, identidade visual e design gráfico, do conceito à peça final.`,
   },
   {
-    p: en ? 'Has he won any awards?' : 'Ele tem prêmios?',
-    r: `${lista(perfil.premios.map((x) => `${tp.tr(x.nivel)} ${en ? 'at' : 'no'} ${x.festival} ${x.ano} (${x.projeto})`))}.`,
+    p: en ? `How can I hire ${perfil.nome}?` : `Como contratar ${perfil.nome}?`,
+    r: en ? `${tp.status} Contact: ${perfil.email}.` : `${tp.status} Contato: ${perfil.email}.`,
   },
   {
-    p: en ? 'Which tools does he use?' : 'Quais ferramentas ele usa?',
-    r: `${perfil.ferramentas}.`,
-  },
-  {
-    p: en ? 'How can I contact him?' : 'Como entrar em contato?',
-    r: en ? `By email at ${perfil.email}.` : `Pelo e-mail ${perfil.email}.`,
+    p: en ? 'What are his main awards and clients?' : 'Quais são os principais prêmios e clientes?',
+    r: en
+      ? `${lista(ouros)}, among ${perfil.premios.length} awards and shortlists. Clients in the portfolio include ${lista(clientes)}.`
+      : `${lista(ouros)}, entre ${perfil.premios.length} prêmios e shortlists. Entre os clientes do portfólio estão ${lista(clientes)}.`,
   },
 ];
 const faq = {
@@ -322,15 +313,19 @@ const faq = {
     margin-top: clamp(3rem, 10vh, 6rem);
     max-width: 48rem;
   }
+  /* resumo para busca e IA: menor e mais discreto que o resto da página */
+  .faq dl {
+    font-size: var(--t-sm);
+  }
   .faq dl > div {
-    padding: 0.9rem 0;
+    padding: 0.7rem 0;
     border-bottom: 1px solid var(--linha);
   }
   .faq dt {
     font-weight: 600;
   }
   .faq dd {
-    margin: 0.3rem 0 0;
+    margin: 0.25rem 0 0;
     color: var(--grafite);
     line-height: 1.45;
     text-wrap: pretty;
