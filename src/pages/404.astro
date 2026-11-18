@@ -39,7 +39,8 @@ import Base from '../layouts/Base.astro';
 
 <style>
   .erro {
-    padding: clamp(1.5rem, 6vh, 4rem) var(--margem) clamp(4rem, 12vh, 8rem);
+    /* espaço em cima para a anotação "reprovado pelo cliente" */
+    padding: clamp(4rem, 9vh, 5.5rem) var(--margem) clamp(4rem, 12vh, 8rem);
     max-width: calc(46rem + 2 * var(--margem));
     /* o 404 ampliado nunca cria rolagem lateral */
     overflow-x: clip;
@@ -70,14 +71,18 @@ import Base from '../layouts/Base.astro';
   .alvo {
     position: relative;
     display: inline-block;
+    transform-origin: bottom center;
     transition:
       font-weight 0.6s cubic-bezier(0.23, 1, 0.32, 1),
-      color 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      color 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+      transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   }
-  /* pedido atendido: o "04" ganha outro peso e a cor de destaque */
+  /* pedido atendido: o "04" ganha outro peso, a cor de destaque e fica bem inclinado.
+     A Big Shoulders não tem itálico de verdade; a inclinação é feita com skew. */
   .codigo[aria-pressed='true'] .alvo {
     font-weight: 300;
     color: var(--caneta);
+    transform: skewX(-16deg);
   }
   /* círculo mal feito, à mão, só em volta do "04": não fecha e passa um pouco do ponto de partida */
   .circulo {
@@ -119,10 +124,11 @@ import Base from '../layouts/Base.astro';
     opacity: 0;
     animation: anotar 0.4s ease-out forwards;
   }
+  /* fica sobre o primeiro "4", fora do círculo, para o traço não passar por cima do texto */
   .nota-1 {
-    top: -2.2rem;
-    right: 0;
-    rotate: 6deg;
+    top: -2.4rem;
+    left: 0;
+    rotate: -3deg;
     animation-delay: 1s;
   }
   .nota-2 {
