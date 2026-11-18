@@ -55,18 +55,18 @@ html {
 
 /* Cursor Future Cursor (yeyushengfan258), 32px; o segundo valor é o fallback do sistema */
 html {
-  cursor: url('/cursor/seta.png') 6 4, auto;
+  cursor: url('/cursor/seta.png?v=2') 0 0, auto;
 }
 a,
 button,
 summary,
 label,
 select {
-  cursor: url('/cursor/link.png') 12 5, pointer;
+  cursor: url('/cursor/link.png?v=2') 5 0, pointer;
 }
 input,
 textarea {
-  cursor: url('/cursor/texto.png') 15 14, text;
+  cursor: url('/cursor/texto.png?v=2') 16 16, text;
 }
 
 body {

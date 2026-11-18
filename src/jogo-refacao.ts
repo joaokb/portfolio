@@ -13,7 +13,7 @@ export function iniciarJogo(canvas: HTMLCanvasElement, placar: HTMLElement, avis
   const FONTE = getComputedStyle(document.body).getPropertyValue('--display') || 'sans-serif';
 
   const cursor = new Image();
-  cursor.src = '/cursor/seta.png';
+  cursor.src = '/cursor/seta.png?v=2';
 
   // tamanho lógico fixo em altura; a largura acompanha o container
   const ALTURA = 220;
