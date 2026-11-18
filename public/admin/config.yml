@@ -12,6 +12,9 @@ backend:
     deleteMedia: 'Remove imagem {{path}}'
 
 locale: pt
+# endereço do site: o botão de ver o case publicado usa isto com o preview_path de cada coleção
+site_url: https://joaokavalchuk.com
+display_url: https://joaokavalchuk.com
 media_folder: public/uploads
 public_folder: /uploads
 
@@ -19,11 +22,23 @@ collections:
   - name: projetos
     label: Projetos
     label_singular: Projeto
+    description: 'Os trabalhos do site. Cada um vira uma página em /projetos/; a ordem do índice é a Posição na lista.'
+    icon: photo_library
     folder: src/content/projetos
     create: true
     slug: '{{slug}}'
     sortable_fields: [order, title, year]
     summary: '{{order}}. {{title}} ({{client}}, {{year}})'
+    # capa de cada case na lista, filtros e grupos para achar rápido
+    thumbnail: cover
+    preview_path: 'projetos/{{slug}}/'
+    view_filters:
+      - { label: Publicados, field: draft, pattern: false }
+      - { label: Rascunhos, field: draft, pattern: true }
+      - { label: Fora do índice, field: indice, pattern: false }
+    view_groups:
+      - { label: Ano, field: year }
+      - { label: Disciplina, field: discipline }
     fields:
       - { name: title, label: Título, widget: string }
       - { name: client, label: Cliente, widget: string }
@@ -36,6 +51,8 @@ collections:
         label: Créditos
         widget: list
         required: false
+        summary: '{{role}}: {{name}}'
+        collapsed: true
         fields:
           - { name: role, label: Função, widget: string }
           - { name: name, label: Nome, widget: string }
@@ -72,6 +89,9 @@ collections:
 
   - name: bio
     label: Links da bio
+    description: 'Os botões da página /links, a que fica na bio do Instagram.'
+    icon: link
+    editor: { preview: false }
     files:
       - name: links
         label: Página /links (Instagram)
@@ -81,6 +101,7 @@ collections:
             label: Links
             widget: list
             summary: '{{titulo}} ({{url}})'
+            collapsed: true
             hint: 'A ordem aqui é a ordem na página. Desmarque "Ativo" para esconder sem apagar.'
             fields:
               - { name: id, label: 'Apelido (curto, sem espaço, ex.: behance)', widget: string, hint: 'Aparece no endereço /ir/apelido e na página de números. Não mude depois, senão a contagem recomeça.' }
@@ -91,6 +112,9 @@ collections:
 
   - name: edc
     label: Everyday carry
+    description: 'Os itens da página /edc.'
+    icon: backpack
+    editor: { preview: false }
     files:
       - name: itens
         label: Página /edc
@@ -100,6 +124,7 @@ collections:
             label: Itens
             widget: list
             summary: '{{tipo}}: {{nome}}'
+            collapsed: true
             hint: 'Foto de preferência sem fundo ou em fundo branco liso (PNG). A ordem aqui é a ordem na página.'
             fields:
               - { name: nome, label: Nome, widget: string }
@@ -111,6 +136,9 @@ collections:
 
   - name: site
     label: Sobre e contato
+    description: 'Bio, foto, disponibilidade, prêmios, experiência e currículo. As listas abrem recolhidas: clique para ver os itens.'
+    icon: person
+    editor: { preview: false }
     files:
       - name: perfil
         label: Perfil
@@ -144,13 +172,17 @@ collections:
           - name: links
             label: Links
             widget: list
+            summary: '{{nome}}'
+            collapsed: true
             fields:
               - { name: nome, label: Nome, widget: string }
               - { name: url, label: URL, widget: string }
           - name: premios
             label: Prêmios
             widget: list
-            summary: '{{ano}} {{nivel}}, {{festival}}'
+            summary: '{{ano}} {{nivel}}, {{festival}}: {{projeto}}'
+            collapsed: true
+            minimize_collapsed: true
             fields:
               - { name: ano, label: Ano, widget: number, value_type: int }
               - { name: nivel, label: Nível, widget: select, options: [Grand Prix, Ouro, Prata, Bronze, Shortlist, Finalista] }
@@ -161,6 +193,8 @@ collections:
             label: Experiência
             widget: list
             summary: '{{periodo}} {{empresa}}'
+            collapsed: true
+            minimize_collapsed: true
             fields:
               - { name: periodo, label: Período, widget: string }
               - { name: empresa, label: Empresa, widget: string }
@@ -172,6 +206,9 @@ collections:
           - name: formacao
             label: Formação
             widget: list
+            summary: '{{periodo}} {{curso}}'
+            collapsed: true
+            minimize_collapsed: true
             fields:
               - { name: periodo, label: Período, widget: string }
               - { name: curso, label: Curso, widget: string }
@@ -181,6 +218,8 @@ collections:
             label: Cursos
             widget: list
             summary: '{{ano}} {{curso}}'
+            collapsed: true
+            minimize_collapsed: true
             fields:
               - { name: ano, label: Ano, widget: number, value_type: int }
               - { name: curso, label: Curso, widget: string }
@@ -189,6 +228,8 @@ collections:
             label: Idiomas (currículo)
             widget: list
             summary: '{{idioma}}: {{nivel}}'
+            collapsed: true
+            minimize_collapsed: true
             fields:
               - { name: idioma, label: Idioma, widget: string }
               - { name: nivel, label: Nível, widget: string }
@@ -197,6 +238,8 @@ collections:
             label: Habilidades principais (barras)
             widget: list
             summary: '{{nome}} {{nivel}}%'
+            collapsed: true
+            minimize_collapsed: true
             fields:
               - { name: nome, label: Habilidade, widget: string }
               - { name: nivel, label: Nível (0 a 100), widget: number, value_type: int, min: 0, max: 100 }
