@@ -111,8 +111,15 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
         projetos.map((p) => (
           <li class="item" data-capa={capa(p.data.preview || p.data.cover)} style={`--len:${p.data.title.length}`}>
             <a href={rota(lang, `/projetos/${p.id}/`)} class="link">
-              <span class="titulo" data-id={p.id}>
-                {p.data.title}
+              <span class="cabeca">
+                {/* pasta do case: fechada no peso fino, abre e ganha a caneta quando o título passa pelo centro */}
+                <svg class="pasta" viewBox="0 0 24 20" aria-hidden="true">
+                  <path class="pasta-fundo" d="M2 4a2 2 0 0 1 2-2h5l2 2.5h9a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z" />
+                  <path class="pasta-frente" d="M2 8.5h20V17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z" />
+                </svg>
+                <span class="titulo" data-id={p.id}>
+                  {p.data.title}
+                </span>
               </span>
               <img
                 class:list={['miniatura', { logo: p.data.logo }]}
@@ -392,12 +399,48 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
     text-decoration: none;
     color: var(--tinta);
   }
+  /* título + pasta: o tamanho fica aqui para a pasta crescer junto (ela é medida em em).
+     Uma linha só, escala pelo comprimento para caber mesmo no peso máximo; os 1.5 caracteres a mais são a pasta. */
+  .cabeca {
+    display: flex;
+    align-items: baseline;
+    gap: 0.14em;
+    font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc((100cqi - 30rem) * 2 / (var(--len) + 1.5)));
+    min-width: 0;
+  }
+  .item {
+    /* 0 com o título fino, 1 no peso máximo (o script do índice muda o --peso) */
+    --abre: calc((var(--peso, 300) - 200) / 700);
+  }
+  .pasta {
+    flex: none;
+    width: 0.8em;
+    height: 0.66em;
+    overflow: visible;
+    stroke: color-mix(in srgb, var(--caneta) calc(var(--abre) * 100%), var(--grafite));
+    stroke-width: calc(1 + var(--abre) * 1.6);
+    stroke-linejoin: round;
+  }
+  .pasta-fundo {
+    fill: none;
+  }
+  /* a frente da pasta tomba para a frente ao abrir e se enche de caneta */
+  .pasta-frente {
+    fill: color-mix(in srgb, var(--caneta) calc(var(--abre) * 100%), var(--papel));
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    transform: skewX(calc(var(--abre) * -22deg)) scaleY(calc(1 - var(--abre) * 0.3));
+  }
+  .item.ativo,
+  .link:hover,
+  .link:focus-visible {
+    --abre: 1;
+  }
   .titulo {
     display: block;
     font-family: var(--display);
-    /* uma linha só, escala pelo comprimento para caber mesmo no peso máximo */
     white-space: nowrap;
-    font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc((100cqi - 30rem) * 2 / var(--len)));
+    font-size: inherit;
     line-height: 0.88;
     text-transform: uppercase;
     font-weight: var(--peso, 300);
@@ -408,6 +451,10 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
   @media (prefers-reduced-motion: reduce) {
     .titulo {
       font-weight: 600;
+    }
+    /* sem movimento: pasta parada, entreaberta, no mesmo peso dos títulos */
+    .item {
+      --abre: 0.55;
     }
   }
   .item.ativo .titulo,
@@ -455,7 +502,7 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
     .link {
       align-items: center;
     }
-    .titulo {
+    .cabeca {
       align-self: start;
     }
     .ficha {
@@ -468,10 +515,10 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
       grid-template-columns: minmax(0, 1fr) 9rem;
       column-gap: 1.5rem;
     }
-    .titulo {
+    .cabeca {
       grid-column: 1;
       grid-row: 1;
-      font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc((100cqi - 11rem) * 2 / var(--len)));
+      font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc((100cqi - 11rem) * 2 / (var(--len) + 1.5)));
     }
     .ficha {
       grid-column: 1;
@@ -507,8 +554,8 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
     .miniatura {
       display: none;
     }
-    .titulo {
-      font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc(100cqi * 2 / var(--len)));
+    .cabeca {
+      font-size: min(clamp(3.1rem, 9.5vw, 10rem), calc(100cqi * 2 / (var(--len) + 1.5)));
     }
     .ficha {
       grid-auto-flow: row;
