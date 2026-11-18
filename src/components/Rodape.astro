@@ -1,0 +1,102 @@
+---
+// Rodapé de todas as telas (entra uma vez no layout Base). Quieto como o topo: nome, páginas e contato.
+import perfil from '../data/perfil.json';
+import links from '../data/links.json';
+import { ui, rota, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+const en = lang === 'en';
+// número do WhatsApp sai do links.json, sem a mensagem pronta (aquela é da bio do Instagram)
+const whatsapp = links.links.find((l) => l.id === 'whatsapp')?.url.match(/wa\.me\/(\d+)/)?.[1];
+const paginas = [
+  [t.trabalhos, rota(lang, '/#trabalhos')],
+  [t.sobre, rota(lang, '/sobre/')],
+  [en ? 'Résumé' : 'Currículo', rota(lang, '/curriculo/')],
+  ['Everyday carry', rota(lang, '/edc/')],
+];
+const contatos = [
+  [perfil.email, `mailto:${perfil.email}`],
+  ...(whatsapp ? [['WhatsApp', `https://wa.me/${whatsapp}`]] : []),
+  ...perfil.links.filter((l) => !l.url.includes('joaokavalchuk.com')).map((l) => [l.nome, l.url]),
+];
+---
+
+<footer class="rodape">
+  <div class="quem">
+    <p class="nome">{perfil.nome}</p>
+    <p class="secundario">
+      {en ? 'Art director and designer in Presidente Prudente, Brazil' : `Diretor de arte e designer em ${perfil.cidade}`}
+    </p>
+  </div>
+  <nav aria-label={en ? 'Pages' : 'Páginas'}>
+    <ul>{paginas.map(([nome, href]) => <li><a href={href}>{nome}</a></li>)}</ul>
+  </nav>
+  <ul class="contato">
+    {
+      contatos.map(([nome, href]) => (
+        <li>
+          <a href={href} {...(href.startsWith('http') && { rel: 'noopener', target: '_blank' })}>
+            {nome}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="direitos secundario">© {new Date().getFullYear()} {perfil.nome}</p>
+</footer>
+
+<style>
+  .rodape {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2rem var(--margem);
+    padding: 2.5rem var(--margem) 2rem;
+    border-top: 1px solid var(--linha);
+    font-size: var(--t-sm);
+  }
+  .nome {
+    font-weight: 600;
+    font-size: var(--t-base);
+  }
+  .quem .secundario {
+    margin-top: 0.2rem;
+  }
+  ul {
+    display: grid;
+    gap: 0.45rem;
+    align-content: start;
+  }
+  a {
+    text-decoration: none;
+  }
+  a:hover,
+  a:focus-visible {
+    color: var(--caneta);
+  }
+  .direitos {
+    grid-column: 1 / -1;
+  }
+  @media (max-width: 760px) {
+    .rodape {
+      /* páginas só com a largura que precisam: sobra espaço para o e-mail inteiro */
+      grid-template-columns: max-content minmax(0, 1fr);
+      column-gap: 2.5rem;
+    }
+    .quem {
+      grid-column: 1 / -1;
+    }
+    /* em tela muito estreita o e-mail ainda pode quebrar, mas só como último recurso */
+    .contato a {
+      overflow-wrap: break-word;
+    }
+  }
+  @media print {
+    .rodape {
+      display: none;
+    }
+  }
+</style>
