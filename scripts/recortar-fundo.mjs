@@ -15,10 +15,16 @@ const cantos = [px(2, 2), px(W - 3, 2), px(2, H - 3), px(W - 3, H - 3)];
 const fundo = [0, 1, 2].map((c) => cantos.reduce((s, i) => s + data[i + c], 0) / 4);
 const dist = (i) => Math.hypot(data[i] - fundo[0], data[i + 1] - fundo[1], data[i + 2] - fundo[2]);
 
+// imagem que já chega sem fundo (cantos transparentes): só padroniza o enquadramento
+const jaRecortada = cantos.every((i) => data[i + 3] < 10);
 const visto = new Uint8Array(W * H);
 const fila = [];
-for (let x = 0; x < W; x++) fila.push([x, 0], [x, H - 1]);
-for (let y = 0; y < H; y++) fila.push([0, y], [W - 1, y]);
+// recorte por IA deixa restos quase transparentes do cenário: some com eles
+if (jaRecortada) for (let i = 3; i < data.length; i += 4) if (data[i] < 170) data[i] = 0;
+if (!jaRecortada) {
+  for (let x = 0; x < W; x++) fila.push([x, 0], [x, H - 1]);
+  for (let y = 0; y < H; y++) fila.push([0, y], [W - 1, y]);
+}
 while (fila.length) {
   const [x, y] = fila.pop();
   if (x < 0 || y < 0 || x >= W || y >= H) continue;

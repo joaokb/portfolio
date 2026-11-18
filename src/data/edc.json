@@ -25,6 +25,22 @@
       "imagem": "/uploads/edc/qcy-t13-anc.webp"
     },
     {
+      "nome": "Traveler Mnemori A6",
+      "tipo": "Caderno de bolso",
+      "tipo_en": "Pocket notebook",
+      "texto": "Onde vão as ideias, os compromissos e os lembretes do dia. Cabe no bolso e vai comigo para todo lado.",
+      "texto_en": "Where the ideas, appointments and reminders of the day go. It fits in a pocket and goes everywhere with me.",
+      "imagem": "/uploads/edc/caderno-traveler-mnemori.webp"
+    },
+    {
+      "nome": "Jocar My Tech 0.7mm",
+      "tipo": "Caneta esferográfica",
+      "tipo_en": "Ballpoint pen",
+      "texto": "A esferográfica que anda junto com o caderno.",
+      "texto_en": "The ballpoint that travels with the notebook.",
+      "imagem": "/uploads/edc/caneta-jocar-my-tech.webp"
+    },
+    {
       "nome": "Pica Fumo Corneta",
       "tipo": "Canivete",
       "tipo_en": "Pocket knife",
