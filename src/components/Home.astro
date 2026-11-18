@@ -151,7 +151,7 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
         perfil.premios.map((p) => (
           <li>
             <span class="ano">{p.ano}</span>
-            <span class:list={['nivel', { ouro: p.nivel === 'Ouro' }]}>{tp.tr(p.nivel)}</span>
+            <span class:list={['nivel', { ouro: p.nivel === 'Ouro' }]}>{tp.tr(p.nivel)}{/(Ouro|Prata|Bronze)/.test(p.nivel) && <img class="trofeu" src="/emoji/trofeu.webp" alt="" width="64" height="64" loading="lazy" />}</span>
             <span>{p.festival}</span>
             <span class="secundario">{p.slug ? <a href={rota(lang, `/projetos/${p.slug}/`)}>{p.projeto}</a> : p.projeto}</span>
           </li>

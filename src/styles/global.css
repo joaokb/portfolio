@@ -227,3 +227,12 @@ ol {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* troféu (emoji da Apple, public/emoji) ao lado de ouro, prata e bronze; shortlist fica sem */
+.trofeu {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  margin-left: 0.3em;
+  vertical-align: -0.22em;
+}

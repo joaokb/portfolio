@@ -114,6 +114,7 @@ const faq = {
                 <span class="ano">{p.ano}</span>
                 <span class:list={{ ouro: p.nivel === 'Ouro' }}>
                   {tp.tr(p.nivel)}, {p.festival}
+                  {/(Ouro|Prata|Bronze)/.test(p.nivel) && <img class="trofeu" src="/emoji/trofeu.webp" alt="" width="64" height="64" loading="lazy" />}
                 </span>
                 <span class="secundario">{p.slug ? <a href={rota(lang, `/projetos/${p.slug}/`)}>{p.projeto}</a> : p.projeto}</span>
               </li>
