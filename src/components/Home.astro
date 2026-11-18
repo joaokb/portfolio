@@ -41,7 +41,7 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
 
 <Base>
   <section class="abertura">
-    <Sticker nome="aprovado" style="top: 0.4rem; right: 5%; --giro: 7deg; --largura: clamp(5.5rem, 9vw, 9rem)" />
+    <Sticker nome="aprovado" style="top: clamp(0.9rem, 2vw, 1.6rem); right: 3%; --giro: 7deg; --largura: clamp(5rem, 9vw, 9rem)" />
     <Sticker nome="selo" style="top: calc(clamp(1.5rem, 5vh, 3.5rem) + 7vw); left: 1%; --giro: -12deg; --largura: clamp(4.5rem, 8vw, 8.5rem)" />
     <h1 class="nome" aria-label={`${perfil.nome}, ${tp.cargo.toLowerCase()}`} data-nome style={`--len:${letras.length}`}>
       {letras.map((l, i) => <span class="letra" aria-hidden="true" style={`--i:${i}`}>{l === ' ' ? ' ' : l}</span>)}
