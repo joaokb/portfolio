@@ -38,7 +38,7 @@ images:
   - "/uploads/projetos/a-torcida-que-tem-um-time/tela-25.webp"
   - "/uploads/projetos/a-torcida-que-tem-um-time/tela-26.webp"
 video: ""
-behance: ""
+behance: "https://www.behance.net/gallery/258696489/A-Torcida-que-Tem-um-Time"
 pdf: "/uploads/projetos/a-torcida-que-tem-um-time/tcc-a-torcida-que-tem-um-time.pdf"
 draft: false
 en:
