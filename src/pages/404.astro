@@ -1,21 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
 // Cloudflare serve este 404.html para qualquer endereço inexistente, nas duas línguas.
-// Conceito: rafe de layout reprovado, riscado com a caneta de destaque e cheio de anotações de agência.
+// Conceito: rafe de layout reprovado. O "04" vem circulado à mão com a caneta de destaque;
+// o pedido "dar mais destaque" é atendido no clique (peso e cor mudam).
 ---
 
 <Base title="Página não encontrada, João Kavalchuk">
   <section class="erro">
     <div class="rafe">
-      <button type="button" class="codigo" data-logo aria-label="404. Clique para aumentar o logo">
-        <span>404</span>
-        <svg class="risco" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
-          <path pathLength="1" d="M2 30 C 20 22, 40 26, 55 18 S 85 8, 98 12" />
-          <path pathLength="1" d="M4 12 C 25 18, 45 14, 60 24 S 88 32, 97 28" />
-        </svg>
+      <button type="button" class="codigo" data-logo aria-pressed="false" aria-label="404. Clique para dar mais destaque">
+        <span class="digitos" aria-hidden="true">4<span class="alvo">04<svg class="circulo" viewBox="0 0 100 60" preserveAspectRatio="none">
+              <path pathLength="1" d="M58 6 C 30 2, 4 12, 5 31 C 6 50, 34 58, 60 55 C 86 52, 98 40, 95 24 C 92 9, 70 3, 44 8" />
+            </svg></span></span>
       </button>
       <p class="nota nota-1" aria-hidden="true">reprovado pelo cliente</p>
-      <p class="nota nota-2" data-pedido aria-live="polite">aumenta o logo?</p>
+      <p class="nota nota-2" data-pedido aria-live="polite">dar mais destaque</p>
     </div>
 
     <ul class="notas" aria-label="Anotações do rafe">
@@ -58,42 +57,53 @@ import Base from '../layouts/Base.astro';
     background: none;
     border: 0;
     padding: 0;
-    cursor: zoom-in;
+    cursor: pointer;
   }
-  .codigo span {
+  .digitos {
     display: block;
     font-family: var(--display);
     font-size: clamp(9rem, 36vw, 26rem);
     line-height: 0.8;
     font-weight: 900;
-    transform-origin: left bottom;
-    transform: scale(var(--escala, 1));
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
   }
-  /* risco de caneta desenhado por cima, como em prova reprovada */
-  .risco {
+  .alvo {
+    position: relative;
+    display: inline-block;
+    transition:
+      font-weight 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+      color 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  /* pedido atendido: o "04" ganha outro peso e a cor de destaque */
+  .codigo[aria-pressed='true'] .alvo {
+    font-weight: 300;
+    color: var(--caneta);
+  }
+  /* círculo mal feito, à mão, só em volta do "04": não fecha e passa um pouco do ponto de partida */
+  .circulo {
     position: absolute;
-    inset: 8% -2% 8% -2%;
-    width: 104%;
-    height: 84%;
+    /* folga em volta dos dígitos: o traço contorna o "04" em vez de cruzar o preto */
+    inset: -24% -14% -22% -12%;
+    width: 126%;
+    height: 146%;
     overflow: visible;
     pointer-events: none;
+    rotate: -4deg;
   }
-  .risco path {
+  .circulo path {
     fill: none;
     stroke: var(--caneta);
-    stroke-width: 5;
+    /* sem vector-effect: com ele o tracejado ignora o pathLength e o círculo sai pela metade.
+       A espessura fica um pouco irregular com a escala, o que ajuda o ar de feito à mão. */
+    stroke-width: 1.6;
     stroke-linecap: round;
-    vector-effect: non-scaling-stroke;
-    /* intervalo maior que o traço: antes de riscar não sobra a bolinha da ponta arredondada */
+    stroke-linejoin: round;
+    /* intervalo maior que o traço: antes de desenhar não sobra a bolinha da ponta arredondada */
     stroke-dasharray: 1 2;
     stroke-dashoffset: 1.5;
-    animation: riscar 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    animation: circular 0.9s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
   }
-  .risco path + path {
-    animation-delay: 0.45s;
-  }
-  @keyframes riscar {
+  @keyframes circular {
     to {
       stroke-dashoffset: 0;
     }
@@ -110,18 +120,15 @@ import Base from '../layouts/Base.astro';
     animation: anotar 0.4s ease-out forwards;
   }
   .nota-1 {
-    top: -0.4rem;
+    top: -2.2rem;
     right: 0;
     rotate: 6deg;
     animation-delay: 1s;
   }
   .nota-2 {
-    bottom: 0.2rem;
-    right: -0.5rem;
+    bottom: -2.6rem;
+    right: 0;
     rotate: -4deg;
-    padding: 0.1rem 0.5rem;
-    border: 2px solid var(--caneta);
-    border-radius: 50%;
     animation-delay: 1.3s;
   }
   @keyframes anotar {
@@ -139,7 +146,7 @@ import Base from '../layouts/Base.astro';
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem 1.5rem;
-    margin-top: 1.75rem;
+    margin-top: 3.75rem;
     color: var(--caneta);
     font-size: var(--t-sm);
   }
@@ -187,22 +194,17 @@ import Base from '../layouts/Base.astro';
     .rafe {
       padding-right: 0;
     }
-    .nota-1 {
-      top: -1.6rem;
-    }
-    /* no celular a nota do logo cresce para a direita, a partir da margem, e nunca sai da tela */
+    /* no celular a nota do pedido cresce para a direita, a partir da margem, e nunca sai da tela */
     .nota-2 {
       right: auto;
       left: 0;
-      bottom: -1.8rem;
     }
     .notas {
-      margin-top: 2.75rem;
       flex-direction: column;
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .risco path {
+    .circulo path {
       stroke-dashoffset: 0;
     }
     .nota {
@@ -212,17 +214,15 @@ import Base from '../layouts/Base.astro';
 </style>
 
 <script>
-  // Clique no 404: "aumenta o logo", como pede todo cliente. Depois de três vezes, volta ao tamanho original.
-  const pedidos = ['aumenta o logo?', 'mais um pouco', 'agora sim, só mais um pouco', 'tá grande demais, volta como era'];
+  // Clique no 404: atende o pedido "dar mais destaque" (o "04" muda de peso e de cor). Outro clique desfaz.
   document.addEventListener('astro:page-load', () => {
     const botao = document.querySelector<HTMLElement>('[data-logo]');
     const pedido = document.querySelector<HTMLElement>('[data-pedido]');
     if (!botao || !pedido) return;
-    let vez = 0;
     botao.addEventListener('click', () => {
-      vez = (vez + 1) % pedidos.length;
-      botao.style.setProperty('--escala', String(vez === 0 ? 1 : 1 + vez * 0.12));
-      pedido.textContent = pedidos[vez];
+      const atendido = botao.getAttribute('aria-pressed') !== 'true';
+      botao.setAttribute('aria-pressed', String(atendido));
+      pedido.textContent = atendido ? 'agora sim, aprovado' : 'dar mais destaque';
     });
   });
 </script>
