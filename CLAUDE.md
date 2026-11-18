@@ -50,7 +50,7 @@ Posicionamento: o nome de João vem na frente. O KABEst Studio (estúdio própri
    - Monde, Igor Duran e AZ Models foram freelance, agência ou KABEst Studio?
    - Falta texto para Festa do Branco 2023 (perguntar qual era o desafio, a ideia e as peças feitas). Avant saiu do site (`draft: true`).
    - Projeto que não está no Behance: as imagens estão soltas com o João.
-   - A bio diz "passagem por agências" em vez de "mais de sete anos", porque a experiência listada começa em 2021. Se ele confirmar sete anos contando freelance, voltar o número e mostrar isso na lista.
+   - João confirmou 7 anos de experiência (contando freelance): a bio já diz isso. Falta saber período e função dos freelas antes de 2021 para mostrar na lista de experiência.
 
 ## Como trabalhar neste repositório
 - Antes de dizer que terminou, rode `npm run build` e veja a página no navegador em 1440px e 390px. Confira também se não há rolagem horizontal e se o site funciona com `prefers-reduced-motion`.
