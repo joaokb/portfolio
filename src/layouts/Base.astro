@@ -4,6 +4,7 @@ import '@fontsource-variable/big-shoulders-display';
 import '@fontsource-variable/schibsted-grotesk';
 import '../styles/global.css';
 import perfil from '../data/perfil.json';
+import destaques from '../data/destaques.json';
 import { ui, rota, langDe, outraRota, textoPerfil } from '../i18n';
 import fonteDisplay from '@fontsource-variable/big-shoulders-display/files/big-shoulders-display-latin-wght-normal.woff2?url';
 import fonteTexto from '@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url';
@@ -14,14 +15,8 @@ interface Props {
   image?: string;
 }
 // cor de destaque escolhida em perfil.json; todas passam de 4.5:1 de contraste sobre o papel
-const destaques: Record<string, string> = {
-  caneta: '#1f2bd1', // azul de esferográfica
-  revisao: '#c4161c', // vermelho de caneta de revisão
-  marcador: '#b23800', // laranja queimado de marcador
-  prova: '#086b3c', // verde de prova de cor
-  magenta: '#b0127a', // magenta de CMYK
-};
-const destaque = destaques[perfil.destaque] ?? destaques.caneta;
+// (lista em src/data/destaques.json, usada também por scripts/gerar-og.mjs)
+const destaque = (destaques as Record<string, string>)[perfil.destaque] ?? destaques.caneta;
 const lang = langDe(Astro.url);
 const t = ui[lang];
 const tp = textoPerfil(lang);
@@ -31,7 +26,8 @@ const {
   image,
 } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site);
-const imagemOg = image ?? new URL('/og.png', Astro.site).href;
+// ?v= muda quando a og.png é refeita (scripts/gerar-og.mjs), para WhatsApp e LinkedIn buscarem a nova
+const imagemOg = image ?? new URL('/og.png?v=2', Astro.site).href;
 const pessoa = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -60,6 +56,15 @@ const pessoa = {
     <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'pt_BR'} />
     <link rel="alternate" hreflang={lang === 'en' ? 'pt-BR' : 'en'} href={new URL(outraRota(Astro.url), Astro.site)} />
     <meta property="og:image" content={imagemOg} />
+    {
+      !image && (
+        <>
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content={`${perfil.nome}, ${tp.cargo.toLowerCase()}`} />
+        </>
+      )
+    }
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={JSON.stringify(pessoa)} />
     <meta name="theme-color" content="#e4e5e0" />
