@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import perfil from '../data/perfil.json';
 import { ui, rota, textoPerfil, type Lang } from '../i18n';
 import { medidas, srcset } from '../imagens';
+import Sticker from './Sticker.astro';
 
 interface Props {
   lang: Lang;
@@ -18,9 +19,13 @@ const paragrafos = tp.sobre.split(/\n\s*\n/).filter(Boolean);
 <Base title={`${t.sobreDe} ${perfil.nome}`} description={tp.bio}>
   <section class="sobre" aria-labelledby="titulo-sobre">
     <h1 id="titulo-sobre" class="rotulo">{t.sobre}</h1>
+    <Sticker nome="feito" style="top: clamp(3rem, 9vh, 5.5rem); right: 6%; --giro: 6deg; --largura: clamp(7rem, 12vw, 10rem)" />
     <div class:list={['apresenta', { 'com-foto': perfil.foto }]}>
       {
         perfil.foto && (
+          <div class="foto-moldura">
+          <Sticker nome="prazo" style="top: -1.2rem; left: -1.2rem; --giro: -9deg; --largura: clamp(8rem, 13vw, 11rem)" />
+          <Sticker nome="etiqueta" style="bottom: -1.6rem; right: -0.6rem; --giro: 5deg; --largura: clamp(8.5rem, 14vw, 12rem)" />
           <img
             class="foto"
             src={perfil.foto}
@@ -31,6 +36,7 @@ const paragrafos = tp.sobre.split(/\n\s*\n/).filter(Boolean);
             alt={`${t.fotoDe} ${perfil.nome}`}
             fetchpriority="high"
           />
+          </div>
         )
       }
       <div class="texto">
@@ -132,6 +138,7 @@ const paragrafos = tp.sobre.split(/\n\s*\n/).filter(Boolean);
 
 <style>
   .sobre {
+    position: relative;
     padding: clamp(2.5rem, 8vh, 5rem) var(--margem) clamp(4rem, 12vh, 8rem);
   }
   .rotulo {
@@ -152,6 +159,9 @@ const paragrafos = tp.sobre.split(/\n\s*\n/).filter(Boolean);
     grid-template-columns: minmax(0, 26rem) minmax(0, var(--coluna));
     max-width: none;
     align-items: start;
+  }
+  .foto-moldura {
+    position: relative;
   }
   .foto {
     width: 100%;

@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Sticker from '../components/Sticker.astro';
 // Cloudflare serve este 404.html para qualquer endereço inexistente, nas duas línguas.
 // Conceito: rafe de layout reprovado. O "04" vem circulado à mão com a caneta de destaque;
 // o pedido "dar mais destaque" é atendido no clique (peso e cor mudam).
@@ -7,6 +8,8 @@ import Base from '../layouts/Base.astro';
 
 <Base title="Página não encontrada, João Kavalchuk">
   <section class="erro">
+    <Sticker nome="refacao" class="sticker-erro-1" style="--giro: 8deg" />
+    <Sticker nome="arquivo" class="sticker-erro-2" style="--giro: -6deg" />
     <div class="rafe">
       <button type="button" class="codigo" data-logo aria-pressed="false" aria-label="404. Clique para dar mais destaque">
         <span class="digitos" aria-hidden="true">4<span class="alvo">04<svg class="circulo" viewBox="0 0 100 60" preserveAspectRatio="none">
@@ -52,8 +55,7 @@ import Base from '../layouts/Base.astro';
     /* espaço em cima para a anotação "reprovado pelo cliente" */
     padding: clamp(4rem, 9vh, 5.5rem) var(--margem) clamp(4rem, 12vh, 8rem);
     max-width: calc(46rem + 2 * var(--margem));
-    /* o 404 ampliado nunca cria rolagem lateral */
-    overflow-x: clip;
+    position: relative;
   }
   .rafe {
     position: relative;
@@ -246,6 +248,28 @@ import Base from '../layouts/Base.astro';
     margin-top: 0.5rem;
     font-size: var(--t-sm);
     color: var(--grafite);
+  }
+
+  /* stickers: no computador ficam no espaço livre à direita; no celular só um, pequeno, no canto */
+  .erro :global(.sticker-erro-1) {
+    top: 7rem;
+    right: -15rem;
+    --largura: 12rem;
+  }
+  .erro :global(.sticker-erro-2) {
+    top: 20rem;
+    right: -17rem;
+    --largura: 13rem;
+  }
+  @media (max-width: 1180px) {
+    .erro :global(.sticker-erro-1) {
+      top: 0.8rem;
+      right: var(--margem);
+      --largura: 7.5rem;
+    }
+    .erro :global(.sticker-erro-2) {
+      display: none;
+    }
   }
 
   @media (max-width: 760px) {

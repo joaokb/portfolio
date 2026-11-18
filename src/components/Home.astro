@@ -5,6 +5,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { imageSize } from 'image-size';
 import { ui, rota, textoPerfil, type Lang } from '../i18n';
 import { medidas, srcset } from '../imagens';
+import Sticker from './Sticker.astro';
 import { publicados, dadosEn } from '../projetos';
 
 interface Props {
@@ -40,6 +41,8 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
 
 <Base>
   <section class="abertura">
+    <Sticker nome="aprovado" style="top: 0.4rem; right: 5%; --giro: 7deg; --largura: clamp(5.5rem, 9vw, 9rem)" />
+    <Sticker nome="selo" style="top: calc(clamp(1.5rem, 5vh, 3.5rem) + 7vw); left: 1%; --giro: -12deg; --largura: clamp(4.5rem, 8vw, 8.5rem)" />
     <h1 class="nome" aria-label={`${perfil.nome}, ${tp.cargo.toLowerCase()}`} data-nome style={`--len:${letras.length}`}>
       {letras.map((l, i) => <span class="letra" aria-hidden="true" style={`--i:${i}`}>{l === ' ' ? ' ' : l}</span>)}
     </h1>
@@ -92,6 +95,7 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
     </div>
 
     <div class="intro">
+      <Sticker nome="aumenta" style="top: -6rem; right: 3%; --giro: 12deg; --largura: clamp(5.5rem, 9vw, 9rem)" />
       <p class="cargo">
         {tp.cargo}
         <span class="status"><span class="ponto" aria-hidden="true"></span>{tp.status}</span>
@@ -188,6 +192,7 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
 <style>
   /* Primeira dobra: nome cinético, faixa de capas e apresentação */
   .abertura {
+    position: relative;
     padding: clamp(1.5rem, 5vh, 3.5rem) 0 clamp(3rem, 9vh, 6rem);
     container-type: inline-size;
   }
@@ -328,6 +333,7 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
   }
 
   .intro {
+    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, var(--coluna));
     gap: 1rem 3rem;
@@ -353,6 +359,7 @@ const voltaFormulario = new URL(rota(lang, '/?enviado=1#contato'), Astro.site).h
   }
   @media (max-width: 760px) {
     .intro {
+    position: relative;
       grid-template-columns: 1fr;
     }
     /* no celular a bio fica na página Sobre: a faixa e o índice sobem para a primeira tela */
