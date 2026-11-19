@@ -44,7 +44,8 @@ const outra = new URL(outraRota(Astro.url), site);
 const urlPt = en ? outra : url;
 const urlEn = en ? url : outra;
 // ?v= muda quando a og.png é refeita (scripts/gerar-og.mjs), para WhatsApp e LinkedIn buscarem a nova
-const imagemOg = image ?? new URL('/og.png?v=2', site).href;
+// sempre endereço completo: WhatsApp e LinkedIn não leem caminho relativo. As duas (og.png e /og/<case>.jpg) têm 1200x630.
+const imagemOg = new URL(image ?? '/og.png?v=2', site).href;
 const whatsapp = links.links.find((l) => l.id === 'whatsapp')?.url.match(/wa\.me\/(\d+)/)?.[1];
 const idPessoa = new URL('/#joao', site).href;
 const pessoa = {
@@ -94,15 +95,9 @@ const dados = {
     <link rel="alternate" hreflang="en" href={urlEn} />
     <link rel="alternate" hreflang="x-default" href={urlPt} />
     <meta property="og:image" content={imagemOg} />
-    {
-      !image && (
-        <>
-          <meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" />
-          <meta property="og:image:alt" content={`${perfil.nome}, ${tp.cargo.toLowerCase()}`} />
-        </>
-      )
-    }
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={image ? title : `${perfil.nome}, ${tp.cargo.toLowerCase()}`} />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={JSON.stringify(dados)} />
     <meta name="theme-color" content="#e4e5e0" />

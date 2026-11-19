@@ -83,6 +83,9 @@ const obra = {
   ...(d.context && { description: d.context }),
 };
 
+// miniatura de compartilhamento gerada de src/pages/og/[slug].jpg.ts; capa externa cai na og.png do site
+const miniaturaOg = existsSync(`public${decodeURI(d.cover)}`) ? `/og/${projeto.id}.jpg` : undefined;
+
 const creditoEn: Record<string, string> = { Coautoria: 'Co-author', Orientação: 'Advisor', Redação: 'Copywriting' };
 const ficha = [
   [t.marca, d.client],
@@ -101,7 +104,7 @@ const video = d.video
   : '';
 ---
 
-<Base title={tituloPagina} description={resumo || `${d.discipline}, ${d.client}, ${d.year}${d.context ? `. ${d.context}` : ''}.`} image={d.cover} schema={[obra]}>
+<Base title={tituloPagina} description={resumo || `${d.discipline}, ${d.client}, ${d.year}${d.context ? `. ${d.context}` : ''}.`} image={miniaturaOg} schema={[obra]}>
   <article class="caso">
     <header class="cabeca">
       <a class="voltar" href={rota(lang, '/#trabalhos')}>{t.todos}</a>
