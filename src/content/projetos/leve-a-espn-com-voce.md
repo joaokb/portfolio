@@ -1,31 +1,36 @@
 ---
-title: "Leve a ESPN com você"
-client: "ESPN"
+title: Leve a ESPN com você
+client: ESPN
 year: 2023
-discipline: "Campanha"
-context: "Competição Buu! Awards 2023"
-award: "Ouro no Buu! Awards 2023"
-role: "Direção de arte"
+discipline: Campanha
+role: Direção de arte
+context: Competição Buu! Awards 2023
+award: Ouro no Buu! Awards 2023
 credits:
-  - role: "Coautoria"
-    name: "Vitor Hugo Pattaro"
+  - role: Coautoria
+    name: Vitor Hugo Pattaro
 order: 4
-logo: "/logos/espn.svg"
-cover: "/uploads/projetos/leve-a-espn-com-voce/970432174971935.64d5248067bc2.webp"
+cover: /uploads/projetos/leve-a-espn-com-voce/895971174971935.64e2da0e1cc3f.webp
+logo: /logos/espn.svg
+preview: ''
 images:
-  - "/uploads/projetos/leve-a-espn-com-voce/970432174971935.64d5248067bc2.webp"
-  - "/uploads/projetos/leve-a-espn-com-voce/99edd5174971935.64ac06592bc26.webp"
-  - "/uploads/projetos/leve-a-espn-com-voce/e24e90174971935.64e2c9b2b41fd.webp"
-  - "/uploads/projetos/leve-a-espn-com-voce/895971174971935.64e2da0e1cc3f.webp"
-video: ""
-behance: "https://www.behance.net/gallery/174971935/Leve-a-ESPN-com-voce"
+  - /uploads/projetos/leve-a-espn-com-voce/970432174971935.64d5248067bc2.webp
+  - /uploads/projetos/leve-a-espn-com-voce/99edd5174971935.64ac06592bc26.webp
+  - /uploads/projetos/leve-a-espn-com-voce/e24e90174971935.64e2c9b2b41fd.webp
+  - /uploads/projetos/leve-a-espn-com-voce/895971174971935.64e2da0e1cc3f.webp
+video: ''
+embed: ''
+behance: https://www.behance.net/gallery/174971935/Leve-a-ESPN-com-voce
+pdf: ''
 draft: false
+indice: true
 en:
-  discipline: "Campaign"
-  context: "Buu! Awards 2023 competition"
-  award: "Gold at Buu! Awards 2023"
-  role: "Art direction"
-  body: |
+  title: ''
+  discipline: Campaign
+  context: Buu! Awards 2023 competition
+  award: Gold at Buu! Awards 2023
+  role: Art direction
+  body: |-
     Every fan has missed a goal because they had to leave home. ESPN is sports 24 hours a day, and the campaign takes that to the street.
 
     During the Copa Libertadores, TVs are installed where people pass every day and miss the games: subway, bus stops, malls and the beach. A vote on the ESPN website picks the next locations.
