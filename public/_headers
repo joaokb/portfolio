@@ -1,3 +1,13 @@
+# Segurança: aplicados a todas as páginas. CSP só com frame-ancestors (anti-clickjacking),
+# para não quebrar o CMS (/admin carrega de unpkg e fala com o GitHub) nem os embeds de vídeo.
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), browsing-topics=()
+  Content-Security-Policy: frame-ancestors 'self'
+
 # Cache no navegador (Cloudflare lê este arquivo junto com os estáticos).
 # Arquivos do build têm hash no nome: podem ficar guardados para sempre.
 /_astro/*
