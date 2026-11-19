@@ -1,30 +1,36 @@
 ---
-title: "#MantoDoCorinthians"
-client: "Corinthians"
+title: '#MantoDoCorinthians'
+client: Corinthians
 year: 2022
-discipline: "Uniforme e campanha"
-context: "Concurso #MantoDoCorinthians"
-award: ""
-role: "Design"
+discipline: Uniforme e campanha
+role: Design
+context: 'Concurso #MantoDoCorinthians'
+award: ''
 credits: []
 order: 9
-logo: "/logos/corinthians.png"
-cover: "/uploads/projetos/manto-do-corinthians/667088149062683.62e16ee712d47.webp"
+cover: /uploads/projetos/manto-do-corinthians/02887a149062683.62e20c5142af8.webp
+logo: /logos/corinthians.png
+preview: ''
 images:
-  - "/uploads/projetos/manto-do-corinthians/667088149062683.62e16ee712d47.webp"
-  - "/uploads/projetos/manto-do-corinthians/d20f0e149062683.62e16ee7124dc.webp"
-  - "/uploads/projetos/manto-do-corinthians/02887a149062683.62e20c5142af8.webp"
-  - "/uploads/projetos/manto-do-corinthians/6b718f149062683.62e20c5142358.webp"
-  - "/uploads/projetos/manto-do-corinthians/42dc43149062683.62e20f3108908.webp"
-  - "/uploads/projetos/manto-do-corinthians/c91baf149062683.62e20f3108f4e.webp"
-video: ""
-behance: "https://www.behance.net/gallery/149062683/MantoDoCorinthians"
+  - /uploads/projetos/manto-do-corinthians/667088149062683.62e16ee712d47.webp
+  - /uploads/projetos/manto-do-corinthians/d20f0e149062683.62e16ee7124dc.webp
+  - /uploads/projetos/manto-do-corinthians/02887a149062683.62e20c5142af8.webp
+  - /uploads/projetos/manto-do-corinthians/6b718f149062683.62e20c5142358.webp
+  - /uploads/projetos/manto-do-corinthians/42dc43149062683.62e20f3108908.webp
+  - /uploads/projetos/manto-do-corinthians/c91baf149062683.62e20f3108f4e.webp
+video: ''
+embed: ''
+behance: https://www.behance.net/gallery/149062683/MantoDoCorinthians
+pdf: ''
 draft: false
+indice: true
 en:
-  discipline: "Jersey and campaign"
-  context: "#MantoDoCorinthians contest"
-  role: "Design"
-  body: |
+  title: ''
+  discipline: Jersey and campaign
+  context: '#MantoDoCorinthians contest'
+  award: ''
+  role: Design
+  body: |-
     Corinthians opened the design of its 2023 fourth jersey to the fans, and this is the proposal submitted to the contest.
 
     The artwork brings the stands onto the jersey and pays tribute to 2012, the year of the Libertadores and the Club World Cup. The pattern combines the black and white of the club flag, the pattern of the São Paulo state flag and the lettering of the stadium banners.
