@@ -644,10 +644,11 @@ const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'br
     }
   }
 
+  /* mesma divisão da apresentação (.intro): o formulário começa na linha vertical da bio, não colado na borda */
   .contato-grade {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 28rem);
-    gap: 2.5rem clamp(2rem, 6vw, 6rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, var(--coluna));
+    gap: 2.5rem 3rem;
     align-items: start;
   }
   .email {
@@ -670,6 +671,7 @@ const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'br
   .form {
     display: grid;
     gap: 0.9rem;
+    max-width: 28rem;
   }
   .form-titulo {
     font-size: var(--t-base);
