@@ -163,7 +163,11 @@ const dados = {
         );
       });
       addEventListener('resize', limpar);
-      document.addEventListener('astro:after-swap', limpar);
+      // a troca de página copia os atributos do <html> novo e apaga as classes postas por script: repõe
+      document.addEventListener('astro:after-swap', () => {
+        limpar();
+        document.documentElement.classList.add('js-marca');
+      });
     </script>
   </body>
 </html>

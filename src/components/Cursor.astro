@@ -89,6 +89,11 @@
     addEventListener('pointerover', (e) => {
       quer = (e.target as Element | null)?.closest?.(ALVOS) ? CRESCE : 1;
     });
+    // a troca de página copia os atributos do <html> novo e apaga a classe: sem repor, o cursor de pixel volta
+    document.addEventListener('astro:after-swap', () => {
+      raiz.classList.add('cursor-ativo');
+      if (visto) raiz.classList.add('cursor-visivel');
+    });
     // saiu da janela: some até voltar
     document.addEventListener('mouseleave', () => {
       raiz.classList.remove('cursor-visivel');
