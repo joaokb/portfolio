@@ -7,6 +7,7 @@ import perfil from '../data/perfil.json';
 import destaques from '../data/destaques.json';
 import links from '../data/links.json';
 import Rodape from '../components/Rodape.astro';
+import Cursor from '../components/Cursor.astro';
 import { ui, rota, langDe, outraRota, textoPerfil } from '../i18n';
 import fonteDisplay from '@fontsource-variable/big-shoulders-display/files/big-shoulders-display-latin-wght-normal.woff2?url';
 import fonteTexto from '@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url';
@@ -119,6 +120,7 @@ const dados = {
       <slot />
     </main>
     <Rodape lang={lang} />
+    <Cursor />
     <script>
       // ao chegar por transição, o título já vem em peso final (sem reanimar)
       document.addEventListener('astro:after-swap', () => {

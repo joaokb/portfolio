@@ -1,0 +1,114 @@
+---
+// Cursor "Dot & Ring" (Cursor Lab, cursor-lab-ui.vercel.app): um ponto preso 1:1 ao mouse e um anel que segue com
+// atraso e cresce sobre o que é clicável. Só com mouse de verdade e sem "reduzir movimento"; no toque, ou com movimento
+// reduzido, fica o cursor de pixel do global.css. transition:persist mantém os dois entre trocas de página.
+---
+
+<div class="cursor-anel" transition:persist="cursor-anel" aria-hidden="true"></div>
+<div class="cursor-ponto" transition:persist="cursor-ponto" aria-hidden="true"></div>
+
+<style is:global>
+  .cursor-anel,
+  .cursor-ponto {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    pointer-events: none;
+    will-change: transform;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  html.cursor-ativo .cursor-anel,
+  html.cursor-ativo .cursor-ponto {
+    display: block;
+  }
+  html.cursor-ativo.cursor-visivel .cursor-anel,
+  html.cursor-ativo.cursor-visivel .cursor-ponto {
+    opacity: 1;
+  }
+  /* Dot & Ring: ponto de 6 px em degradê (Fill → End), anel de 36 px com a borda na cor End a 60% */
+  .cursor-ponto {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    background: linear-gradient(90deg, var(--caneta, #1f2bd1), #5b9bf6);
+  }
+  .cursor-anel {
+    width: 36px;
+    height: 36px;
+    margin: -18px 0 0 -18px;
+    border: 1px solid rgb(91 155 246 / 0.6);
+  }
+  /* o cursor do sistema some só onde o efeito está ligado; campos de texto mantêm a barra de digitar */
+  html.cursor-ativo,
+  html.cursor-ativo * {
+    cursor: none !important;
+  }
+  html.cursor-ativo :is(input, textarea, select, [contenteditable]) {
+    cursor: text !important;
+  }
+  @media print {
+    .cursor-anel,
+    .cursor-ponto {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  // valores do painel do Cursor Lab (Dot & Ring)
+  const FOLLOW = 0.14; // 0 = nunca chega, 1 = sem atraso
+  const CRESCE = 1.9; // escala do anel sobre o que é clicável
+  const ALVOS = 'a, button, [role="button"], label, summary, select, canvas, .bento img, [data-cursor-hover]';
+
+  const mouse = matchMedia('(hover: hover) and (pointer: fine)');
+  const calmo = matchMedia('(prefers-reduced-motion: reduce)');
+  const anel = document.querySelector<HTMLElement>('.cursor-anel');
+  const ponto = document.querySelector<HTMLElement>('.cursor-ponto');
+
+  if (anel && ponto && mouse.matches && !calmo.matches) {
+    const raiz = document.documentElement;
+    raiz.classList.add('cursor-ativo');
+    let mx = 0, my = 0, rx = 0, ry = 0, escala = 1, quer = 1, visto = false;
+
+    addEventListener(
+      'pointermove',
+      (e) => {
+        if (e.pointerType !== 'mouse') return;
+        mx = e.clientX;
+        my = e.clientY;
+        // primeiro movimento: o anel nasce no lugar do ponto, sem atravessar a tela
+        if (!visto) [rx, ry, visto] = [mx, my, true];
+        raiz.classList.add('cursor-visivel');
+      },
+      { passive: true },
+    );
+    addEventListener('pointerover', (e) => {
+      quer = (e.target as Element | null)?.closest?.(ALVOS) ? CRESCE : 1;
+    });
+    // saiu da janela: some até voltar
+    document.addEventListener('mouseleave', () => {
+      raiz.classList.remove('cursor-visivel');
+      visto = false;
+      quer = 1;
+    });
+
+    const quadro = () => {
+      // a galeria (<dialog> aberto) fica numa camada acima de tudo: o cursor entra nela enquanto estiver aberta
+      const casa = document.querySelector('dialog[open]') ?? document.body;
+      if (anel.parentElement !== casa) casa.append(anel, ponto);
+      rx += (mx - rx) * FOLLOW;
+      ry += (my - ry) * FOLLOW;
+      escala += (quer - escala) * 0.12;
+      ponto.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+      anel.style.transform = `translate3d(${rx}px, ${ry}px, 0) scale(${escala})`;
+      // sobre um alvo, o anel ganha um leve preenchimento proporcional ao quanto cresceu
+      anel.style.background = `rgb(91 155 246 / ${Math.max(0, (escala - 1) * 0.12)})`;
+      requestAnimationFrame(quadro);
+    };
+    requestAnimationFrame(quadro);
+  }
+</script>
