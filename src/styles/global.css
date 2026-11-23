@@ -96,15 +96,17 @@ a:hover {
   color: var(--caneta);
 }
 
-::selection {
+/* seleção nativa só sem o marca-texto (sem JS, ou antes dele ligar) */
+html:not(.js-marca) ::selection {
   background: var(--caneta);
   color: var(--papel);
 }
 /* Com JS, a seleção vira marca-texto que varre da esquerda (::selection não aceita animação).
+   Sem `color` aqui: no Chrome atual o `color: inherit` de ::selection herda da seleção do pai (que era papel),
+   e o texto selecionado sumia. Sem cor definida, o texto fica com a cor dele, preto, sob o marca-texto.
    Campos de formulário mantêm a seleção nativa. */
 html.js-marca ::selection {
   background: transparent;
-  color: inherit;
 }
 html.js-marca input::selection,
 html.js-marca textarea::selection {
