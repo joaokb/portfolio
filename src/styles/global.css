@@ -221,6 +221,15 @@ ol {
   color: var(--grafite);
 }
 
+/* Troca de página sem dissolver a página inteira: a única transição é o título do case (transition:name).
+   O padrão do navegador mistura as duas páginas com plus-lighter; papel sobre papel fica esbranquiçado e, se a
+   transição atrasa ou trava, a tela inteira fica ilegível até recarregar. Sem animação, a página nova cobre a antiga. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
