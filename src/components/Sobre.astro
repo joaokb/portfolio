@@ -39,7 +39,7 @@ const perguntas = [
   },
   {
     p: en ? `How can I hire ${perfil.nome}?` : `Como contratar ${perfil.nome}?`,
-    r: en ? `${tp.status} Contact: ${perfil.email}.` : `${tp.status} Contato: ${perfil.email}.`,
+    r: en ? `${tp.status}. Contact: ${perfil.email}.` : `${tp.status}. Contato: ${perfil.email}.`,
   },
   {
     p: en ? 'What are his main awards and clients?' : 'Quais são os principais prêmios e clientes?',
@@ -114,7 +114,7 @@ const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'br
             perfil.premios.map((p) => (
               <li>
                 <span class="ano">{p.ano}</span>
-                <span class:list={{ ouro: p.nivel === 'Ouro' }}>
+                <span>
                   {medalha(p.nivel) ? <img class="medalha" src={`/emoji/medalha-${medalha(p.nivel)}.webp`} alt="" width="64" height="64" loading="lazy" /> : <span class="medalha" aria-hidden="true" />}{tp.tr(p.nivel)}, {p.festival}
                 </span>
                 <span class="secundario">{p.slug ? <a href={rota(lang, `/projetos/${p.slug}/`)}>{p.projeto}</a> : p.projeto}</span>
@@ -266,10 +266,6 @@ const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'br
   .premios li > span:nth-child(2) {
     padding-left: 1.55em;
     text-indent: -1.55em;
-  }
-  .ouro {
-    color: var(--caneta);
-    font-weight: 600;
   }
   .ano {
     font-variant-numeric: tabular-nums;

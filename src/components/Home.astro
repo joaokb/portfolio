@@ -153,7 +153,7 @@ const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'br
         perfil.premios.map((p) => (
           <li>
             <span class="ano">{p.ano}</span>
-            <span class:list={['nivel', { ouro: p.nivel === 'Ouro' }]}>{medalha(p.nivel) ? <img class="medalha" src={`/emoji/medalha-${medalha(p.nivel)}.webp`} alt="" width="64" height="64" loading="lazy" /> : <span class="medalha" aria-hidden="true" />}{tp.tr(p.nivel)}</span>
+            <span class="nivel">{medalha(p.nivel) ? <img class="medalha" src={`/emoji/medalha-${medalha(p.nivel)}.webp`} alt="" width="64" height="64" loading="lazy" /> : <span class="medalha" aria-hidden="true" />}{tp.tr(p.nivel)}</span>
             <span>{p.festival}</span>
             <span class="secundario">{p.slug ? <a href={rota(lang, `/projetos/${p.slug}/`)}>{p.projeto}</a> : p.projeto}</span>
           </li>
@@ -634,10 +634,6 @@ const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'br
     gap: 1rem;
     padding: 0.55rem 0;
     border-bottom: 1px solid var(--linha);
-  }
-  .nivel.ouro {
-    color: var(--caneta);
-    font-weight: 600;
   }
   @media (max-width: 760px) {
     .premios ul li {
