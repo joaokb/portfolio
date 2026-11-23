@@ -230,11 +230,29 @@ ol {
   }
 }
 
-/* medalha da Apple (public/emoji) à esquerda do nível; na shortlist o espaço fica vazio e os textos alinham */
+/* ponto chapado à esquerda do nível (ouro, prata, bronze); na shortlist a caixa fica vazia e os textos alinham */
 .medalha {
-  display: inline-block;
+  display: inline-grid;
+  place-items: center;
   width: 1.15em;
   height: 1.15em;
   margin-right: 0.4em;
   vertical-align: -0.22em;
+}
+.medalha.ouro::before,
+.medalha.prata::before,
+.medalha.bronze::before {
+  content: '';
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 50%;
+}
+.medalha.ouro::before {
+  background: #c9a227;
+}
+.medalha.prata::before {
+  background: #9aa0a6;
+}
+.medalha.bronze::before {
+  background: #a8673a;
 }

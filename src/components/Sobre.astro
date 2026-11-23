@@ -52,7 +52,7 @@ const faq = {
   '@type': 'FAQPage',
   mainEntity: perguntas.map(({ p, r }) => ({ '@type': 'Question', name: p, acceptedAnswer: { '@type': 'Answer', text: r } })),
 };
-// medalha da Apple (public/emoji) para cada nível; shortlist e finalista ficam sem
+// cor do ponto de cada nível (global.css); shortlist e finalista ficam sem
 const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'bronze' }) as Record<string, string>)[nivel];
 ---
 
@@ -115,7 +115,7 @@ const medalha = (nivel: string) => (({ Ouro: 'ouro', Prata: 'prata', Bronze: 'br
               <li>
                 <span class="ano">{p.ano}</span>
                 <span>
-                  {medalha(p.nivel) ? <img class="medalha" src={`/emoji/medalha-${medalha(p.nivel)}.webp`} alt="" width="64" height="64" loading="lazy" /> : <span class="medalha" aria-hidden="true" />}{tp.tr(p.nivel)}, {p.festival}
+                  <span class:list={['medalha', medalha(p.nivel)]} aria-hidden="true" />{tp.tr(p.nivel)}, {p.festival}
                 </span>
                 <span class="secundario">{p.slug ? <a href={rota(lang, `/projetos/${p.slug}/`)}>{p.projeto}</a> : p.projeto}</span>
               </li>
